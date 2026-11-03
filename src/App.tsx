@@ -12,6 +12,7 @@ import {
   Settings,
   SlidersHorizontal,
   Volume2,
+  Lock,
 } from "lucide-react";
 import {
   characters,
@@ -21,6 +22,7 @@ import {
   soundGroups,
   soundId,
   units,
+  futureUnits,
 } from "./curriculum";
 import {
   hangulProgress,
@@ -32,6 +34,8 @@ import { parseRoute, savedRoute, type Route } from "./navigation";
 import type { LearnerProfile, LearnerProgress, Lesson } from "./types";
 import { Seoul } from "./components/Seoul";
 import { Listen } from "./components/Listen";
+import { LessonView, ReviewPage } from "./components/LessonPlayer";
+import { learnedItemIds, reviewQueue } from "./learning";
 
 const repository = localProgressRepository(() => window.localStorage);
 const nav = [
@@ -100,7 +104,7 @@ export default function App() {
   }
   const selected = route.lessonId ? lessonById[route.lessonId] : null;
   const title = selected
-    ? "Lesson preview"
+    ? "Lesson"
     : nav.find((n) => n.id === route.page)!.label;
   return (
     <div className="app">
@@ -168,7 +172,7 @@ export default function App() {
           <span className="breadcrumb">
             Your Korean journey <span>/</span> <strong>{title}</strong>
           </span>
-          <span className="phase-tag">Foundation preview</span>
+          <span className="phase-tag">Unit 1 · Ready to learn</span>
           <a href="#/settings" className="mobile-brand">
             Nay Tutor{" "}
             <span className="avatar">
@@ -203,13 +207,18 @@ export default function App() {
         )}
         <main id="main" ref={main} tabIndex={-1}>
           {selected ? (
-            <LessonPreview lesson={selected} progress={progress} />
+            <LessonView
+              key={selected.id}
+              lesson={selected}
+              progress={progress}
+              update={update}
+            />
           ) : route.page === "learn" ? (
             <LearningPath progress={progress} />
           ) : route.page === "hangul" ? (
             <Hangul progress={progress} />
           ) : route.page === "review" ? (
-            <Review progress={progress} />
+            <ReviewPage progress={progress} update={update} />
           ) : (
             <Profile progress={progress} update={update} />
           )}
@@ -218,7 +227,7 @@ export default function App() {
           <span>
             Nay Tutor <span className="footer-dot">·</span> One sound at a time.
           </span>
-          <span>Phase 1 · Course plan & personal setup</span>
+          <span>14 short lessons · Learn at your pace</span>
         </footer>
       </div>
     </div>
@@ -228,7 +237,9 @@ export default function App() {
 function LearningPath({ progress }: { progress: LearnerProgress }) {
   const next = nextLesson(progress);
   const sounds = hangulProgress(progress);
-  const completed = progress.completedLessonIds.length;
+  const completed = lessons.filter((l) =>
+    progress.completedLessonIds.includes(l.id),
+  ).length;
   return (
     <>
       <section className="hero">
@@ -270,17 +281,21 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
         <div className="next-copy">
           <span className="eyebrow">
             {completed ? "YOUR NEXT STEP" : "LET’S START HERE"}{" "}
-            <span>· UNIT {next?.unitId.split("-")[1] ?? "8"}</span>
+            <span>· UNIT {next?.unitId.split("-")[1] ?? "1"}</span>
           </span>
-          <h2>{next?.title ?? "Your course plan"}</h2>
+          <h2>{next?.title ?? "Unit 1 complete"}</h2>
           <p>
             {next
-              ? "Meet the lesson before the practice begins."
-              : "Revisit any lesson outline below."}
+              ? "Listen, notice, and practice one small step."
+              : "Keep your learned sounds familiar with review."}
           </p>
         </div>
         <a className="primary" href={next ? `#/lesson/${next.id}` : "#/review"}>
-          {next ? "Explore lesson" : "Open review"}
+          {next
+            ? progress.session?.lessonId === next.id
+              ? "Resume lesson"
+              : "Open lesson"
+            : "Open review"}
           <ArrowRight size={17} />
         </a>
       </section>
@@ -292,12 +307,27 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
               <h2>Your learning path</h2>
             </div>
             <span className="subtle">
-              8 units · {lessons.length} lessons planned
+              Unit 1 · {completed} / {lessons.length} lessons complete
             </span>
           </div>
           <div className="unit-list">
             {units.map((unit) => (
               <UnitCard key={unit.id} unitId={unit.id} progress={progress} />
+            ))}
+            {futureUnits.map((unit) => (
+              <section className="unit-card future-unit" key={unit.number}>
+                <span className="unit-number">
+                  {String(unit.number).padStart(2, "0")}
+                </span>
+                <div className="unit-copy">
+                  <span className="eyebrow">
+                    UNIT {unit.number} · COMING SOON
+                  </span>
+                  <h3>{unit.title}</h3>
+                  <p>{unit.description}</p>
+                </div>
+                <Lock size={18} aria-label="Coming soon, locked" />
+              </section>
             ))}
           </div>
         </section>
@@ -334,13 +364,13 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
             </span>
             <h3>Make it stick.</h3>
             <p>
-              Your review space will bring familiar sounds back at the right
-              time.
+              {reviewQueue(progress).filter((q) => q.due).length} items are
+              ready. Practice your learned sounds any time.
             </p>
             <a href="#/review" className="text-link">
               Visit review <ArrowRight size={15} />
             </a>
-            <span className="quiet-tag">Review engine in Phase 3</span>
+            <span className="quiet-tag">Weak sounds return sooner</span>
           </section>
           <section className="journey-stats">
             <div>
@@ -353,8 +383,8 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
             </div>
           </section>
           <p className="phase-note">
-            You’re exploring the course foundation. Interactive lessons arrive
-            in Phase 2. Browsing doesn’t mark anything as learned.
+            One lesson a day is a gentle two-week path. Move at your pace; there
+            are no calendar locks.
           </p>
         </aside>
       </div>
@@ -400,8 +430,17 @@ function UnitCard({
         {unit.lessonIds.map((id, i) => {
           const lesson = lessonById[id];
           const done = progress.completedLessonIds.includes(id);
+          const available = isUnlocked(id, progress);
           return (
-            <a className="lesson-row" key={id} href={`#/lesson/${id}`}>
+            <a
+              className={`lesson-row ${available ? "" : "locked"}`}
+              key={id}
+              href={available ? `#/lesson/${id}` : undefined}
+              aria-disabled={!available}
+              onClick={(event) => {
+                if (!available) event.preventDefault();
+              }}
+            >
               <span className={`lesson-number ${done ? "complete" : ""}`}>
                 {done ? <Check size={16} /> : String(i + 1).padStart(2, "0")}
               </span>
@@ -411,13 +450,12 @@ function UnitCard({
                   {done
                     ? "Completed"
                     : isUnlocked(id, progress)
-                      ? "Next in your course"
-                      : "Later in your course"}{" "}
-                  · Preview available
+                      ? "Ready to practice"
+                      : "Complete the previous lesson"}{" "}
                 </small>
               </span>
               <span className="duration">{lesson.minutes} min</span>
-              <ArrowRight size={16} />
+              {available ? <ArrowRight size={16} /> : <Lock size={15} />}
             </a>
           );
         })}
@@ -443,114 +481,9 @@ function PageHeading({
     </div>
   );
 }
-function LessonPreview({
-  lesson,
-  progress,
-}: {
-  lesson: Lesson;
-  progress: LearnerProgress;
-}) {
-  const unit = units.find((u) => u.id === lesson.unitId)!;
-  const available = isUnlocked(lesson.id, progress);
-  return (
-    <div className="preview-page">
-      <a className="text-link back" href="#/learn">
-        <ArrowLeft size={17} /> Back to your path
-      </a>
-      <PageHeading
-        eyebrow={`UNIT ${unit.number} · LESSON ${unit.lessonIds.indexOf(lesson.id) + 1} · ${lesson.minutes} MINUTES PLANNED`}
-        title={lesson.title}
-        description={lesson.objective}
-      />
-      <div className="preview-notice">
-        <span className="quiet-tag">Lesson preview</span>
-        <p>
-          The outline is ready. Interactive practice for this lesson is planned
-          for Phase {lesson.implementationPhase}. No progress is awarded for
-          this preview.
-        </p>
-      </div>
-      <section className="card teaching">
-        <span className="eyebrow">THE IDEA</span>
-        <h2>One thing to notice.</h2>
-        <p>{lesson.explanation}</p>
-        {lesson.examples.map((example) => (
-          <div key={example.ko} className="example">
-            <span lang="ko" className="example-korean">
-              {example.ko}
-            </span>
-            <strong>{example.meaning}</strong>
-            <Listen content={example.audio} />
-            <p>{example.note}</p>
-          </div>
-        ))}
-      </section>
-      <section className="card">
-        <span className="eyebrow">WHAT YOU’LL MEET</span>
-        <div className="item-chips">
-          {lesson.newItemIds.map((id) => (
-            <span key={id}>
-              <strong lang="ko">{itemById[id].ko}</strong>
-              <small>{itemById[id].kind}</small>
-            </span>
-          ))}
-        </div>
-      </section>
-      <div className="preview-grid">
-        <section className="card">
-          <h2>Before this lesson</h2>
-          {lesson.prerequisites.length ? (
-            <>
-              <p>
-                {available
-                  ? "You have the required lesson completion."
-                  : "Complete this lesson first when practice is available:"}
-              </p>
-              {lesson.prerequisites.map((id) => (
-                <a key={id} className="text-link" href={`#/lesson/${id}`}>
-                  {lessonById[id].title} <ArrowRight size={15} />
-                </a>
-              ))}
-            </>
-          ) : (
-            <p>No prior Korean needed. This is your starting point.</p>
-          )}
-        </section>
-        <section className="card">
-          <h2>We’ll revisit</h2>
-          <p>
-            {lesson.reviewItemIds.length
-              ? lesson.reviewItemIds.map((id) => itemById[id].ko).join(" · ")
-              : "These first sounds will return in future lessons."}
-          </p>
-          <small>
-            Review is part of learning, not a separate test to pass.
-          </small>
-        </section>
-      </div>
-      <section className="card">
-        <h2>Planned practice</h2>
-        <ol className="practice-outline">
-          {lesson.exercises.map((e) => (
-            <li key={e.id}>
-              <strong>{e.type.replaceAll("-", " ")}</strong>
-              <span>{e.objective}</span>
-            </li>
-          ))}
-        </ol>
-        <p className="subtle">
-          These are curriculum outlines. Answer controls, hints, grading, and
-          lesson completion are added with the exercise engine.
-        </p>
-      </section>
-      <a href="#/learn" className="primary">
-        Return to learning path <ArrowRight size={17} />
-      </a>
-    </div>
-  );
-}
 function Hangul({ progress }: { progress: LearnerProgress }) {
   const summary = hangulProgress(progress);
+  const learned = learnedItemIds(progress);
   return (
     <>
       <PageHeading
@@ -561,7 +494,7 @@ function Hangul({ progress }: { progress: LearnerProgress }) {
       <section className="sound-intro">
         <div>
           <span className="eyebrow">FIRST GROUP · UNIT 1</span>
-          <h2>Two vowels. One silent helper.</h2>
+          <h2>Your first three vowels.</h2>
           <p>
             These are reference cards, not a quiz. Listening here doesn’t count
             as practice.
@@ -587,88 +520,44 @@ function Hangul({ progress }: { progress: LearnerProgress }) {
           );
         })}
       </div>
-      <a className="primary" href="#/lesson/u1-l1">
-        Explore the first lesson <ArrowRight size={17} />
+      <a className="primary" href="#/lesson/u1-day-01">
+        Open the first lesson <ArrowRight size={17} />
       </a>
       <div className="section-heading later-heading">
         <h2>Further along the path</h2>
         <span className="subtle">Open one group at a time</span>
       </div>
       <div className="sound-groups">
-        {soundGroups.slice(1).map((group) => (
-          <details className="card" key={group.title}>
-            <summary>
-              <span>
-                <strong>{group.title}</strong>
-                <small>{group.description}</small>
-              </span>
-              <ChevronDown size={18} />
-            </summary>
-            <div className="letter-reference">
-              {Array.from(group.letters).map((ko) => (
-                <div key={ko}>
-                  <strong lang="ko">{ko}</strong>
-                  <span>{itemById[soundId(ko)].meaning}</span>
-                </div>
-              ))}
-            </div>
-          </details>
-        ))}
+        {soundGroups
+          .slice(1)
+          .filter((group) =>
+            Array.from(group.letters).some((ko) => learned.has(soundId(ko))),
+          )
+          .map((group) => (
+            <details className="card" key={group.title}>
+              <summary>
+                <span>
+                  <strong>{group.title}</strong>
+                  <small>{"Introduced through Unit 1 practice."}</small>
+                </span>
+                <ChevronDown size={18} />
+              </summary>
+              <div className="letter-reference">
+                {Array.from(group.letters).map((ko) => (
+                  <div key={ko}>
+                    <strong lang="ko">{ko}</strong>
+                    <span>{itemById[soundId(ko)].meaning}</span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          ))}
       </div>
       <p className="phase-note">
         Consonants are heard in carefully chosen syllables. Browser voices vary;
         isolated consonant phonemes are not guaranteed. No pronunciation
         assessment is performed.
       </p>
-    </>
-  );
-}
-function Review({ progress }: { progress: LearnerProgress }) {
-  const practiced = Object.keys(progress.mastery).length;
-  return (
-    <>
-      <PageHeading
-        eyebrow="GIVE YOUR MEMORY A LITTLE SPACE"
-        title="Familiar, then unforgettable."
-        description="A place to return to the sounds and words that need another listen."
-      />
-      <section className="card empty-state">
-        <div className="empty-illustration">
-          <RotateCcw size={34} />
-          <span lang="ko">아</span>
-        </div>
-        <span className="eyebrow">YOUR REVIEW SPACE</span>
-        <h2>
-          {practiced
-            ? "Your review history is saved."
-            : "Your first review starts with a lesson."}
-        </h2>
-        <p>
-          Spaced repetition and weak-sound practice arrive in Phase 3. This
-          foundation stores progress separately for letters, syllables, words,
-          and phrases.
-        </p>
-        <a href="#/learn" className="primary">
-          Explore your learning path <ArrowRight size={16} />
-        </a>
-      </section>
-      <div className="review-principles">
-        <section>
-          <span>01</span>
-          <h3>Notice what’s tricky.</h3>
-          <p>Mistakes will guide what comes back sooner.</p>
-        </section>
-        <section>
-          <span>02</span>
-          <h3>Leave a little space.</h3>
-          <p>Confident answers will earn more time between reviews.</p>
-        </section>
-        <section>
-          <span>03</span>
-          <h3>Keep moving forward.</h3>
-          <p>No hearts, streaks, or points. Just practice.</p>
-        </section>
-      </div>
     </>
   );
 }
@@ -700,7 +589,7 @@ function Profile({
       <PageHeading
         eyebrow="A COURSE THAT FEELS LIKE YOURS"
         title="Your names. Your pace."
-        description="Set up the people and little details that will make future practice familiar."
+        description="Set up the people and little details that make your family practice familiar."
       />
       <form
         className="card profile-form"
@@ -727,8 +616,8 @@ function Profile({
         <h2>Your family circle</h2>
         <p>
           The Korean spellings below are proposed defaults. Confirm them with
-          your family or edit them here. Fixed reading examples retain their
-          labeled course spelling.
+          your family or edit them here. Family phrases use these names; they
+          are guided whole-phrase practice.
         </p>
         {(
           [
@@ -790,7 +679,7 @@ function Profile({
       <section className="card settings-section">
         <h2>A little reading support</h2>
         <label className="select-label">
-          <span>Romanization in future lessons</span>
+          <span>Romanization in lesson introductions</span>
           <select
             value={progress.preferences.romanization}
             onChange={(e) =>
@@ -811,14 +700,15 @@ function Profile({
         </label>
         <p>
           English letters are approximate guides. Hangul stays central, and
-          reading checks will keep answers hidden until you submit.
+          reading checks keep sound guides hidden until you request a hint or
+          submit.
         </p>
       </section>
       <section className="card settings-section">
         <h2>When it’s time to type</h2>
         <p>
-          Typing starts after keyboard orientation in Unit 2. You can explore
-          the course without a Korean keyboard.
+          Hangul typing starts after keyboard orientation in Lesson 11. You can
+          explore the course without a Korean keyboard.
         </p>
         <details>
           <summary>
@@ -842,9 +732,10 @@ function Profile({
       <section className="card settings-section">
         <h2>Stored here, for you.</h2>
         <p>
-          Your names, settings, and last preview stay in this browser on this
-          device when local storage is available. This version has no account or
-          cloud sync. Clearing browser data removes local progress.
+          Your names, settings, lesson position, and learning history stay in
+          this browser on this device when local storage is available. This
+          version has no account or cloud sync. Clearing browser data removes
+          local progress.
         </p>
         <span className="quiet-tag">Independent Nay Tutor storage</span>
       </section>

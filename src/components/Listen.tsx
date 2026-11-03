@@ -5,13 +5,19 @@ import type { AudioContent } from "../types";
 export function Listen({
   content,
   label = "Listen",
+  hideText = false,
+  onPlayback,
 }: {
   content: AudioContent;
   label?: string;
+  hideText?: boolean;
+  onPlayback?: () => void;
 }) {
   const owner = useRef(Symbol("nay-audio"));
   const [error, setError] = useState("");
   const [playing, setPlaying] = useState(false);
+  const playbackCallback = useRef(onPlayback);
+  playbackCallback.current = onPlayback;
   useEffect(() => {
     const speech = getKoreanSpeech();
     if (!speech) return;
@@ -19,6 +25,7 @@ export function Listen({
     const unwatch = speech.watchVoices(() => setError(""));
     const unsub = speech.subscribe(() => {
       const s = speech.snapshot();
+      if (mine && s.status === "started") playbackCallback.current?.();
       if (mine && ["ended", "failed", "cancelled"].includes(s.status)) {
         setPlaying(false);
         mine = false;
@@ -42,7 +49,13 @@ export function Listen({
       <button
         type="button"
         className="listen"
-        aria-label={`${playing ? "Stop" : label}: ${content.text}`}
+        aria-label={
+          hideText
+            ? playing
+              ? "Stop question audio"
+              : label
+            : `${playing ? "Stop" : label}: ${content.text}`
+        }
         aria-pressed={playing}
         onClick={() => {
           const speech = getKoreanSpeech();
@@ -74,8 +87,10 @@ export function Listen({
       </button>
       {error && (
         <p className="audio-error" role="status">
-          {error} The written example remains available. Listening here does not
-          record practice.
+          {error}{" "}
+          {hideText
+            ? "You can request written support below to continue."
+            : "The written example remains available."}
         </p>
       )}
     </div>

@@ -1,4 +1,10 @@
-import { itemById, lessonById, lessons } from "./curriculum";
+import {
+  characters,
+  exerciseById,
+  itemById,
+  lessonById,
+  lessons,
+} from "./curriculum";
 import type {
   LearnerProfile,
   LearnerProgress,
@@ -6,7 +12,6 @@ import type {
   Page,
   ProgressRepository,
 } from "./types";
-
 export const STORAGE_KEY = "nay-tutor.progress.v1";
 export const defaultProfile: LearnerProfile = {
   learner: { name: "Jaeyeon", koreanName: "재연" },
@@ -17,13 +22,16 @@ export const defaultProfile: LearnerProfile = {
 export const pages: Page[] = ["learn", "hangul", "review", "settings"];
 export function freshProgress(): LearnerProgress {
   return {
-    version: 1,
-    curriculumVersion: 1,
+    version: 2,
+    curriculumVersion: 2,
     profile: structuredClone(defaultProfile),
     completedLessonIds: [],
     mastery: {},
+    history: [],
     preferences: { romanization: "early-support" },
     navigation: { page: "learn", previewLessonId: null },
+    session: null,
+    keyboardIntroduced: false,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -33,6 +41,8 @@ const date = (x: unknown) =>
   typeof x === "string" && Number.isFinite(Date.parse(x));
 const count = (x: unknown) =>
   typeof x === "number" && Number.isSafeInteger(x) && x >= 0;
+const strings = (x: unknown): x is string[] =>
+  Array.isArray(x) && x.every((v) => typeof v === "string" && v.length > 0);
 function profileValid(x: unknown): x is LearnerProfile {
   return (
     record(x) &&
@@ -42,10 +52,10 @@ function profileValid(x: unknown): x is LearnerProfile {
       return (
         record(p) &&
         ["name", "koreanName"].every(
-          (field) =>
-            typeof p[field] === "string" &&
-            (p[field] as string).trim().length > 0 &&
-            (p[field] as string).length <= 60,
+          (f) =>
+            typeof p[f] === "string" &&
+            (p[f] as string).trim().length > 0 &&
+            (p[f] as string).length <= 60,
         )
       );
     })
@@ -53,14 +63,22 @@ function profileValid(x: unknown): x is LearnerProfile {
 }
 function masteryValid(id: string, x: unknown): x is MasteryRecord {
   return (
-    !!itemById[id] &&
     record(x) &&
     x.itemId === id &&
-    x.kind === itemById[id].kind &&
+    ["vowel", "consonant", "syllable", "phrase"].includes(String(x.kind)) &&
+    (!itemById[id] || itemById[id].kind === x.kind) &&
     ["new", "learning", "practicing", "mastered"].includes(String(x.level)) &&
-    [x.correctAttempts, x.incorrectAttempts, x.hintedAttempts].every(count) &&
+    [
+      x.correctAttempts,
+      x.incorrectAttempts,
+      x.hintedAttempts,
+      x.independentRecalls,
+      x.delayedRecalls,
+    ].every(count) &&
     (x.lastPracticedAt === null || date(x.lastPracticedAt)) &&
     (x.nextReviewAt === null || date(x.nextReviewAt)) &&
+    (x.lastRecallAt === null || date(x.lastRecallAt)) &&
+    strings(x.recallExerciseIds) &&
     Array.isArray(x.recentPerformance) &&
     x.recentPerformance.length <= 30 &&
     x.recentPerformance.every(
@@ -72,19 +90,55 @@ function masteryValid(id: string, x: unknown): x is MasteryRecord {
     )
   );
 }
+function sessionValid(x: unknown): boolean {
+  if (x === null) return true;
+  return (
+    record(x) &&
+    typeof x.id === "string" &&
+    ["lesson", "review"].includes(String(x.kind)) &&
+    (x.kind === "lesson"
+      ? typeof x.lessonId === "string" && !!lessonById[x.lessonId]
+      : x.lessonId === null) &&
+    strings(x.exerciseIds) &&
+    x.exerciseIds.length > 0 &&
+    x.exerciseIds.length <= 100 &&
+    x.exerciseIds.every((id) => !!exerciseById[id]) &&
+    count(x.index) &&
+    (x.index as number) < x.exerciseIds.length &&
+    date(x.startedAt) &&
+    (typeof x.answer === "string" ||
+      (record(x.answer) &&
+        Object.values(x.answer).every((v) => typeof v === "string"))) &&
+    ["hintUsed", "heardAudio", "resolved", "keyboardReady"].every(
+      (k) => typeof x[k] === "boolean",
+    ) &&
+    count(x.attempts) &&
+    (x.lastCorrect === null || typeof x.lastCorrect === "boolean") &&
+    typeof x.feedback === "string"
+  );
+}
 export function isProgress(x: unknown): x is LearnerProgress {
   return (
     record(x) &&
-    x.version === 1 &&
-    x.curriculumVersion === 1 &&
+    x.version === 2 &&
+    x.curriculumVersion === 2 &&
     profileValid(x.profile) &&
-    Array.isArray(x.completedLessonIds) &&
-    x.completedLessonIds.every(
-      (id) => typeof id === "string" && !!lessonById[id],
-    ) &&
+    strings(x.completedLessonIds) &&
     new Set(x.completedLessonIds).size === x.completedLessonIds.length &&
     record(x.mastery) &&
     Object.entries(x.mastery).every(([id, m]) => masteryValid(id, m)) &&
+    Array.isArray(x.history) &&
+    x.history.length <= 2000 &&
+    x.history.every(
+      (h) =>
+        record(h) &&
+        typeof h.exerciseId === "string" &&
+        strings(h.itemIds) &&
+        typeof h.correct === "boolean" &&
+        typeof h.hintUsed === "boolean" &&
+        ["recognition", "recall", "guided"].includes(String(h.mode)) &&
+        date(h.at),
+    ) &&
     record(x.preferences) &&
     ["on-demand", "early-support"].includes(
       String(x.preferences.romanization),
@@ -92,10 +146,48 @@ export function isProgress(x: unknown): x is LearnerProgress {
     record(x.navigation) &&
     pages.includes(x.navigation.page as Page) &&
     (x.navigation.previewLessonId === null ||
-      (typeof x.navigation.previewLessonId === "string" &&
-        !!lessonById[x.navigation.previewLessonId])) &&
-    date(x.updatedAt)
+      typeof x.navigation.previewLessonId === "string") &&
+    typeof x.keyboardIntroduced === "boolean" &&
+    sessionValid(x.session) &&
+    date(x.updatedAt) &&
+    (x.legacyPlan === undefined ||
+      (record(x.legacyPlan) &&
+        strings(x.legacyPlan.completedLessonIds) &&
+        record(x.legacyPlan.mastery) &&
+        (x.legacyPlan.previewLessonId === null ||
+          typeof x.legacyPlan.previewLessonId === "string")))
   );
+}
+export function migratePhaseOne(value: unknown): LearnerProgress | null {
+  if (
+    !record(value) ||
+    value.version !== 1 ||
+    value.curriculumVersion !== 1 ||
+    !profileValid(value.profile) ||
+    !strings(value.completedLessonIds) ||
+    !record(value.mastery) ||
+    !record(value.preferences) ||
+    !["on-demand", "early-support"].includes(
+      String(value.preferences.romanization),
+    )
+  )
+    return null;
+  const progress = freshProgress();
+  progress.profile = value.profile;
+  progress.preferences.romanization = value.preferences
+    .romanization as LearnerProgress["preferences"]["romanization"];
+  progress.legacyPlan = {
+    completedLessonIds: value.completedLessonIds,
+    mastery: value.mastery,
+    previewLessonId:
+      record(value.navigation) &&
+      typeof value.navigation.previewLessonId === "string"
+        ? value.navigation.previewLessonId
+        : null,
+  };
+  if (record(value.navigation) && pages.includes(value.navigation.page as Page))
+    progress.navigation.page = value.navigation.page as Page;
+  return progress;
 }
 export function localProgressRepository(
   storage: () => Pick<Storage, "getItem" | "setItem">,
@@ -105,9 +197,22 @@ export function localProgressRepository(
       try {
         const raw = storage().getItem(STORAGE_KEY);
         if (raw === null) return { progress: freshProgress(), warning: null };
-        const value: unknown = JSON.parse(raw);
-        if (!isProgress(value)) throw Error("Unsupported save");
-        return { progress: value, warning: null };
+        const parsed: unknown = JSON.parse(raw);
+        const migrated = migratePhaseOne(parsed);
+        if (migrated) return { progress: migrated, warning: null };
+        if (!isProgress(parsed)) throw Error("Unsupported save");
+        const progress = {
+          ...parsed,
+          navigation: {
+            ...parsed.navigation,
+            previewLessonId:
+              parsed.navigation.previewLessonId &&
+              lessonById[parsed.navigation.previewLessonId]
+                ? parsed.navigation.previewLessonId
+                : null,
+          },
+        };
+        return { progress, warning: null };
       } catch {
         return {
           progress: freshProgress(),
@@ -138,14 +243,14 @@ export const nextLesson = (progress: LearnerProgress) =>
       !progress.completedLessonIds.includes(l.id) && isUnlocked(l.id, progress),
   );
 export function hangulProgress(progress: LearnerProgress) {
-  const records = Object.values(progress.mastery).filter(
-    (m) => m.kind === "vowel" || m.kind === "consonant",
-  );
+  const records = characters
+    .map((i) => progress.mastery[i.id])
+    .filter((x): x is MasteryRecord => !!x);
   return {
     practiced: records.filter(
       (m) => m.correctAttempts + m.incorrectAttempts > 0,
     ).length,
     mastered: records.filter((m) => m.level === "mastered").length,
-    total: 40,
+    total: characters.length,
   };
 }

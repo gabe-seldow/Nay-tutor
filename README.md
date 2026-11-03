@@ -1,86 +1,74 @@
-# Nay Tutor
+# Nay Tutor — Unit 1
 
-A personal Korean-learning app for Jaeyeon, built around Hangul sounds and everyday family conversation. Independent from Hangeul, with its own repository, Git history, curriculum, visual identity, and browser storage.
+A personal Korean-learning app for Jaeyeon: **14 playable lessons, 140 authored exercises, 13 letters, 17 syllable blocks, and 6 guided whole expressions**. One lesson a day is a two-week suggestion; progression has no calendar locks. Lessons target 3–5 minutes, with optional 2–5-minute review. Actual learner timings remain unmeasured.
 
-**Phase 1 is complete.** This release is a working foundation and curriculum explorer. Interactive exercises, grading, lesson completion, mastery updates, and review scheduling are intentionally reserved for later phases. Exploring an outline or listening to an example awards no learning credit.
+The modern Seoul design, original illustration, Korean speech service, navigation and profile setup continue from Phase 1. Nay Tutor is independent of `gabe-seldow/Korean-tutor`; Hangeul is unchanged.
 
-## Run locally
+## Run and verify
 
-Use Node.js 22+ and pnpm 11.25.0. The committed lockfile retains Hangeul’s proven dependency versions; no environment, secrets, deployment identity, or learner data were copied.
+Use Node.js 22+ and pnpm 11.25.0. Unit 1 adds no dependencies.
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm dev
-```
-
-Use the URL Vite prints. Progress belongs to that browser and origin; changing the port creates a separate save. The Phase 1 development preview used port 5182.
-
-```sh
-pnpm test
-pnpm typecheck
-pnpm validate:curriculum
-pnpm build
-# Or run all four:
 pnpm check
-
-# With a development or production preview server running:
-pnpm test:browser http://127.0.0.1:5182/
-
-# Refresh the full, reviewable curriculum outline:
 pnpm curriculum:plan
+# With the dev server running, use its printed URL:
+pnpm test:browser http://127.0.0.1:5173/
+# Or test a production preview:
+pnpm build
+pnpm preview
 ```
 
-The browser check requires installed Chrome. Set `CHROME_PATH` if it is not at the platform default. It creates an isolated temporary browser profile, never opens the learner’s personal profile, and writes ignored screenshots/report files under `qa-output/`.
+`pnpm check` runs tests, TypeScript, curriculum validation and the production build. The browser journey requires Chrome (`CHROME_PATH` overrides its default path), creates an isolated temporary profile, and writes ignored screenshots/reports under `qa-output/`. Speech mocks verify lifecycle and missing-voice handling; they do not prove audible output on a real device. Use the same browser and origin/port to retain the same local progress.
 
-## What works
+## The two-week path
 
-- Modern Seoul design: a blue/charcoal/soft-white palette, original SVG skyline and N Seoul Tower, responsive desktop navigation and a fixed mobile navigation bar.
-- Home: next planned lesson, eight-unit path, completion counters, Hangul progress, and review entry point. All counters start at zero.
-- Forty lesson previews: objectives, teaching examples, prerequisites, new material, review material, and planned exercise sequences.
-- Small-group Hangul reference: first two vowels and silent initial ㅇ shown first; later groups remain collapsed.
-- Tap-to-listen reference audio reuses Hangeul’s synchronous, Korean-voice-only speech service. No autoplay, paid API, or Slower feature. Consonants use readable syllables, not claimed isolated phonemes.
-- Local profile: Jaeyeon/재연, Jaehun/재훈, Miguel/미겔 are editable defaults. Korean spellings stay unconfirmed until the user explicitly checks the confirmation box. Editing a name clears that confirmation.
-- Saved names, preferences, and last page/lesson preview. Storage failures produce a visible warning. Malformed saves are left intact until a deliberate state change.
+| Lesson | Focus |
+| --- | --- |
+| 1. Meet Hangul | ㅏ, ㅗ, ㅣ; recognize, listen, recall |
+| 2. More vowels | ㅓ, ㅜ, ㅡ; revisit earlier vowels |
+| 3. First consonants | ㄴ and ㅁ in pronounceable syllables |
+| 4. Your first syllables | 나, 너, 누, 마, 모; read and build |
+| 5. Two more consonants | Plain ㄱ and ㄷ, with positional caveats |
+| 6. Reading practice | 가, 고, 다, 도; mixed earlier blocks |
+| 7. Review challenge | No new letters; missed sounds move forward |
+| 8. New consonants | ㅂ and ㅅ in syllable examples |
+| 9. More syllables | 바, 보, 사, 소; reading/building |
+| 10. Meet ㅇ | Silent initial carrier; 아, 오, 이, 우 |
+| 11. Listen, read, type | Keyboard orientation; every consonant gets a typing task |
+| 12. First expressions | 네, 아니요, 안녕; guided meaning |
+| 13. Jaeyeon and family | Polite hello, where the dog is, what the brother is doing |
+| 14. Unit 1 challenge | Recall, listening, reading, building, typing, supported meaning |
 
-## Curriculum and architecture
+Initial vowel audio uses readable syllables (아, 오, etc.); the holder is disclosed early and taught as a character in Lesson 10. Consonants use full syllable examples, never isolated jamo speech. No complex 받침 rules, tense consonants or advanced grammar are tested.
 
-The course has **8 units, 40 planned lessons, 87 learning items, and 120 representative exercise specifications**. The larger combined-vowel and tense-consonant groups are split into separate lessons to keep the sound load manageable. Three-to-five-minute durations are design targets, not measured learner timings.
+The six expressions are 네, 아니요, 안녕, 안녕하세요, 미겔 어디 있어요?, and 재훈은 뭐 해요?. Unfamiliar letters remain supported whole-phrase exposure, never independent decoding or typing targets. 안녕 is labeled casual and means hi in an arrival scene. The polite foundation acknowledges that close siblings commonly speak casually. Family spellings are configurable, unconfirmed defaults.
 
-See [the full curriculum plan](docs/CURRICULUM.md), [architecture](docs/ARCHITECTURE.md), and [verification and phase boundary](docs/PHASE-1.md).
+[Full Unit 1 inventory](docs/UNIT-1.md) · [architecture](docs/ARCHITECTURE.md) · [release verification](docs/UNIT-1-RELEASE.md)
 
-| Unit | Planned lessons | Main goal |
-| --- | ---: | --- |
-| First Korean sounds | 6 | Six basic vowels, ㄴ/ㅁ/ㅇ, blocks and 나무 |
-| Reading Hangul | 8 | Remaining basic consonants, all vowels, keyboard orientation |
-| More sounds & short words | 6 | Aspirated/tense consonants and short words |
-| Final consonants | 4 | Basic 받침, linking and common changes |
-| Everyday family Korean | 4 | Greetings, thanks, feelings, bedtime and waiting |
-| Questions & answers | 4 | What, where, who, and short replies |
-| Daily routines | 4 | Meals, studying, going places and wanting food |
-| Simple family conversations | 4 | Short exchanges, cumulative practice, optional casual forms |
+## Practice and persistence
 
-The initial course emphasizes polite Korean. It explicitly explains that close siblings often use casual Korean, introduces optional casual comparisons later, and notes when honorific expressions are more appropriate for elders. Family names are used selectively. Fixed course examples retain their disclosed default spelling; profile-aware exercise substitution is Phase 4 work.
+- Eight exercise types: character/sound choices, listening, tap matching, syllable reading/building, explicitly labeled romanization recall, Hangul typing, and guided phrase meaning.
+- No unsolicited hints or permanent romanization during assessments. Audio transcripts are hidden from visible text and accessible names. Requested hints/written audio fallback record support.
+- Listening requires playback to start or explicit written support. No autoplay, Slower, paid API, microphone or pronunciation scoring.
+- Keyboard orientation precedes Hangul typing. Native Korean IME, NFC normalization and a tap keyboard are supported. Composition Enter cannot submit prematurely. Romanization cannot pass a spelling task.
+- Wrong questions return once later in the session. Feedback is immediate. Hints/mistakes never remove completion; completion is separate from mastery.
+- Selections, hints, listening state, feedback, correction queue and lesson position survive refresh. One active session is saved at a time; starting another replaces it while retaining recorded learning.
+- Prerequisites unlock the next lesson. Completed lessons and review remain available after Lesson 14.
 
-## Independent storage
+Storage remains **`nay-tutor.progress.v1`**, now with schema/curriculum version 2 inside the save. Phase 1 names/preferences migrate; old planned lesson data is archived without inventing new completion. Hangeul keys are never accessed. Released IDs remain stable; normal updates retain Unit 1 completion, mastery and recent history. No backend, account or cloud sync exists.
 
-The sole storage key is **`nay-tutor.progress.v1`** with curriculum version 1. The app never reads, migrates, clears, or writes any Hangeul key. No account, backend, cloud syncing, progress import, or reset tool is implemented. The repository interface allows a sync adapter to be added later.
+## Spaced review
 
-## Vercel preparation
+Recently wrong or supported sounds receive priority, with a small due-date priority. Mistakes return in about 10 minutes; recognition/support after an hour; independent recall after a day, then three and seven days with delayed recall. Repeated recognition alone never earns mastery. Mastery requires three independent recalls, two recalls delayed by at least 24 hours, two exercise IDs, and a clean recent record. Immediate retries remain supported. Hangul spelling also records its constituent characters.
 
-No deployment was attempted during Phase 1. `vercel.json` declares Vite, the frozen pnpm install, `pnpm build`, and output `dist`. There is no inherited `.vercel` folder, Vercel project ID, production domain, or secret.
+Aggregate attempts, hints and dates are per item; the most recent 30 outcomes and 2,000 session attempts are retained. Learned material can be practiced even when nothing is due. Only Unit 1 data enters review.
 
-For the release phase:
+## Future units and deployment
 
-1. In Vercel, create a **new** project and import [`gabe-seldow/Nay-tutor`](https://github.com/gabe-seldow/Nay-tutor). Do not select Korean-tutor or an existing Hangeul project.
-2. Set repository root to this project’s root and framework to Vite. Use the committed install/build/output settings. No environment variables are required.
-3. Select the reviewed release branch. The initial implementation branch is `codex/nay-tutor-phase-1`; the repository was empty when it was created, so no existing `main` history was assumed.
-4. Check a preview deployment before choosing a distinct production domain. Do not change Hangeul’s domains.
-5. Complete native-language review, learner timing, and physical iPhone/Safari audio checks before treating the course as release-ready.
+Units 2–8 are **Coming soon** metadata cards with a lock, title and short description. They have no lesson buttons, completion counters, playable routes, audio or review items. The original [eight-unit plan](docs/CURRICULUM.md) remains historical documentation outside the app runtime.
 
-Hash navigation works from static hosting without server rewrites. See [Vercel’s Vite documentation](https://vercel.com/docs/frameworks/frontend/vite).
+`vercel.json` prepares an independent Vite build. **No Vercel project/domain is connected and no deployment was performed.** Later, create a new Vercel project for `gabe-seldow/Nay-tutor`, select the reviewed release branch (`main` once published), and use frozen pnpm install / `pnpm build` / `dist`. No environment variables are required. Choose a distinct domain and leave Hangeul's project/domains unchanged. See [Vercel's Vite guide](https://vercel.com/docs/frameworks/frontend/vite).
 
-## What comes next
-
-**Phase 2:** reusable character recognition, sound-to-character, matching, syllable reading/building, listening/selecting and Korean typing controls; implement Units 1–2; explicit hints, concealed audio-first answers, concise feedback, keyboard setup gating, and completion/resume tests.
-
-**Phase 3:** actual mastery updates and spaced review. **Phase 4:** implement remaining units and profile-aware family examples. **Phase 5:** linguistic review, device/audio testing, polish and independent deployment. No later phase has been silently implemented here.
+Physical iPhone Safari audio/keyboard checks, learner timing and Korean editorial/native-speaker review remain. Automated Chrome emulation is not physical iPhone verification.

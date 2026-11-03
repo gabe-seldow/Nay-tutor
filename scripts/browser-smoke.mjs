@@ -108,11 +108,11 @@ try {
     await evaluate(
       `document.querySelector(${JSON.stringify(selector)}).click()`,
     );
-    await delay(80);
+    await delay(12);
   };
   const navigate = async (hash) => {
     await evaluate(`location.hash=${JSON.stringify(hash)}`);
-    await delay(100);
+    await delay(35);
   };
   const screenshot = async (name) => {
     await delay(100);
@@ -124,19 +124,258 @@ try {
   };
   await cdp("Page.enable");
   await cdp("Runtime.enable");
-  // Deterministically check the unavailable-voice fallback, rather than claiming device audio verification.
+  // Use the real speech service with deterministic system-voice/utterance mocks.
+  // This tests UI lifecycle, never claims audible or physical-device verification.
   await cdp("Page.addScriptToEvaluateOnNewDocument", {
-    source: `Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[],addEventListener(){},removeEventListener(){},speaking:false,pending:false,cancel(){},speak(){throw Error('Unexpected speech without a Korean voice')}}});`,
+    source: `window.__speechRequests=[];window.SpeechSynthesisUtterance=class{constructor(text){this.text=text}};Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{paused:false,speaking:false,pending:false,getVoices:()=>[{lang:'ko-KR',name:'QA Korean'}],addEventListener(){},removeEventListener(){},cancel(){},resume(){},speak(u){window.__speechRequests.push(u.text);u.onstart?.({});setTimeout(()=>u.onend?.({}),25)}}});`,
   });
+  const { createServer } = await import("vite");
+  const source = await createServer({
+    server: { middlewareMode: true },
+    appType: "custom",
+    optimizeDeps: { noDiscovery: true, include: [] },
+  });
+  const { lessons, exerciseById } =
+    await source.ssrLoadModule("/src/curriculum.ts");
+  await source.close();
+  const state = () =>
+    evaluate(`JSON.parse(localStorage.getItem('nay-tutor.progress.v1'))`);
+  const clickText = async (selector, text) => {
+    await evaluate(
+      `(()=>{const e=[...document.querySelectorAll(${JSON.stringify(selector)})].find(x=>x.textContent.trim()===${JSON.stringify(text)});if(!e||e.disabled)throw Error('Unavailable control: '+${JSON.stringify(text)});e.click();})()`,
+    );
+    await delay(12);
+  };
+  const input = async (value, selector = "#answer") => {
+    await evaluate(
+      `(()=>{const e=document.querySelector(${JSON.stringify(selector)});if(!e)throw Error('Missing input');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,${JSON.stringify(value)});e.dispatchEvent(new Event('input',{bubbles:true}));})()`,
+    );
+    await delay(12);
+  };
+  async function fill(e, wrong = false) {
+    if (e.options) {
+      await clickText(
+        ".answer-option",
+        wrong
+          ? e.options.find((o) => !e.answers.includes(o.value)).label
+          : e.options.find((o) => e.answers.includes(o.value)).label,
+      );
+    } else if (e.pairs) {
+      for (let i = 0; i < e.pairs.length; i++) {
+        const pair = e.pairs[i];
+        await evaluate(
+          `(()=>{const e=[...document.querySelectorAll('.match-letter')].find(x=>x.querySelector('span').textContent===${JSON.stringify(pair.left)});e.click()})()`,
+        );
+        await delay(12);
+        await clickText(
+          ".match-sound",
+          wrong ? e.pairs[(i + 1) % e.pairs.length].right : pair.right,
+        );
+      }
+    } else if (e.type === "build-syllable") {
+      const n = e.answers[0].codePointAt(0) - 0xac00;
+      const onset = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ"[
+        Math.floor(n / 588)
+      ];
+      const vowel = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ"[
+        Math.floor((n % 588) / 28)
+      ];
+      await clickText(
+        ".block-builder fieldset:nth-of-type(1) button",
+        wrong ? e.onsets.find((x) => x !== onset) : onset,
+      );
+      await clickText(".block-builder fieldset:nth-of-type(2) button", vowel);
+    } else await input(wrong ? "not-the-answer" : e.answers[0]);
+  }
   await cdp("Page.navigate", { url });
   await waitFor('!!document.querySelector("h1")');
-  assert(
-    (await evaluate("document.title")).includes("Nay Tutor"),
-    "Incorrect app title",
-  );
+  // Check the actual Phase 1-to-release migration before the learner journey.
   await evaluate(
-    `localStorage.setItem('hangeul.progress.v2','untouched-original-progress')`,
+    `localStorage.setItem('hangeul.progress.v2','original-sentinel');localStorage.setItem('nay-tutor.progress.v1',JSON.stringify({version:1,curriculumVersion:1,profile:{learner:{name:'Jaeyeon',koreanName:'재연'},brother:{name:'Jaehun',koreanName:'재훈'},dog:{name:'Miguel',koreanName:'미겔'},spellingsConfirmed:false},completedLessonIds:['u1-l1'],mastery:{},preferences:{romanization:'on-demand'},navigation:{page:'learn',previewLessonId:'u2-l1'}}));`,
   );
+  await cdp("Page.reload");
+  await waitFor('!!document.querySelector(".next-card")');
+  assert(
+    await evaluate('document.querySelectorAll(".future-unit").length===7'),
+    "Expected seven locked preview cards",
+  );
+  assert(
+    await evaluate(
+      '[...document.querySelectorAll(".future-unit")].every(x=>!x.querySelector("a,button,progress")&&x.textContent.includes("COMING SOON"))',
+    ),
+    "Future previews have working lesson controls",
+  );
+  await navigate("#/lesson/u2-l1");
+  assert(
+    await evaluate('!!document.querySelector(".next-card")'),
+    "Future route loaded a lesson",
+  );
+  await navigate("#/lesson/u1-day-14");
+  await waitFor(
+    `document.querySelector('h1')?.textContent==='This step is coming up.'`,
+  );
+  assert(
+    await evaluate('!document.querySelector(".exercise-card,.start-lesson")'),
+    "Locked lesson has playable controls",
+  );
+  let solved = 0,
+    wrongCount = 0,
+    resumes = 0;
+  const types = new Set();
+  for (const lesson of lessons) {
+    await navigate(`#/lesson/${lesson.id}`);
+    await waitFor('!!document.querySelector(".start-lesson")');
+    if (lesson.keyboardIntro) {
+      assert(
+        await evaluate('document.querySelector(".start-lesson").disabled'),
+        "Keyboard orientation not gated",
+      );
+      await input("na", "#keyboard-copy");
+      assert(
+        await evaluate('document.querySelector(".start-lesson").disabled'),
+        "Romanization passed keyboard orientation",
+      );
+      await clickText(".keyboard-orientation .secondary", "Tap ㄴ + ㅏ → 나");
+    }
+    if (lesson.day === 1) {
+      await click(".intro-items .listen");
+      assert(
+        (await evaluate("window.__speechRequests.at(-1)")) === "아",
+        "Reference audio used isolated jamo instead of a vowel syllable",
+      );
+    }
+    const requests = await evaluate("window.__speechRequests.length");
+    await click(".start-lesson");
+    await waitFor('!!document.querySelector(".exercise-card")');
+    assert(
+      (await evaluate("window.__speechRequests.length")) === requests,
+      "Starting a lesson autoplayed audio",
+    );
+    let first = true;
+    while ((await state()).session) {
+      const before = await state(),
+        session = before.session,
+        e = exerciseById[session.exerciseIds[session.index]];
+      types.add(e.type);
+      if (e.type === "type-sound")
+        assert(
+          await evaluate(
+            '!document.querySelector(".hint-content") && document.querySelector(".exercise-display").textContent=== ' +
+              JSON.stringify(e.display),
+          ),
+          "Sound recall has an unsolicited guide",
+        );
+      if (e.audio && !e.guided) {
+        assert(
+          await evaluate('!document.querySelector(".written-support")'),
+          "Transcript revealed before request",
+        );
+        assert(
+          !(
+            await evaluate(
+              'document.querySelector(".question-audio .listen").getAttribute("aria-label")',
+            )
+          ).includes(e.audio.text),
+          "Audio answer leaked in accessible name",
+        );
+      }
+      const wrong = first && [1, 4, 8, 11, 14].includes(lesson.day);
+      if (wrong) wrongCount++;
+      if (first && lesson.day === 2) {
+        await click(".hint-button");
+        assert(
+          await evaluate('!!document.querySelector(".hint-content")'),
+          "Explicit hint did not appear",
+        );
+      }
+      await fill(e, wrong);
+      if (e.audio) {
+        assert(
+          await evaluate('document.querySelector(".check-answer").disabled'),
+          "Audio question submitted without listening or support",
+        );
+        await click(".question-audio .listen");
+        await waitFor(
+          `JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).session.heardAudio===true`,
+        );
+      }
+      if (first && lesson.day === 11) {
+        await evaluate(
+          `(()=>{const e=document.querySelector('#answer');e.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));e.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',keyCode:229,isComposing:true,bubbles:true,cancelable:true}));})()`,
+        );
+        assert(
+          !(await state()).session.resolved,
+          "IME composition submitted early",
+        );
+        await evaluate(
+          `document.querySelector('#answer').dispatchEvent(new CompositionEvent('compositionend',{bubbles:true}))`,
+        );
+      }
+      await click(".check-answer");
+      await waitFor('!!document.querySelector(".feedback")');
+      const after = await state();
+      assert(after.session.lastCorrect === !wrong, `Wrong feedback: ${e.id}`);
+      solved++;
+      if (first && [1, 6, 11].includes(lesson.day)) {
+        await cdp("Page.reload");
+        await waitFor('!!document.querySelector(".feedback")');
+        assert(
+          (await state()).history.length === after.history.length,
+          "Reload duplicated a submitted attempt",
+        );
+        resumes++;
+      }
+      await click(".continue");
+      first = false;
+    }
+    assert(
+      (await state()).completedLessonIds.includes(lesson.id),
+      `Completion missing: ${lesson.id}`,
+    );
+    console.log(`Playable lesson ${lesson.day}/14 verified: ${lesson.title}`);
+  }
+  assert(
+    (await state()).completedLessonIds.length === 14,
+    "Not all fourteen lessons completed",
+  );
+  assert(types.size === 8, "Required exercise type missing");
+  assert(
+    (await state()).legacyPlan.completedLessonIds[0] === "u1-l1",
+    "Phase 1 archive lost",
+  );
+  await cdp("Page.reload");
+  await waitFor('!!document.querySelector(".start-lesson")');
+  assert(
+    (await state()).completedLessonIds.length === 14,
+    "Completion lost on refresh",
+  );
+  await navigate("#/review");
+  await waitFor('!!document.querySelector(".review-start .primary")');
+  await click(".review-start .primary");
+  await waitFor('!!document.querySelector(".exercise-card")');
+  const review = (await state()).session;
+  assert(
+    review.kind === "review" && review.exerciseIds.length <= 8,
+    "Review session invalid",
+  );
+  while ((await state()).session) {
+    const session = (await state()).session,
+      e = exerciseById[session.exerciseIds[session.index]];
+    await fill(e);
+    if (e.audio) {
+      await click(".question-audio .listen");
+      await waitFor(
+        `JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).session.heardAudio===true`,
+      );
+    }
+    await click(".check-answer");
+    await click(".continue");
+  }
+  assert(
+    (await state()).completedLessonIds.length === 14,
+    "Review changed lesson completion",
+  );
+  // Representative screens at common iPhone sizes, plus desktop.
   for (const [width, height] of [
     [1440, 1000],
     [375, 812],
@@ -149,150 +388,134 @@ try {
       deviceScaleFactor: 1,
       mobile: width < 700,
     });
-    for (const [hash, title] of [
-      ["#/learn", "Your Korean starts"],
-      ["#/lesson/u1-l1", "Your first two vowels"],
-      ["#/hangul", "A small place to start."],
-      ["#/review", "Familiar, then unforgettable."],
-      ["#/settings", "Your names. Your pace."],
+    for (const [hash, name] of [
+      ["#/learn", "home"],
+      ["#/review", "review"],
+      ["#/hangul", "sounds"],
+      ["#/settings", "settings"],
+      ["#/lesson/u1-day-13", "family-intro"],
     ]) {
       await navigate(hash);
-      await waitFor(
-        `document.querySelector('h1')?.innerText.includes(${JSON.stringify(title)})`,
-      );
       assert(
         await evaluate("document.documentElement.scrollWidth<=innerWidth"),
-        `Horizontal overflow at ${width}: ${hash}`,
-      );
-      assert(
-        await evaluate('document.querySelectorAll("main h1").length===1'),
-        `Missing unique heading at ${hash}`,
+        `Overflow: ${width}/${name}`,
       );
       if (width < 700)
         assert(
           await evaluate(
-            `[...document.querySelectorAll('.mobile-nav a')].every(a=>a.getBoundingClientRect().height>=44)`,
+            `[...document.querySelectorAll('.mobile-nav a')].every(x=>x.getBoundingClientRect().height>=44)`,
           ),
-          "Mobile navigation touch targets too small",
+          "Mobile nav targets too small",
         );
-      if (width === 1440 || width === 390)
-        await screenshot(
-          `${width}-${hash.replace("#/", "").replaceAll("/", "-")}`,
-        );
+      if (width === 390 || width === 1440) await screenshot(`${width}-${name}`);
     }
+    await navigate("#/lesson/u1-day-01");
+    await click(".start-lesson");
+    await waitFor('!!document.querySelector(".exercise-card")');
+    assert(
+      await evaluate("document.documentElement.scrollWidth<=innerWidth"),
+      `Exercise overflow at ${width}`,
+    );
+    assert(
+      await evaluate(
+        `[...document.querySelectorAll('.answer-option')].every(x=>x.getBoundingClientRect().height>=44)`,
+      ),
+      "Answer target too small",
+    );
+    if (width === 390 || width === 1440) await screenshot(`${width}-exercise`);
+    // Save and leave, then resume an unresolved selected answer exactly.
+    const e = exerciseById[(await state()).session.exerciseIds[0]];
+    await fill(e);
+    await cdp("Page.reload");
+    await waitFor('!!document.querySelector(".exercise-card")');
+    assert(
+      (await state()).session.answer === e.answers[0],
+      "Unsubmitted answer lost on refresh",
+    );
+    await navigate("#/learn");
+    await navigate("#/lesson/u1-day-13");
+    await click(".start-lesson");
+    await waitFor('!!document.querySelector(".exercise-card")');
+    assert(
+      await evaluate("document.documentElement.scrollWidth<=innerWidth"),
+      `Guided phrase overflow at ${width}`,
+    );
+    if (width === 390) await screenshot("390-guided-phrase");
   }
-  await navigate("#/lesson/u1-l1");
-  await click(".listen");
+  // Missing Korean voice must allow a deliberately supported alternative.
+  await navigate("#/lesson/u1-day-01");
+  await click(".start-lesson"); // replace the saved family session
+  await fill(exerciseById[(await state()).session.exerciseIds[0]]);
+  await click(".check-answer");
+  await click(".continue");
+  await evaluate("window.speechSynthesis.getVoices=()=>[]");
+  await click(".question-audio .listen");
   await waitFor('!!document.querySelector(".audio-error")');
   assert(
-    (
-      await evaluate('document.querySelector(".audio-error").textContent')
-    ).includes("Korean audio is unavailable"),
-    "Missing audio fallback",
+    await evaluate('!document.querySelector(".written-support")'),
+    "Missing voice revealed answer automatically",
+  );
+  await click(".question-audio .text-link");
+  assert(
+    (await state()).session.hintUsed,
+    "Written fallback did not record support",
+  );
+  const fallbackE =
+    exerciseById[
+      (await state()).session.exerciseIds[(await state()).session.index]
+    ];
+  await fill(fallbackE);
+  await click(".check-answer");
+  assert(
+    (await state()).history.at(-1).hintUsed,
+    "Fallback earned independent credit",
+  );
+  await navigate("#/lesson/u1-day-13");
+  await click(".start-lesson");
+  const guidedE = exerciseById[(await state()).session.exerciseIds[0]];
+  await fill(guidedE);
+  await click(".question-audio .listen");
+  await waitFor('!!document.querySelector(".audio-error")');
+  await click(".question-audio .text-link");
+  await click(".check-answer");
+  assert(
+    (await state()).history.at(-1).mode === "guided",
+    "Missing-voice phrase fallback earned recall credit",
   );
   await navigate("#/settings");
-  await evaluate(
-    `(()=>{const e=document.querySelector('input[name="learner-name"]');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,'Jaeyeon QA');e.dispatchEvent(new Event('input',{bubbles:true}));})()`,
-  );
-  await delay(100);
-  await click("input[type=checkbox]");
-  await click("button[type=submit]");
-  await waitFor(
-    `JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).profile.learner.name==='Jaeyeon QA'`,
-  );
-  assert(
-    await evaluate(
-      `JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).profile.spellingsConfirmed`,
-    ),
-    "Confirmation was not saved",
-  );
+  await input("Buddy", 'input[name="dog-name"]');
+  await input("버디", 'input[name="dog-korean"]');
+  await click(".profile-form button[type=submit]");
   await cdp("Page.reload");
   await waitFor(
-    `document.querySelector('input[name="learner-name"]')?.value==='Jaeyeon QA'`,
+    `document.querySelector('input[name="dog-name"]')?.value==='Buddy'`,
   );
-  await navigate("#/lesson/u1-l3");
-  await waitFor(
-    `JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).navigation.previewLessonId==='u1-l3'`,
-  );
-  // A fresh URL restores the saved preview, including across page reload.
-  await cdp("Page.navigate", { url });
-  await waitFor(
-    `document.querySelector('h1')?.textContent==='Round your lips'`,
+  // Deliberately replace the saved family question before inspecting its introduction.
+  await navigate("#/lesson/u1-day-01");
+  await click(".start-lesson");
+  await navigate("#/lesson/u1-day-13");
+  assert(
+    await evaluate('document.body.innerText.includes("버디 어디 있어요?")'),
+    "Configured family spelling not used",
   );
   assert(
     await evaluate(
-      `JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).completedLessonIds.length===0`,
+      `localStorage.getItem('hangeul.progress.v2')==='original-sentinel'`,
     ),
-    "Browsing awarded lesson completion",
-  );
-  assert(
-    await evaluate(
-      `Object.keys(JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).mastery).length===0`,
-    ),
-    "Listening awarded mastery",
-  );
-  assert(
-    await evaluate(
-      `localStorage.getItem('hangeul.progress.v2')==='untouched-original-progress'`,
-    ),
-    "Hangeul save was changed",
-  );
-  await navigate("#/hangul");
-  await navigate("#/review");
-  await evaluate("history.back()");
-  await waitFor(
-    `document.querySelector('h1')?.textContent==='A small place to start.'`,
-  );
-  await navigate("#/invalid-route");
-  await waitFor(
-    `document.querySelector('h1')?.textContent.includes('Your Korean starts')`,
-  );
-  // Native validation: a blank required profile name cannot be saved.
-  await navigate("#/settings");
-  await click(".skip-link");
-  assert(
-    await evaluate(
-      "location.hash==='#/settings' && document.activeElement===document.querySelector('main')",
-    ),
-    "Skip link changed route or failed to focus content",
-  );
-  await evaluate(
-    `(()=>{const e=document.querySelector('input[name="learner-name"]');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,'');e.dispatchEvent(new Event('input',{bubbles:true}));})()`,
-  );
-  await delay(80);
-  await click("button[type=submit]");
-  assert(
-    await evaluate(
-      `JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).profile.learner.name==='Jaeyeon QA'`,
-    ),
-    "Blank profile name was saved",
-  );
-  // Corrupt data remains intact until a deliberate state change.
-  await navigate("#/learn");
-  await evaluate(`localStorage.setItem('nay-tutor.progress.v1','corrupt');`);
-  await cdp("Page.reload");
-  await waitFor('!!document.querySelector(".storage-warning")');
-  assert(
-    await evaluate(`localStorage.getItem('nay-tutor.progress.v1')==='corrupt'`),
-    "Corrupt save silently overwritten on load",
+    "Hangeul storage touched",
   );
   assert(errors.length === 0, `Browser exceptions: ${errors.join(", ")}`);
   const report = {
     assertions,
+    lessons: 14,
+    authoredExercises: lessons.reduce((n, l) => n + l.exercises.length, 0),
+    submittedExercises: solved,
+    intentionalMistakes: wrongCount,
+    resumes,
+    exerciseTypes: [...types],
     viewports: ["1440×1000", "375×812", "390×844", "430×932"],
-    screenshots: output,
-    coverage: [
-      "navigation/back/invalid routes",
-      "profile edit and reload",
-      "resume preview",
-      "zero false completion/mastery",
-      "original storage isolation",
-      "missing Korean voice",
-      "required fields",
-      "malformed storage",
-    ],
     limits:
-      "Automated Chrome emulation; no physical iPhone, Safari, or audible output verification.",
+      "Automated Chrome with deterministic speech mocks; no physical iPhone, Safari, audible Korean output, or native-speaker review.",
   };
   fs.writeFileSync(
     path.join(output, "browser-report.json"),

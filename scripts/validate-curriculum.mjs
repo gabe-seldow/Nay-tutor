@@ -16,7 +16,7 @@ try {
     const { lessons, units, items } =
       await server.ssrLoadModule("/src/curriculum.ts");
     console.log(
-      `Curriculum plan valid: ${units.length} units, ${lessons.length} planned lessons, ${items.length} learning items. Structural validation is not linguistic or native-speaker review.`,
+      `Unit 1 valid: ${lessons.length} playable lessons, ${lessons.reduce((n, l) => n + l.exercises.length, 0)} exercises, ${items.length} learning items. Structural validation is not linguistic or native-speaker review.`,
     );
   }
 } finally {

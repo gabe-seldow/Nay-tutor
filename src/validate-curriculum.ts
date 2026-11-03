@@ -1,141 +1,167 @@
-import { characters, items, lessons, units } from "./curriculum";
+import { characters, itemById, items, lessons } from "./curriculum";
+import { blockParts, composeBlock, evaluateAnswer } from "./learning";
 import type { Lesson } from "./types";
 export function validateCurriculum(course: Lesson[] = lessons): string[] {
-  const errors: string[] = [];
-  const seen = new Set<string>();
-  const introduced = new Set<string>();
-  const exercises = new Set<string>();
-  const catalog = new Map(items.map((x) => [x.id, x]));
+  const errors: string[] = [],
+    seen = new Set<string>(),
+    known = new Set<string>(),
+    exerciseIds = new Set<string>();
   const fail = (id: string, msg: string) => errors.push(`${id}: ${msg}`);
-  if (units.length !== 8) errors.push("Expected eight units.");
-  if (new Set(items.map((x) => x.id)).size !== items.length)
+  if (course.length !== 14)
+    errors.push("Unit 1 must have 14 playable lessons.");
+  if (new Set(items.map((i) => i.id)).size !== items.length)
     errors.push("Duplicate item IDs.");
-  if (
-    characters.filter((x) => x.kind === "vowel").length !== 21 ||
-    characters.filter((x) => x.kind === "consonant").length !== 19
-  )
-    errors.push("Expected 21 vowels and 19 consonants.");
-  for (const unit of units) {
-    if (!unit.lessonIds.length) fail(unit.id, "No lesson outline.");
+  if (characters.length !== 13)
+    errors.push("Unit 1 must teach six vowels and seven consonants.");
+  for (const l of course) {
+    if (seen.has(l.id) || l.unitId !== "unit-1" || l.status !== "available")
+      fail(l.id, "Invalid playable lesson identity.");
+    if (l.prerequisites.some((id) => !seen.has(id)))
+      fail(l.id, "Prerequisite must exist earlier.");
     if (
-      unit.lessonIds.some(
-        (id) => !course.some((l) => l.id === id && l.unitId === unit.id),
-      )
+      !l.title ||
+      !l.objective ||
+      !l.explanation ||
+      !l.examples.length ||
+      l.exercises.length < 7 ||
+      l.minutes !== 4
     )
-      fail(unit.id, "Unit inventory mismatch.");
-  }
-  for (const lesson of course) {
-    if (seen.has(lesson.id)) fail(lesson.id, "Duplicate ID.");
-    if (lesson.prerequisites.some((id) => !seen.has(id)))
-      fail(
-        lesson.id,
-        "Prerequisite must exist earlier (no cycles or forward edges).",
-      );
-    if (
-      !units.some(
-        (u) => u.id === lesson.unitId && u.lessonIds.includes(lesson.id),
-      )
-    )
-      fail(lesson.id, "Unknown unit membership.");
-    if (
-      lesson.minutes < 3 ||
-      lesson.minutes > 5 ||
-      !lesson.title ||
-      !lesson.objective ||
-      !lesson.explanation ||
-      !lesson.examples.length ||
-      !lesson.exercises.length
-    )
-      fail(lesson.id, "Incomplete lesson plan.");
-    if (!lesson.newItemIds.length) fail(lesson.id, "No new learning items.");
-    lesson.newItemIds.forEach((id) => {
-      if (!catalog.has(id)) fail(lesson.id, `Unknown item ${id}.`);
-      if (introduced.has(id))
-        fail(lesson.id, `New item already introduced: ${id}.`);
+      fail(l.id, "Incomplete short lesson.");
+    l.reviewItemIds.forEach((id) => {
+      if (!known.has(id)) fail(l.id, `Untaught review dependency ${id}.`);
     });
-    lesson.reviewItemIds.forEach((id) => {
-      if (!introduced.has(id))
-        fail(lesson.id, `Review item not taught earlier: ${id}.`);
+    l.newItemIds.forEach((id) => {
+      if (!itemById[id] || known.has(id)) fail(l.id, `Invalid new item ${id}.`);
+      known.add(id);
     });
-    lesson.newItemIds.forEach((id) => introduced.add(id));
-    const availableLetters = new Set(
-      [...introduced]
-        .map((id) => catalog.get(id))
-        .filter((x) => x?.kind === "vowel" || x?.kind === "consonant")
-        .map((x) => x!.ko),
+    const letters = new Set(
+      [...known]
+        .map((id) => itemById[id])
+        .filter((i) => i?.kind === "vowel" || i?.kind === "consonant")
+        .map((i) => i.ko),
     );
-    const checkLetters = (text: string) => {
-      for (const ch of text.normalize("NFC")) {
-        const cp = ch.codePointAt(0)!;
-        if (cp >= 0xac00 && cp <= 0xd7a3) {
-          const n = cp - 0xac00;
-          const onset = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ"[
-            Math.floor(n / 588)
-          ];
-          const vowel = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ"[
-            Math.floor((n % 588) / 28)
-          ];
-          if (!availableLetters.has(onset) || !availableLetters.has(vowel))
-            fail(lesson.id, `Untaught initial/vowel in ${ch}.`);
-          if (n % 28 && Number(lesson.unitId.split("-")[1]) < 4)
-            fail(lesson.id, `Final consonant before Unit 4 in ${ch}.`);
+    const check = (text: string, carrier = false) => {
+      for (const ch of text) {
+        if (/[ㄱ-ㅣ]/u.test(ch) && !letters.has(ch))
+          fail(l.id, `Untaught letter ${ch}.`);
+        if (ch >= "가" && ch <= "힣") {
+          const parts = blockParts(ch);
+          if (!parts)
+            fail(
+              l.id,
+              `Unsupported final consonant in independent reading: ${ch}.`,
+            );
+          else if (
+            (!letters.has(parts.onset) && !(carrier && parts.onset === "ㅇ")) ||
+            !letters.has(parts.vowel)
+          )
+            fail(l.id, `Untaught block ${ch}.`);
         }
       }
     };
-    for (const e of lesson.exercises) {
-      if (exercises.has(e.id)) fail(e.id, "Duplicate exercise ID.");
-      exercises.add(e.id);
+    for (const e of l.exercises) {
+      if (exerciseIds.has(e.id)) fail(e.id, "Duplicate exercise ID.");
+      exerciseIds.add(e.id);
       if (
-        e.requiredItemIds.some((id) => !introduced.has(id)) ||
-        e.itemIds.some((id) => !introduced.has(id))
-      )
-        fail(e.id, "Untaught or unknown item dependency.");
-      if (
-        !e.prompt ||
         !e.objective ||
+        !e.prompt ||
         !e.hint ||
         !e.feedback.correct ||
         !e.feedback.incorrect ||
         !e.answers.length ||
-        e.answers.some((a) => !a.trim())
+        e.answers.some((a) => !a)
       )
-        fail(e.id, "Incomplete exercise outline.");
-      if (new Set(e.answers).size !== e.answers.length)
-        fail(e.id, "Duplicate accepted answer.");
-      if (e.type === "listen-type" && e.input !== "Hangul")
-        fail(e.id, "Typing language must be explicit.");
+        fail(e.id, "Incomplete exercise.");
+      if (e.itemIds.some((id) => !known.has(id)))
+        fail(e.id, "Untaught item dependency.");
+      const target = itemById[e.itemIds[0]];
+      if (!target) {
+        fail(e.id, "Unknown target.");
+        continue;
+      }
+      if (target.kind === "phrase" && (!e.guided || e.type !== "guided-phrase"))
+        fail(e.id, "Unfamiliar phrase must be guided.");
+      if (!e.guided) {
+        if (e.display) check(e.display);
+        if (e.audio) check(e.audio.text, target.kind === "vowel");
+      }
+      if (e.audio && (e.audio.language !== "ko-KR" || !e.audio.text))
+        fail(e.id, "Invalid Korean audio.");
       if (
-        e.type === "listen-type" &&
-        course.findIndex((l) => l.id === lesson.id) <
-          course.findIndex((l) => l.id === "u2-l8")
-      )
-        fail(e.id, "Hangul typing before keyboard orientation.");
-      if (
-        ["listen-type", "listen-select", "sound-to-character"].includes(
+        ["sound-to-character", "listen-type", "guided-phrase"].includes(
           e.type,
         ) &&
         !e.audio
       )
-        fail(e.id, "Listening outline has no audio.");
-      if (e.audio && e.prompt.includes(e.audio.text))
-        fail(e.id, "Listening prompt reveals its transcript.");
-      if (e.audio) checkLetters(e.audio.text);
-      if (e.input === "Hangul" || e.type === "build-syllable")
-        e.answers.forEach(checkLetters);
-    }
-    for (const example of lesson.examples) {
+        fail(e.id, "Missing required audio.");
       if (
-        !example.ko ||
-        !example.meaning ||
-        !example.note ||
-        example.audio.language !== "ko-KR"
+        e.type === "sound-to-character" &&
+        (e.display || e.prompt.includes(e.audio!.text))
       )
-        fail(lesson.id, "Incomplete example.");
-      checkLetters(example.ko);
+        fail(e.id, "Audio transcript revealed.");
+      if (e.audio && !e.guided && e.audio.text !== target.audio.text)
+        fail(e.id, "Audio does not match its target.");
+      if (e.type === "sound-to-character" && e.answers[0] !== target.ko)
+        fail(e.id, "Sound-to-character answer mismatch.");
+      if (
+        e.type === "type-sound" &&
+        (e.input !== "romanization" || e.answers[0] !== target.rr)
+      )
+        fail(e.id, "Incorrect sound-label typing.");
+      if (e.type === "syllable-reading" && e.answers[0] !== target.rr)
+        fail(e.id, "Syllable sound guide mismatch.");
+      if (
+        e.type === "listen-type" &&
+        (l.day < 11 || !e.requiresKeyboard || e.input !== "Hangul")
+      )
+        fail(e.id, "Hangul typing requires keyboard introduction.");
+      if (e.options) {
+        if (
+          e.options.length < 2 ||
+          e.options.length > 4 ||
+          new Set(e.options.map((o) => o.value)).size !== e.options.length
+        )
+          fail(e.id, "Invalid choices.");
+        if (e.options.filter((o) => e.answers.includes(o.value)).length !== 1)
+          fail(e.id, "Exactly one choice must be correct.");
+        if (e.type === "sound-to-character")
+          e.options.forEach((o) => check(o.label, target.kind === "vowel"));
+      }
+      if (e.pairs) {
+        if (
+          e.pairs.length < 2 ||
+          new Set(e.pairs.map((p) => p.right)).size !== e.pairs.length
+        )
+          fail(e.id, "Invalid matching pairs.");
+        for (const p of e.pairs) {
+          if (
+            p.left !== itemById[p.itemId]?.ko ||
+            p.right !== itemById[p.itemId]?.meaning
+          )
+            fail(e.id, "Matching sound mismatch.");
+        }
+      }
+      if (e.type === "build-syllable") {
+        const parts = blockParts(e.answers[0]);
+        if (
+          !parts ||
+          !e.onsets?.includes(parts.onset) ||
+          !e.vowels?.includes(parts.vowel) ||
+          composeBlock(parts.onset, parts.vowel) !== e.answers[0]
+        )
+          fail(e.id, "Unbuildable answer.");
+        [...(e.onsets ?? []), ...(e.vowels ?? [])].forEach((ch) => check(ch));
+      }
+      if (e.type === "listen-type") e.answers.forEach((a) => check(a));
+      const sample = e.pairs
+        ? Object.fromEntries(e.pairs.map((p) => [p.itemId, p.itemId]))
+        : e.answers[0];
+      if (!evaluateAnswer(e, sample).correct)
+        fail(e.id, "Authored correct answer fails validation.");
     }
-    seen.add(lesson.id);
+    seen.add(l.id);
   }
-  if (characters.some((ch) => !introduced.has(ch.id)))
-    errors.push("Some Hangul characters have no introduction lesson.");
+  if (items.some((i) => !known.has(i.id)))
+    errors.push("Catalog contains unintroduced material.");
   return errors;
 }
