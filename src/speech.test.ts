@@ -153,6 +153,7 @@ describe("Korean speech playback", () => {
       owner = Symbol();
     const unwatch = m.service.watchVoices(ready);
     expect(m.synth.getVoices).toHaveBeenCalled();
+    m.setVoices([voice("en-US")]);
     expect(m.service.speak(owner, "안녕", NORMAL_RATE, error)).toBe(false);
     expect(error).toHaveBeenCalledWith(VOICE_UNAVAILABLE);
     expect(m.synth.speak).not.toHaveBeenCalled();
@@ -202,7 +203,7 @@ describe("Korean speech playback", () => {
     m.utterances[1].onerror?.({
       error: "interrupted",
     } as SpeechSynthesisErrorEvent);
-    expect(error).not.toHaveBeenCalled();
+    expect(error).toHaveBeenCalledWith(PLAYBACK_FAILED);
   });
   it("stops only the owner that is leaving, allowing a new lesson to play", () => {
     const m = setup(),
@@ -266,5 +267,85 @@ describe("Korean speech playback", () => {
     });
     expect(m.service.speak(Symbol(), "안녕", NORMAL_RATE, error)).toBe(false);
     expect(error).toHaveBeenCalledWith(PLAYBACK_FAILED);
+  });
+});
+
+describe("Safari startup and retries", () => {
+  it("dispatches ko-KR immediately from a tap even when voice discovery is empty", () => {
+    const m = setup();
+    expect(m.service.speak(Symbol(), "아", NORMAL_RATE, vi.fn())).toBe(true);
+    expect(m.synth.speak).toHaveBeenCalledOnce();
+    expect(m.utterances[0].lang).toBe("ko-KR");
+    expect(m.utterances[0].voice).toBeNull();
+    expect(m.synth.cancel).not.toHaveBeenCalled();
+  });
+  it("does not interrupt repeated taps on the same pending or playing sample", () => {
+    const m = setup(),
+      owner = Symbol();
+    m.setVoices([voice("ko-KR")]);
+    for (let i = 0; i < 5; i++)
+      m.service.speak(owner, "나", NORMAL_RATE, vi.fn());
+    expect(m.synth.speak).toHaveBeenCalledOnce();
+    expect(m.synth.cancel).not.toHaveBeenCalled();
+    m.utterances[0].onend?.({} as SpeechSynthesisEvent);
+    m.service.speak(owner, "나", NORMAL_RATE, vi.fn());
+    expect(m.synth.speak).toHaveBeenCalledTimes(2);
+  });
+  it("reports a silent startup, ignores late events, and permits a fresh tap retry", () => {
+    vi.useFakeTimers();
+    try {
+      const m = setup(),
+        owner = Symbol(),
+        error = vi.fn();
+      m.service.speak(owner, "우", NORMAL_RATE, error);
+      vi.advanceTimersByTime(8000);
+      expect(m.service.snapshot().error).toBe("start-timeout");
+      expect(error).toHaveBeenCalledOnce();
+      m.utterances[0].onstart?.({} as SpeechSynthesisEvent);
+      expect(m.service.snapshot().status).toBe("failed");
+      m.setVoices([voice("ko-KR")]);
+      m.service.speak(owner, "우", NORMAL_RATE, error);
+      m.utterances[1].onstart?.({} as SpeechSynthesisEvent);
+      vi.advanceTimersByTime(8000);
+      expect(error).toHaveBeenCalledOnce();
+      expect(m.service.snapshot().status).toBe("started");
+      m.service.stop(owner);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+  it("discovers voices without an event and never speaks from a timer", () => {
+    vi.useFakeTimers();
+    try {
+      const m = setup(),
+        ready = vi.fn(),
+        un = m.service.watchVoices(ready);
+      m.setVoices([voice("ko-KR")]);
+      vi.advanceTimersByTime(250);
+      expect(ready).toHaveBeenCalledOnce();
+      expect(m.synth.speak).not.toHaveBeenCalled();
+      un();
+      vi.advanceTimersByTime(10000);
+      expect(ready).toHaveBeenCalledOnce();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+  it("clears startup monitoring when leaving and permits return to the same sample", () => {
+    vi.useFakeTimers();
+    try {
+      const m = setup(),
+        owner = Symbol(),
+        error = vi.fn();
+      m.service.speak(owner, "아", NORMAL_RATE, error);
+      m.service.stop(owner);
+      vi.advanceTimersByTime(10000);
+      expect(error).not.toHaveBeenCalled();
+      m.service.speak(owner, "아", NORMAL_RATE, error);
+      expect(m.synth.speak).toHaveBeenCalledTimes(2);
+      m.service.stop(owner);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

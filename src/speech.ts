@@ -66,6 +66,11 @@ export class KoreanSpeech {
   }
 
   private serial = 0;
+  private startTimer?: ReturnType<typeof setTimeout>;
+  private clearStartTimer() {
+    clearTimeout(this.startTimer);
+    this.startTimer = undefined;
+  }
   private active?: { owner: symbol; utterance: SpeechSynthesisUtterance };
   constructor(
     private synth: SpeechSynthesis,
@@ -80,7 +85,12 @@ export class KoreanSpeech {
     };
     this.synth.addEventListener("voiceschanged", changed);
     changed();
-    return () => this.synth.removeEventListener("voiceschanged", changed);
+    // Some Safari versions populate voices without firing voiceschanged.
+    const probes = [250, 1000, 3000].map((ms) => setTimeout(changed, ms));
+    return () => {
+      probes.forEach(clearTimeout);
+      this.synth.removeEventListener("voiceschanged", changed);
+    };
   }
 
   // This method is synchronous so speak() remains inside the button's user gesture on iOS.
@@ -90,6 +100,10 @@ export class KoreanSpeech {
     rate: number,
     onError: (message: string) => void,
   ): boolean {
+    // A second tap must not cancel the same request while iOS is starting it.
+    if (this.active?.owner === owner && this.active.utterance.text === text)
+      return true;
+    this.clearStartTimer();
     const serial = ++this.serial;
     this.update({
       requested: true,
@@ -111,8 +125,9 @@ export class KoreanSpeech {
       return false;
     }
     let voice: SpeechSynthesisVoice | undefined;
+    let voices: SpeechSynthesisVoice[];
     try {
-      const voices = this.synth.getVoices();
+      voices = this.synth.getVoices();
       voice = koreanVoice(voices);
       this.update({
         koreanVoices: voices.filter((v) =>
@@ -125,7 +140,9 @@ export class KoreanSpeech {
       onError(VOICE_UNAVAILABLE);
       return false;
     }
-    if (!voice) {
+    // Empty is not proof that Korean is unavailable. Let iOS resolve ko-KR
+    // synchronously within this tap. Never assign an unrelated enumerated voice.
+    if (!voice && voices.length > 0) {
       this.update({ status: "failed", error: "no-korean-voice" });
       onError(VOICE_UNAVAILABLE);
       return false;
@@ -134,17 +151,19 @@ export class KoreanSpeech {
       if (this.synth.paused) this.synth.resume();
       const utterance = this.makeUtterance(text);
       utterance.lang = "ko-KR";
-      utterance.voice = voice;
+      if (voice) utterance.voice = voice;
       utterance.rate = rate;
       this.active = { owner, utterance }; // Keep a strong reference until the utterance ends.
       utterance.onstart = () => {
         if (this.serial === serial) {
+          this.clearStartTimer();
           startedAt = performance.now();
           this.update({ started: true, status: "started" });
         }
       };
       utterance.onend = () => {
         if (this.serial === serial) {
+          this.clearStartTimer();
           this.active = undefined;
           this.update({
             status: "ended",
@@ -157,6 +176,7 @@ export class KoreanSpeech {
       };
       utterance.onerror = (event) => {
         if (this.serial !== serial) return;
+        this.clearStartTimer();
         this.active = undefined;
         this.update({
           status:
@@ -165,13 +185,28 @@ export class KoreanSpeech {
               : "failed",
           error: event.error || "unknown",
         });
-        if (event.error !== "interrupted" && event.error !== "canceled")
-          onError(PLAYBACK_FAILED);
+        onError(PLAYBACK_FAILED);
       };
+      // Report a silent, never-started request; do not auto-retry outside a tap.
+      this.startTimer = setTimeout(() => {
+        if (this.serial !== serial || startedAt !== undefined) return;
+        ++this.serial;
+        this.active = undefined;
+        this.update({ status: "failed", error: "start-timeout" });
+        try {
+          this.synth.cancel();
+        } catch {
+          /* Keep the retry/fallback available. */
+        }
+        onError(
+          "Korean audio did not start. Tap Listen to retry, or use written support. Your device may need a Korean voice installed.",
+        );
+      }, 8000);
       this.synth.speak(utterance);
       return true;
     } catch {
       if (this.serial === serial) {
+        this.clearStartTimer();
         this.active = undefined;
         this.update({ status: "failed", error: "speak-exception" });
       }
@@ -182,6 +217,7 @@ export class KoreanSpeech {
 
   stop(owner: symbol): void {
     if (this.active?.owner !== owner) return;
+    this.clearStartTimer();
     ++this.serial;
     this.active = undefined;
     this.update({ status: "cancelled", error: null });

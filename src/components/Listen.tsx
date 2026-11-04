@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Volume2, Square } from "lucide-react";
-import { getKoreanSpeech, NORMAL_RATE, SPEECH_UNSUPPORTED } from "../speech";
+import { Volume2 } from "lucide-react";
+import {
+  getKoreanSpeech,
+  NORMAL_RATE,
+  SPEECH_UNSUPPORTED,
+  VOICE_UNAVAILABLE,
+} from "../speech";
 import type { AudioContent } from "../types";
 export function Listen({
   content,
@@ -22,7 +27,9 @@ export function Listen({
     const speech = getKoreanSpeech();
     if (!speech) return;
     let mine = false;
-    const unwatch = speech.watchVoices(() => setError(""));
+    const unwatch = speech.watchVoices(() =>
+      setError((previous) => (previous === VOICE_UNAVAILABLE ? "" : previous)),
+    );
     const unsub = speech.subscribe(() => {
       const s = speech.snapshot();
       if (mine && s.status === "started") playbackCallback.current?.();
@@ -49,23 +56,13 @@ export function Listen({
       <button
         type="button"
         className="listen"
-        aria-label={
-          hideText
-            ? playing
-              ? "Stop question audio"
-              : label
-            : `${playing ? "Stop" : label}: ${content.text}`
-        }
+        aria-label={hideText ? label : `${label}: ${content.text}`}
         aria-pressed={playing}
+        aria-busy={playing}
         onClick={() => {
           const speech = getKoreanSpeech();
           if (!speech) {
             setError(SPEECH_UNSUPPORTED);
-            return;
-          }
-          if (playing) {
-            speech.stop(owner.current);
-            setPlaying(false);
             return;
           }
           setError("");
@@ -82,8 +79,8 @@ export function Listen({
           setPlaying(ok);
         }}
       >
-        {playing ? <Square size={16} /> : <Volume2 size={18} />}
-        <span>{playing ? "Stop audio" : label}</span>
+        <Volume2 size={18} />
+        <span>{label}</span>
       </button>
       {error && (
         <p className="audio-error" role="status">

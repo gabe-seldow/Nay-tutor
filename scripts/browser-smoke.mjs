@@ -448,7 +448,7 @@ try {
   await fill(exerciseById[(await state()).session.exerciseIds[0]]);
   await click(".check-answer");
   await click(".continue");
-  await evaluate("window.speechSynthesis.getVoices=()=>[]");
+  await evaluate("window.speechSynthesis.getVoices=()=>[{lang:'en-US',name:'English only'}]");
   await click(".question-audio .listen");
   await waitFor('!!document.querySelector(".audio-error")');
   assert(
