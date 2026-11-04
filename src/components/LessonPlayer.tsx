@@ -1,3 +1,4 @@
+import { Miguel } from "./Miguel";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -70,6 +71,7 @@ export function LessonView({
     const next = nextLesson(progress);
     return (
       <section className="card lesson-finished">
+        <Miguel mood="celebrate" className="finish-miguel" />
         <span className="finished-mark">
           <Check size={32} />
         </span>
@@ -384,6 +386,7 @@ function PracticePlayer({
               tabIndex={-1}
               ref={feedback}
             >
+              <Miguel mood={session.lastCorrect ? "pleased" : "encouraging"} className="feedback-miguel" />
               <h2>
                 {session.outcome === "skipped"
                   ? "Skipped for now"
@@ -655,6 +658,7 @@ export function ReviewPage({
         </p>
       </div>
       <section className="card review-start">
+        <Miguel mood="review" className="review-miguel" />
         <RotateCcw size={25} />
         <h2>
           {queue.length

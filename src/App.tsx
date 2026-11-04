@@ -33,6 +33,7 @@ import {
 } from "./progress";
 import { parseRoute, savedRoute, type Route } from "./navigation";
 import type { LearnerProfile, LearnerProgress, Lesson } from "./types";
+import { Miguel } from "./components/Miguel";
 import { Seoul } from "./components/Seoul";
 import { Listen } from "./components/Listen";
 import { visibleStreak, localPracticeDate } from "./streak";
@@ -123,9 +124,7 @@ export default function App() {
       </a>
       <aside className="sidebar">
         <a href="#/learn" className="brand" aria-label="Nay Tutor home">
-          <span className="brand-mark" lang="ko">
-            나
-          </span>
+          <Miguel className="brand-puppy" />
           <span>
             Nay Tutor<small>KOREAN, AT YOUR PACE</small>
           </span>
@@ -264,15 +263,12 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
             <MapPin size={14} /> A LITTLE CLOSER TO SEOUL{" "}
             <span lang="ko">서울</span>
           </span>
-          <p className="welcome">Welcome, {progress.profile.learner.name}.</p>
+          <p className="welcome">Hi, {progress.profile.learner.name}!</p>
           <h1>
-            Your Korean starts
-            <br />
-            with a sound.
+            Ready for some Korean?
           </h1>
           <p>
-            A few minutes. A few new sounds.
-            <br />A language that starts to feel familiar.
+            One sound at a time, with Miguel by your side.
           </p>
           <div className="hero-meta">
             <span>
@@ -283,11 +279,7 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
             </span>
           </div>
         </div>
-        <div className="hero-letter" aria-hidden="true">
-          <span>YOUR FIRST SOUND</span>
-          <strong lang="ko">ㅏ</strong>
-          <small>One small beginning.</small>
-        </div>
+        <div className="hero-miguel"><Miguel /><span>MIGUEL · YOUR PRACTICE PAL</span></div>
       </section>
       <section className="next-card">
         <span className="next-icon">
@@ -374,6 +366,7 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
             </a>
           </section>
           <section className="card review-card">
+        <Miguel mood="review" className="review-miguel" />
             <span className="review-icon">
               <RotateCcw size={21} />
             </span>
