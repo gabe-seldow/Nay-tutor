@@ -41,7 +41,7 @@ export const characters: LearningItem[] = [
     audio: audio(
       text,
       "vowel-syllable",
-      "Hear the vowel in a full block. The circle is a silent holder, taught in Lesson 10.",
+      "Listen to the vowel. The circle is silent.",
     ),
   })),
   ...consonantSeeds.map(([ko, meaning, text]) => ({
@@ -52,10 +52,37 @@ export const characters: LearningItem[] = [
     audio: audio(
       text,
       "context-syllable",
-      "Audio reads a whole syllable. Focus on its start, not an isolated consonant phoneme.",
+      "Listen to the first sound in the block.",
     ),
   })),
 ];
+// Legacy labels are retained solely to translate unfinished saved selections.
+const consonantLabels: Record<string, string> = {
+  ㄴ: "n",
+  ㅁ: "m",
+  ㄱ: "g",
+  ㄷ: "d",
+  ㅂ: "b",
+  ㅅ: "s",
+  ㅇ: "silent",
+};
+export const legacySoundLabels: Record<string, string> = {};
+for (const item of characters) {
+  item.rr ??= consonantLabels[item.ko];
+  legacySoundLabels[item.meaning] = item.rr;
+  item.meaning = item.rr;
+  item.soundAlternatives =
+    (
+      {
+        ㅏ: ["ah"],
+        ㅣ: ["ee"],
+        ㅜ: ["oo"],
+        ㄱ: ["k"],
+        ㄷ: ["t"],
+        ㅂ: ["p"],
+      } as Record<string, string[]>
+    )[item.ko] ?? [];
+}
 const syllableSeeds = [
   ["나", "na"],
   ["너", "neo"],
@@ -82,7 +109,7 @@ const syllables: LearningItem[] = syllableSeeds.map(([ko, rr]) => ({
   kind: "syllable",
   ko,
   rr,
-  meaning: `${rr} (sound guide)`,
+  meaning: rr,
   audio: audio(ko, "context-syllable"),
 }));
 const phrases: LearningItem[] = [
@@ -458,11 +485,11 @@ function base(
     answers: [],
     hint:
       item.kind === "phrase"
-        ? `Whole-phrase support: ${item.meaning}.`
-        : `Sound guide: ${item.rr ?? item.meaning}. Listen to ${item.audio.text}.`,
+        ? `It means ${item.meaning}.`
+        : `The sound is ${item.rr ?? item.meaning}.`,
     feedback: {
       correct: `${item.ko} — ${item.meaning}.`,
-      incorrect: `Revisit ${item.ko}: ${item.meaning}.`,
+      incorrect: `It’s ${item.rr ?? item.meaning}.`,
     },
   };
 }
@@ -481,9 +508,7 @@ function recognize(
       item,
     ),
     prompt:
-      item.kind === "syllable"
-        ? "Read this block. Choose its sound guide."
-        : "Which sound guide matches this letter?",
+      item.kind === "syllable" ? "Choose the sound." : "What sound is this?",
     display: item.ko,
     answers: [item.kind === "syllable" ? item.rr! : item.meaning],
     options: optionsFor(
@@ -504,10 +529,10 @@ function listen(
     ...base(lid, key, "sound-to-character", item),
     prompt:
       item.kind === "vowel"
-        ? "Listen to a syllable. Which vowel do you hear?"
+        ? "Listen and choose."
         : item.kind === "consonant"
-          ? "Listen to the whole syllable. Which consonant starts it?"
-          : "Listen. Which block do you hear?",
+          ? "Which letter starts the sound?"
+          : "Listen and choose.",
     answers: [item.ko],
     options: optionsFor("ko", pool, item.ko),
     audio: item.audio,
@@ -517,36 +542,30 @@ function recall(lid: string, key: string, id: string): Exercise {
   const item = itemById[id];
   return {
     ...base(lid, key, "type-sound", item),
-    prompt:
-      "Type the sound guide in romanization (English letters), not Hangul.",
+    prompt: "Type the sound.",
     display: item.ko,
     answers: [item.rr!],
     input: "romanization",
+    soundAlternatives: item.soundAlternatives ?? [],
   };
 }
 function build(lid: string, key: string, id: string): Exercise {
   const item = itemById[id];
   return {
     ...base(lid, key, "build-syllable", item),
-    prompt: `Build the block for the sound guide “${item.rr}”.`,
+    prompt: `Build the syllable: ${item.rr}.`,
     answers: [item.ko],
     onsets: ["ㄴ", "ㅁ", "ㄱ", "ㄷ", "ㅂ", "ㅅ", "ㅇ"],
     vowels: ["ㅏ", "ㅓ", "ㅗ", "ㅜ", "ㅡ", "ㅣ"],
   };
 }
-function matching(lid: string, key: string, group: string[]): Exercise {
-  return {
-    ...base(lid, key, "character-matching", itemById[group[0]]),
-    prompt:
-      "Tap a Korean letter, then its matching sound guide. Match all pairs before checking.",
-    itemIds: group,
-    answers: ["all-pairs"],
-    pairs: group.map((id) => ({
-      itemId: id,
-      left: itemById[id].ko,
-      right: itemById[id].meaning,
-    })),
-  };
+function revisit(lid: string, key: string, group: string[]): Exercise {
+  return recognize(
+    lid,
+    key,
+    group[0],
+    group.map((id) => itemById[id]),
+  );
 }
 function phrase(
   lid: string,
@@ -557,8 +576,7 @@ function phrase(
   const item = itemById[id];
   return {
     ...base(lid, key, "guided-phrase", item),
-    prompt:
-      "Whole-phrase practice: listen and read the model. Choose its meaning.",
+    prompt: "What does this mean?",
     display: item.ko,
     answers: [item.meaning],
     options: optionsFor("meaning", pool, item.meaning),
@@ -613,8 +631,7 @@ for (const [index, spec] of specs.entries()) {
       const item = itemById[syllableId(ko)];
       exercises.push({
         ...base(lid, `type-${i + 1}`, "listen-type", item),
-        prompt:
-          "Listen and type the Korean block in Hangul. You may use the tap keyboard.",
+        prompt: "Type what you hear in Korean.",
         answers: [item.ko],
         audio: item.audio,
         input: "Hangul",
@@ -622,7 +639,7 @@ for (const [index, spec] of specs.entries()) {
       });
     }
     exercises.push(
-      matching(lid, "vowels", c("ㅓㅗㅜ")),
+      revisit(lid, "vowels", c("ㅓㅗㅜ")),
       ...["ㅏ", "ㅓ", "ㅡ"].map((ko, i) =>
         recall(lid, `recall-${i}`, soundId(ko)),
       ),
@@ -650,7 +667,7 @@ for (const [index, spec] of specs.entries()) {
       );
       if (item.rr) exercises.push(recall(lid, `recall-${i}`, id));
     }
-    exercises.push(matching(lid, "match", focus));
+    exercises.push(revisit(lid, "match", focus));
     for (const [i, id] of reviewItemIds.slice(0, 3).entries())
       exercises.push(
         itemById[id].rr
@@ -664,7 +681,7 @@ for (const [index, spec] of specs.entries()) {
           ? recall(lid, `recall-${i}`, id)
           : listen(lid, `listen-${i}`, id, knownVowels),
       );
-    exercises.push(matching(lid, "match", c("ㄴㅁㄱㄷ")));
+    exercises.push(revisit(lid, "match", c("ㄴㅁㄱㄷ")));
     for (const [i, id] of ids(
       day === 14 ? ["바", "도", "아"] : ["나", "고", "너"],
     ).entries())
@@ -678,7 +695,7 @@ for (const [index, spec] of specs.entries()) {
       exercises.push(
         {
           ...base(lid, "type", "listen-type", item),
-          prompt: "Listen and type the Korean block in Hangul.",
+          prompt: "Type what you hear in Korean.",
           answers: [item.ko],
           audio: item.audio,
           input: "Hangul",
@@ -734,6 +751,117 @@ for (const [index, spec] of specs.entries()) {
     weakReview: spec.weakReview,
   });
 }
+// Retain all released IDs so existing in-progress sessions remain resumable.
+const retainedExercises = lessons.flatMap((l) => l.exercises);
+const shortIdeas = [
+  "Start with three sounds: a, o, i. Listen, then try them. The circle in the audio examples is silent.",
+  "Three more sounds: eo, u, eu. Notice which way each small stroke points. Listen to eo and o, then u and eu.",
+  "ㄴ sounds like n. ㅁ sounds like m. Listen to them at the start of 나 and 마.",
+  "One block is one syllable. ㄴ + ㅏ makes 나. ㅁ + ㅗ makes 모.",
+  "Learn g in 가 and d in 다. You may also hear k and t in other words. Listen to the Korean examples.",
+  "Change one part at a time: 가, 고, 다, 도. Then mix in the blocks you know.",
+  "No new letters today. Try the sounds you remember, and ask for a hint when you need one.",
+  "Learn b in 바 and s in 사. The first can also sound like p. Listen before you try.",
+  "Try 바, 보, 사, 소. Read the first letter, then the vowel.",
+  "ㅇ is silent at the start. ㅇ + ㅏ makes 아. Just say the vowel.",
+  "Listen and type a Korean block. You can ask for keyboard help or skip typing for now.",
+  "Learn a few whole expressions by listening. Some letters are new, so use the examples to help.",
+  "Listen to a polite hello and two family questions. Close siblings often speak casually; here we practice polite Korean.",
+  "Put your sounds together. Try a little reading, listening, and typing.",
+];
+for (const l of lessons) {
+  l.explanation = shortIdeas[l.day - 1];
+  if (l.day <= 11) {
+    l.examples.forEach((x) => {
+      x.note =
+        l.day === 3 || l.day === 5 || l.day === 8
+          ? "Listen to the first sound in each block."
+          : "Listen, then try saying it.";
+    });
+  }
+  const known = new Set(
+    lessons.filter((x) => x.day <= l.day).flatMap((x) => x.newItemIds),
+  );
+  const knownChars = characters.filter((i) => known.has(i.id));
+  const reviews = l.reviewItemIds
+    .slice(0, Math.min(3, l.reviewItemIds.length))
+    .map((id, i) => recall(l.id, "mixed-" + i, id));
+  const focus = l.newItemIds.filter((id) => itemById[id].kind !== "phrase");
+  // Recognition comes first; independent recall follows for every new character.
+  let core = l.exercises.filter(
+    (e) =>
+      !e.id.includes("-earlier-") &&
+      !e.id.includes("-recall-") &&
+      !e.id.endsWith("-match") &&
+      !e.id.endsWith("-vowels"),
+  );
+  if (l.day === 1 || l.day === 2)
+    core = l.newItemIds.flatMap((id, i) => [
+      recognize(
+        l.id,
+        "recognize-" + i,
+        id,
+        knownChars.filter((x) => x.kind === "vowel"),
+      ),
+      listen(
+        l.id,
+        "listen-" + i,
+        id,
+        knownChars.filter((x) => x.kind === "vowel"),
+      ),
+      recall(l.id, "recall-" + i, id),
+    ]);
+  else if ([3, 5, 8, 10].includes(l.day)) {
+    const letters = focus.filter((id) => itemById[id].kind === "consonant");
+    const added = letters.map((id, i) => recall(l.id, "remember-" + i, id));
+    core.splice(Math.min(core.length, 4), 0, ...added);
+  }
+  const targetCount = ([2, 14].includes(l.day) ? 12 : 10) - reviews.length;
+  const selected = core.slice(0, targetCount);
+  // Preserve phrase coverage and introduce every new letter before mixed review.
+  for (const id of l.newItemIds) {
+    if (!selected.some((e) => e.itemIds.includes(id))) {
+      const e = l.exercises.find((e) => e.itemIds.includes(id));
+      if (e) selected.push(e);
+    }
+  }
+  for (const e of [...selected, ...reviews]) {
+    if (e.type === "type-sound")
+      e.soundAlternatives = itemById[e.itemIds[0]].soundAlternatives ?? [];
+  }
+  let fill = 0;
+  const sources = focus.length ? focus : l.reviewItemIds;
+  while (selected.length + reviews.length < 10) {
+    const id = sources[fill % sources.length];
+    const item = itemById[id];
+    selected.push(
+      item.kind === "phrase"
+        ? phrase(
+            l.id,
+            "practice-" + fill,
+            id,
+            items.filter((x) => x.kind === "phrase" && known.has(x.id)),
+          )
+        : recall(l.id, "practice-" + fill, id),
+    );
+    fill++;
+  }
+  l.exercises = [...selected, ...reviews];
+  l.exercises.forEach((e) => {
+    const item = itemById[e.itemIds[0]];
+    e.feedback = {
+      correct:
+        item.kind === "phrase"
+          ? item.meaning + "."
+          : item.ko + " = " + (item.rr ?? item.meaning) + ".",
+      incorrect:
+        item.kind === "phrase"
+          ? "It means " + item.meaning + "."
+          : "It’s " + (item.rr ?? item.meaning) + ".",
+    };
+  });
+}
+export const compatibleExercises = retainedExercises;
 export const units: Unit[] = [
   {
     id: "unit-1",
@@ -749,7 +877,10 @@ export const lessonById: Record<string, Lesson> = Object.fromEntries(
   lessons.map((l) => [l.id, l]),
 );
 export const exerciseById: Record<string, Exercise> = Object.fromEntries(
-  lessons.flatMap((l) => l.exercises).map((e) => [e.id, e]),
+  [...retainedExercises, ...lessons.flatMap((l) => l.exercises)].map((e) => [
+    e.id,
+    e,
+  ]),
 );
 export const soundGroups = [
   { title: "First vowels", letters: "ㅏㅗㅣ" },
@@ -759,3 +890,28 @@ export const soundGroups = [
   { title: "Two more consonants", letters: "ㅂㅅ" },
   { title: "Silent initial", letters: "ㅇ" },
 ];
+
+// Different-format correction tasks; these never enter the core lesson count.
+for (const source of Object.values(exerciseById)) {
+  const item = itemById[source.itemIds[0]];
+  if (item.kind === "phrase") {
+    exerciseById["retry-" + source.id] = {
+      ...source,
+      id: "retry-" + source.id,
+    };
+    continue;
+  }
+  const pool = items.filter(
+    (i) =>
+      i.kind === item.kind &&
+      lessons.find((l) => l.newItemIds.includes(i.id))!.day <=
+        lessons.find((l) => l.id === source.id.slice(0, 9))!.day,
+  );
+  const task =
+    source.type === "character-recognition" ||
+    source.type === "syllable-reading"
+      ? recall("retry", source.id, item.id)
+      : recognize("retry", source.id, item.id, pool);
+  task.id = "retry-" + source.id;
+  exerciseById[task.id] = task;
+}

@@ -42,26 +42,28 @@ export function answerText(e: Exercise, answer: Answer): string {
   return "";
 }
 export function isAnswerReady(e: Exercise, answer: Answer): boolean {
-  if (e.pairs)
-    return (
-      typeof answer !== "string" && e.pairs.every((p) => !!answer[p.itemId])
-    );
   return !!answerText(e, answer).trim();
 }
-export function evaluateAnswer(
-  e: Exercise,
-  answer: Answer,
-): { correct: boolean; results: { itemId: string; correct: boolean }[] } {
-  if (e.pairs) {
-    const results = e.pairs.map((p) => ({
-      itemId: p.itemId,
-      correct: typeof answer !== "string" && answer[p.itemId] === p.itemId,
-    }));
-    return { correct: results.every((r) => r.correct), results };
-  }
+export type Outcome = "correct" | "sound-correct" | "incorrect";
+export function classifyAnswer(e: Exercise, answer: Answer): Outcome {
   const text = normalizeAnswer(answerText(e, answer));
-  const correct = e.answers.some((a) => normalizeAnswer(a) === text);
-  return { correct, results: e.itemIds.map((itemId) => ({ itemId, correct })) };
+  if (e.answers.some((a) => normalizeAnswer(a) === text)) return "correct";
+  if (
+    e.type === "type-sound" &&
+    e.input === "romanization" &&
+    e.soundAlternatives?.some((a) => normalizeAnswer(a) === text)
+  )
+    return "sound-correct";
+  return "incorrect";
+}
+export function evaluateAnswer(e: Exercise, answer: Answer) {
+  const outcome = classifyAnswer(e, answer),
+    correct = outcome !== "incorrect";
+  return {
+    outcome,
+    correct,
+    results: e.itemIds.map((itemId) => ({ itemId, correct })),
+  };
 }
 export function shuffled<T>(list: T[], seed: string): T[] {
   let state = 2166136261;
@@ -143,10 +145,14 @@ export function updateMastery(
   independent: boolean,
   exerciseId: string,
   now: number,
+  outcome: Outcome = correct ? "correct" : "incorrect",
+  evidence: "recognition" | "listening" | "recall" = independent
+    ? "recall"
+    : "recognition",
 ): MasteryRecord {
   const state = previous ?? newMastery(itemId),
     at = new Date(now).toISOString();
-  const recall = correct && !hintUsed && independent;
+  const recall = outcome === "correct" && correct && !hintUsed && independent;
   const delayed =
     recall &&
     state.lastRecallAt !== null &&
@@ -154,12 +160,27 @@ export function updateMastery(
     now - Date.parse(state.lastPracticedAt) >= DAY;
   const next = {
     ...state,
+    soundCorrectAttempts:
+      (state.soundCorrectAttempts ?? 0) + Number(outcome === "sound-correct"),
+    evidencePoints:
+      (state.evidencePoints ?? 0) +
+      (correct
+        ? hintUsed
+          ? 0.25
+          : outcome === "sound-correct"
+            ? 0.65
+            : independent
+              ? 1
+              : evidence === "listening"
+                ? 0.5
+                : 0.35
+        : 0),
     correctAttempts: state.correctAttempts + Number(correct),
     incorrectAttempts: state.incorrectAttempts + Number(!correct),
     hintedAttempts: state.hintedAttempts + Number(hintUsed),
     recentPerformance: [
       ...state.recentPerformance,
-      { correct, hintUsed, at },
+      { correct, hintUsed, at, outcome },
     ].slice(-30),
     lastPracticedAt: at,
     independentRecalls: state.independentRecalls + Number(recall),
@@ -175,21 +196,26 @@ export function updateMastery(
     next.independentRecalls >= 3 &&
     next.delayedRecalls >= 2 &&
     next.recallExerciseIds.length >= 2 &&
-    recent.every((r) => r.correct && !r.hintUsed);
+    recent.every(
+      (r) => r.correct && !r.hintUsed && r.outcome !== "sound-correct",
+    );
   next.level = mastered
     ? "mastered"
-    : next.independentRecalls >= 2
+    : next.independentRecalls >= 2 ||
+        (next.evidencePoints >= 2 && next.correctAttempts >= 3)
       ? "practicing"
       : "learning";
   const delay = !correct
     ? 10 * 60000
     : hintUsed || !independent
       ? HOUR
-      : next.delayedRecalls >= 2
-        ? 7 * DAY
-        : next.delayedRecalls >= 1
-          ? 3 * DAY
-          : DAY;
+      : outcome === "sound-correct"
+        ? 12 * HOUR
+        : next.delayedRecalls >= 2
+          ? 7 * DAY
+          : next.delayedRecalls >= 1
+            ? 3 * DAY
+            : DAY;
   next.nextReviewAt = new Date(now + delay).toISOString();
   return next;
 }
@@ -217,7 +243,9 @@ export function reviewQueue(
       const m = progress.mastery[i.id];
       const recent = m?.recentPerformance.slice(-5) ?? [];
       const mistakes = recent.filter((r) => !r.correct).length;
-      const support = recent.filter((r) => r.hintUsed).length;
+      const support = recent.filter(
+        (r) => r.hintUsed || r.outcome === "sound-correct",
+      ).length;
       return {
         itemId: i.id,
         due: !m?.nextReviewAt || Date.parse(m.nextReviewAt) <= now,
@@ -244,7 +272,8 @@ export function reviewExercises(progress: LearnerProgress): Exercise[] {
     .filter(
       (e) =>
         e.itemIds.every((id) => learned.has(id)) &&
-        (!e.requiresKeyboard || progress.keyboardIntroduced),
+        (!e.requiresKeyboard ||
+          (progress.keyboardIntroduced && !progress.keyboardDeferred)),
     );
 }
 export function makeSession(
@@ -303,7 +332,7 @@ export function makeSession(
     resolved: false,
     lastCorrect: null,
     feedback: "",
-    keyboardReady: progress.keyboardIntroduced,
+    keyboardReady: false,
   };
 }
 export function submitAnswer(
@@ -328,7 +357,9 @@ export function submitAnswer(
   )
     return progress;
   const result = evaluateAnswer(e, answer);
-  const repeated = session.exerciseIds.slice(0, session.index).includes(e.id);
+  const repeated =
+    e.id.startsWith("retry-") ||
+    session.exerciseIds.slice(0, session.index).includes(e.id);
   const independent =
     ["type-sound", "listen-type"].includes(e.type) && !repeated;
   const mastery = { ...progress.mastery };
@@ -351,10 +382,24 @@ export function submitAnswer(
       independent && !e.guided,
       e.id,
       now,
+      result.outcome,
+      e.audio ? "listening" : independent ? "recall" : "recognition",
     );
   const exerciseIds = [...session.exerciseIds];
-  if (!result.correct && exerciseIds.filter((id) => id === e.id).length < 2)
-    exerciseIds.push(e.id);
+  const retryItemIds = [...(session.retryItemIds ?? [])];
+  const target = e.itemIds[0];
+  if (
+    !result.correct &&
+    !repeated &&
+    !retryItemIds.includes(target) &&
+    retryItemIds.length < 3
+  ) {
+    const id = "retry-" + e.id;
+    if (exerciseById[id]) {
+      exerciseIds.push(id);
+      retryItemIds.push(target);
+    }
+  }
   return {
     ...progress,
     mastery,
@@ -363,6 +408,7 @@ export function submitAnswer(
       {
         exerciseId: e.id,
         itemIds: results.map((r) => r.itemId),
+        outcome: result.outcome,
         correct: result.correct,
         hintUsed: session.hintUsed,
         mode:
@@ -377,14 +423,19 @@ export function submitAnswer(
     session: {
       ...session,
       exerciseIds,
+      retryItemIds,
+      outcome: result.outcome,
       answer,
       hintUsed: session.hintUsed,
       resolved: true,
       lastCorrect: result.correct,
       attempts: session.attempts + 1,
-      feedback: result.correct
-        ? e.feedback.correct
-        : `Not quite. ${e.feedback.incorrect} ${repeated ? "This stays in your review." : "We’ll bring this back once."}`,
+      feedback:
+        result.outcome === "sound-correct"
+          ? "We write it " + e.answers[0] + "."
+          : result.correct
+            ? e.feedback.correct
+            : e.feedback.incorrect,
     },
     updatedAt: new Date(now).toISOString(),
   };
@@ -404,6 +455,7 @@ export function continueSession(progress: LearnerProgress): LearnerProgress {
       ...s,
       index: s.index + 1,
       answer: "",
+      outcome: undefined,
       hintUsed: false,
       heardAudio: false,
       attempts: 0,
@@ -419,3 +471,50 @@ export function completionPercent(session: PracticeSession): number {
       100,
   );
 }
+
+export function keyboardChoice(
+  progress: LearnerProgress,
+  choice: "ready" | "deferred",
+): LearnerProgress {
+  if (!progress.session) return progress;
+  return {
+    ...progress,
+    keyboardDeferred: choice === "deferred",
+    keyboardIntroduced: choice === "ready" || progress.keyboardIntroduced,
+    session: {
+      ...progress.session,
+      keyboardDecision: choice,
+      keyboardReady: choice === "ready",
+    },
+  };
+}
+export function skipTyping(progress: LearnerProgress): LearnerProgress {
+  const s = progress.session;
+  if (
+    !s ||
+    s.resolved ||
+    s.keyboardDecision !== "deferred" ||
+    !exerciseById[s.exerciseIds[s.index]].requiresKeyboard
+  )
+    return progress;
+  return {
+    ...progress,
+    session: {
+      ...s,
+      resolved: true,
+      outcome: "skipped",
+      lastCorrect: null,
+      feedback: "You can try Korean typing another time.",
+      skippedExerciseIds: [
+        ...(s.skippedExerciseIds ?? []),
+        s.exerciseIds[s.index],
+      ],
+    },
+  };
+}
+export const masteryLabel = (level: string) =>
+  level === "mastered"
+    ? "Remembered"
+    : level === "practicing"
+      ? "Practicing"
+      : "Learning";

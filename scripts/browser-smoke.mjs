@@ -225,18 +225,6 @@ try {
   for (const lesson of lessons) {
     await navigate(`#/lesson/${lesson.id}`);
     await waitFor('!!document.querySelector(".start-lesson")');
-    if (lesson.keyboardIntro) {
-      assert(
-        await evaluate('document.querySelector(".start-lesson").disabled'),
-        "Keyboard orientation not gated",
-      );
-      await input("na", "#keyboard-copy");
-      assert(
-        await evaluate('document.querySelector(".start-lesson").disabled'),
-        "Romanization passed keyboard orientation",
-      );
-      await clickText(".keyboard-orientation .secondary", "Tap ㄴ + ㅏ → 나");
-    }
     if (lesson.day === 1) {
       await click(".intro-items .listen");
       assert(
@@ -246,7 +234,7 @@ try {
     }
     const requests = await evaluate("window.__speechRequests.length");
     await click(".start-lesson");
-    await waitFor('!!document.querySelector(".exercise-card")');
+    await waitFor('!!document.querySelector(".exercise-card,.keyboard-help")');
     assert(
       (await evaluate("window.__speechRequests.length")) === requests,
       "Starting a lesson autoplayed audio",
@@ -257,6 +245,16 @@ try {
         session = before.session,
         e = exerciseById[session.exerciseIds[session.index]];
       types.add(e.type);
+      if (e.requiresKeyboard && !session.keyboardReady) {
+        assert(
+          (await evaluate(
+            'document.querySelector(".keyboard-help h1").textContent',
+          )) === "Ask Gabe to help set up the Korean keyboard on your phone.",
+          "Missing keyboard message",
+        );
+        await clickText(".keyboard-help button", "I'm ready");
+      }
+
       if (e.type === "type-sound")
         assert(
           await evaluate(
@@ -289,6 +287,8 @@ try {
         );
       }
       await fill(e, wrong);
+      const partial = e.id === "u1-day-01-recall-0";
+      if (partial) await input("ah");
       if (e.audio) {
         assert(
           await evaluate('document.querySelector(".check-answer").disabled'),
@@ -315,6 +315,18 @@ try {
       await waitFor('!!document.querySelector(".feedback")');
       const after = await state();
       assert(after.session.lastCorrect === !wrong, `Wrong feedback: ${e.id}`);
+      if (partial) {
+        assert(
+          after.session.outcome === "sound-correct",
+          "Approximation not recognized",
+        );
+        assert(
+          (await evaluate(
+            'document.querySelector(".feedback h2").textContent',
+          )) === "You got the sound!",
+          "Missing sound-correct feedback",
+        );
+      }
       solved++;
       if (first && [1, 6, 11].includes(lesson.day)) {
         await cdp("Page.reload");
@@ -338,7 +350,7 @@ try {
     (await state()).completedLessonIds.length === 14,
     "Not all fourteen lessons completed",
   );
-  assert(types.size === 8, "Required exercise type missing");
+  assert(types.size === 7, "Required exercise type missing");
   assert(
     (await state()).legacyPlan.completedLessonIds[0] === "u1-l1",
     "Phase 1 archive lost",
@@ -352,7 +364,7 @@ try {
   await navigate("#/review");
   await waitFor('!!document.querySelector(".review-start .primary")');
   await click(".review-start .primary");
-  await waitFor('!!document.querySelector(".exercise-card")');
+  await waitFor('!!document.querySelector(".exercise-card,.keyboard-help")');
   const review = (await state()).session;
   assert(
     review.kind === "review" && review.exerciseIds.length <= 8,
@@ -361,6 +373,8 @@ try {
   while ((await state()).session) {
     const session = (await state()).session,
       e = exerciseById[session.exerciseIds[session.index]];
+    if (e.requiresKeyboard && !session.keyboardReady)
+      await clickText(".keyboard-help button", "I'm ready");
     await fill(e);
     if (e.audio) {
       await click(".question-audio .listen");
@@ -374,6 +388,34 @@ try {
   assert(
     (await state()).completedLessonIds.length === 14,
     "Review changed lesson completion",
+  );
+  // Deferring keyboard setup skips typing, records no attempts, and asks only once.
+  await navigate("#/lesson/u1-day-11");
+  await click(".start-lesson");
+  await waitFor('!!document.querySelector(".keyboard-help")');
+  const beforeSkip = await state();
+  await clickText(".keyboard-help button", "Skip for now");
+  await waitFor('!!document.querySelector(".feedback")');
+  while ((await state()).session?.outcome === "skipped") {
+    await click(".continue");
+    await delay(40);
+  }
+  const afterSkip = await state();
+  assert(
+    JSON.stringify(afterSkip.mastery) === JSON.stringify(beforeSkip.mastery),
+    "Skipping penalized mastery",
+  );
+  assert(
+    afterSkip.history.length === beforeSkip.history.length,
+    "Skipping recorded graded attempts",
+  );
+  assert(
+    afterSkip.session.skippedExerciseIds.length === 7,
+    "Not all deferred typing skipped",
+  );
+  assert(
+    await evaluate('!document.querySelector(".keyboard-help")'),
+    "Keyboard help repeated within a lesson",
   );
   // Representative screens at common iPhone sizes, plus desktop.
   for (const [width, height] of [
@@ -411,7 +453,7 @@ try {
     }
     await navigate("#/lesson/u1-day-01");
     await click(".start-lesson");
-    await waitFor('!!document.querySelector(".exercise-card")');
+    await waitFor('!!document.querySelector(".exercise-card,.keyboard-help")');
     assert(
       await evaluate("document.documentElement.scrollWidth<=innerWidth"),
       `Exercise overflow at ${width}`,
@@ -427,7 +469,7 @@ try {
     const e = exerciseById[(await state()).session.exerciseIds[0]];
     await fill(e);
     await cdp("Page.reload");
-    await waitFor('!!document.querySelector(".exercise-card")');
+    await waitFor('!!document.querySelector(".exercise-card,.keyboard-help")');
     assert(
       (await state()).session.answer === e.answers[0],
       "Unsubmitted answer lost on refresh",
@@ -435,7 +477,7 @@ try {
     await navigate("#/learn");
     await navigate("#/lesson/u1-day-13");
     await click(".start-lesson");
-    await waitFor('!!document.querySelector(".exercise-card")');
+    await waitFor('!!document.querySelector(".exercise-card,.keyboard-help")');
     assert(
       await evaluate("document.documentElement.scrollWidth<=innerWidth"),
       `Guided phrase overflow at ${width}`,
@@ -448,7 +490,9 @@ try {
   await fill(exerciseById[(await state()).session.exerciseIds[0]]);
   await click(".check-answer");
   await click(".continue");
-  await evaluate("window.speechSynthesis.getVoices=()=>[{lang:'en-US',name:'English only'}]");
+  await evaluate(
+    "window.speechSynthesis.getVoices=()=>[{lang:'en-US',name:'English only'}]",
+  );
   await click(".question-audio .listen");
   await waitFor('!!document.querySelector(".audio-error")');
   assert(

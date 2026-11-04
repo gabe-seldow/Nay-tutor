@@ -6,6 +6,7 @@ export type AudioContent = {
   note?: string;
 };
 export type LearningItem = {
+  soundAlternatives?: string[];
   id: string;
   kind: ItemKind;
   ko: string;
@@ -19,7 +20,6 @@ export type LearningItem = {
 export type ExerciseType =
   | "character-recognition"
   | "sound-to-character"
-  | "character-matching"
   | "syllable-reading"
   | "build-syllable"
   | "type-sound"
@@ -27,6 +27,7 @@ export type ExerciseType =
   | "guided-phrase";
 export type Option = { value: string; label: string };
 export type Exercise = {
+  soundAlternatives?: string[];
   id: string;
   type: ExerciseType;
   objective: string;
@@ -35,7 +36,6 @@ export type Exercise = {
   itemIds: string[];
   answers: string[];
   options?: Option[];
-  pairs?: { itemId: string; left: string; right: string }[];
   onsets?: string[];
   vowels?: string[];
   hint: string;
@@ -80,12 +80,19 @@ export type Unit = {
 };
 export type MasteryLevel = "new" | "learning" | "practicing" | "mastered";
 export type MasteryRecord = {
+  soundCorrectAttempts?: number;
+  evidencePoints?: number;
   itemId: string;
   kind: ItemKind;
   correctAttempts: number;
   incorrectAttempts: number;
   hintedAttempts: number;
-  recentPerformance: { correct: boolean; hintUsed: boolean; at: string }[];
+  recentPerformance: {
+    correct: boolean;
+    hintUsed: boolean;
+    at: string;
+    outcome?: "correct" | "sound-correct" | "incorrect";
+  }[];
   level: MasteryLevel;
   lastPracticedAt: string | null;
   nextReviewAt: string | null;
@@ -104,6 +111,7 @@ export type LearnerProfile = {
 export type Page = "learn" | "hangul" | "review" | "settings";
 export type Answer = string | Record<string, string>;
 export type Attempt = {
+  outcome?: "correct" | "sound-correct" | "incorrect";
   exerciseId: string;
   itemIds: string[];
   correct: boolean;
@@ -112,6 +120,11 @@ export type Attempt = {
   at: string;
 };
 export type PracticeSession = {
+  outcome?: "correct" | "sound-correct" | "incorrect" | "skipped";
+  keyboardDecision?: "ready" | "deferred";
+  retryItemIds?: string[];
+  skippedExerciseIds?: string[];
+  legacyMatchingAnswer?: Record<string, string>;
   id: string;
   kind: "lesson" | "review";
   lessonId: string | null;
@@ -128,6 +141,7 @@ export type PracticeSession = {
   keyboardReady: boolean;
 };
 export type LearnerProgress = {
+  keyboardDeferred?: boolean;
   version: 2;
   curriculumVersion: 2;
   profile: LearnerProfile;

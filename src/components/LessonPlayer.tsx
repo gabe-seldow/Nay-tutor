@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -23,7 +23,9 @@ import {
   evaluateAnswer,
   isAnswerReady,
   makeSession,
-  normalizeAnswer,
+  keyboardChoice,
+  skipTyping,
+  masteryLabel,
   personalText,
   resolveExercise,
   reviewQueue,
@@ -49,8 +51,7 @@ export function LessonView({
   progress: LearnerProgress;
   update: Update;
 }) {
-  const [finished, setFinished] = useState(false),
-    [copy, setCopy] = useState("");
+  const [finished, setFinished] = useState(false);
   if (!isUnlocked(lesson.id, progress))
     return (
       <section className="card empty-state">
@@ -113,14 +114,10 @@ export function LessonView({
         onFinish={() => setFinished(true)}
       />
     );
-  const keyboard = lesson.keyboardIntro && !progress.keyboardIntroduced;
   const showGuides =
     progress.preferences.romanization === "early-support" && lesson.day <= 3;
   function start() {
-    update((p) => {
-      const next = keyboard ? { ...p, keyboardIntroduced: true } : p;
-      return { ...next, session: makeSession(next, lesson.id) };
-    });
+    update((p) => ({ ...p, session: makeSession(p, lesson.id) }));
   }
   return (
     <div className="preview-page">
@@ -153,7 +150,7 @@ export function LessonView({
                 <strong>{meaning}</strong>
               ) : (
                 <details className="sound-guide">
-                  <summary>Show sound guide</summary>
+                  <summary>Show sound</summary>
                   <strong>{meaning}</strong>
                 </details>
               )}
@@ -175,14 +172,9 @@ export function LessonView({
               return (
                 <div key={id}>
                   <strong lang="ko">{text}</strong>
-                  <details
-                    className="sound-guide"
-                    open={item.kind === "phrase" || showGuides}
-                  >
+                  <details className="sound-guide" open={true}>
                     <summary>
-                      {item.kind === "phrase"
-                        ? "Whole-phrase meaning"
-                        : "Sound guide"}
+                      {item.kind === "phrase" ? "Meaning" : "Sound"}
                     </summary>
                     <span>
                       {item.meaning
@@ -208,62 +200,16 @@ export function LessonView({
           in <a href="#/settings">settings</a>.
         </p>
       )}
-      {keyboard && (
-        <section className="card keyboard-orientation">
-          <Keyboard size={24} />
-          <h2>A small keyboard check</h2>
-          <p>
-            On iPhone: Settings → General → Keyboard → Keyboards → Add New
-            Keyboard → Korean. Use the globe key to switch. On Windows: Settings
-            → Time & language → Language & region → add Korean and its keyboard;
-            use Windows + Space to switch.
-          </p>
-          <p>
-            You may also use the tap keyboard in the lessons. First enter{" "}
-            <strong lang="ko">나</strong> here, using either method. On a
-            standard Korean two-set keyboard, press s then k.
-          </p>
-          <label>
-            <span>Copy the model 나 in Hangul</span>
-            <input
-              id="keyboard-copy"
-              lang="ko"
-              autoComplete="off"
-              value={copy}
-              onChange={(e) => setCopy(e.target.value)}
-            />
-          </label>
-          <button
-            type="button"
-            className="secondary"
-            onClick={() => setCopy(composeBlock("ㄴ", "ㅏ"))}
-          >
-            Tap ㄴ + ㅏ → 나
-          </button>
-          <p role="status">
-            {normalizeAnswer(copy) === "나"
-              ? "Ready — you entered a Korean syllable."
-              : "The sound label na is not Hangul spelling."}
-          </p>
-        </section>
-      )}
       {progress.session && progress.session.lessonId !== lesson.id && (
         <p className="phase-note">
           One practice session is saved at a time. Starting this lesson replaces
           the other saved session; your recorded learning stays saved.
         </p>
       )}
-      <button
-        type="button"
-        className="primary start-lesson"
-        disabled={keyboard && normalizeAnswer(copy) !== "나"}
-        onClick={start}
-      >
-        {keyboard
-          ? "I can enter Hangul — start practice"
-          : progress.completedLessonIds.includes(lesson.id)
-            ? "Practice this lesson again"
-            : "Start practice"}{" "}
+      <button type="button" className="primary start-lesson" onClick={start}>
+        {progress.completedLessonIds.includes(lesson.id)
+          ? "Practice again"
+          : "Start practice"}{" "}
         <ArrowRight size={17} />
       </button>
       <p className="phase-note">
@@ -305,6 +251,14 @@ function PracticePlayer({
   const ready =
     isAnswerReady(e, session.answer) &&
     (!e.audio || session.heardAudio || session.hintUsed);
+  useEffect(() => {
+    if (
+      e.requiresKeyboard &&
+      session.keyboardDecision === "deferred" &&
+      !session.resolved
+    )
+      update(skipTyping);
+  }, [e.id, session.index, session.keyboardDecision, session.resolved]);
   const correction = session.exerciseIds.slice(0, session.index).includes(e.id);
   return (
     <div className="player">
@@ -327,126 +281,168 @@ function PracticePlayer({
       >
         <span style={{ width: `${completionPercent(session)}%` }} />
       </div>
-      <section className="exercise-card" key={`${session.id}-${session.index}`}>
-        <span className="eyebrow">
-          {e.guided
-            ? "SUPPORTED WHOLE PHRASE"
-            : e.input === "romanization"
-              ? "SOUND RECALL · ENGLISH LETTERS"
+      {e.requiresKeyboard &&
+      !session.keyboardReady &&
+      !session.resolved &&
+      session.keyboardDecision !== "deferred" ? (
+        <KeyboardHelp
+          onChoice={(choice) => update((p) => keyboardChoice(p, choice))}
+        />
+      ) : (
+        <section
+          className="exercise-card"
+          key={session.id + "-" + session.index}
+        >
+          <span className="eyebrow">
+            {e.guided
+              ? "Listen and understand"
               : e.input === "Hangul"
-                ? "KOREAN SPELLING · HANGUL"
-                : e.type.replaceAll("-", " ")}
-        </span>
-        <h1>{e.prompt}</h1>
-        {e.display && (
-          <div
-            className={`exercise-display ${e.guided ? "phrase-display" : ""}`}
-            lang="ko"
-          >
-            {e.display}
-          </div>
-        )}
-        {e.guided && (
-          <p className="guided-note">
-            Some letters are new. Use the full model and audio; this is meaning
-            practice, not independent reading.
-          </p>
-        )}
-        {e.audio && (
-          <div className="question-audio">
-            <Listen
-              content={e.audio}
-              hideText={!e.guided}
-              label="Listen to the question"
-              onPlayback={() => {
-                if (!session.resolved && !session.heardAudio)
-                  patch({ heardAudio: true });
-              }}
+                ? "Korean"
+                : e.input === "romanization"
+                  ? "English letters"
+                  : "Practice"}
+          </span>
+          <h1>{e.prompt}</h1>
+          {e.display && (
+            <div
+              className={`exercise-display ${e.guided ? "phrase-display" : ""}`}
+              lang="ko"
+            >
+              {e.display}
+            </div>
+          )}
+          {e.guided && (
+            <p className="guided-note">
+              Some letters are new. Listen and use the example to help.
+            </p>
+          )}
+          {e.audio && (
+            <div className="question-audio">
+              <Listen
+                content={e.audio}
+                hideText={!e.guided}
+                label="Listen"
+                onPlayback={() => {
+                  if (!session.resolved && !session.heardAudio)
+                    patch({ heardAudio: true });
+                }}
+              />
+              {
+                <button
+                  type="button"
+                  className="text-link"
+                  disabled={session.resolved}
+                  onClick={() => patch({ hintUsed: true })}
+                >
+                  Use written support
+                </button>
+              }
+              {session.hintUsed && !e.guided && (
+                <p className="written-support" lang="ko">
+                  Written example: {e.audio.text}
+                </p>
+              )}
+            </div>
+          )}
+          {session.outcome !== "skipped" && (
+            <ExerciseControls
+              key={`${e.id}-${session.index}`}
+              exercise={e}
+              answer={session.answer}
+              setAnswer={(answer) => patch({ answer })}
+              disabled={session.resolved}
+              seed={`${session.id}-${session.index}`}
+              onSubmit={check}
             />
-            {
+          )}
+          {!session.resolved && (
+            <div className="hint-area">
               <button
+                className="hint-button"
                 type="button"
-                className="text-link"
-                disabled={session.resolved}
                 onClick={() => patch({ hintUsed: true })}
               >
-                Use written support
+                <HelpCircle size={17} />{" "}
+                {session.hintUsed ? "Hint requested" : "I’d like a hint"}
               </button>
-            }
-            {session.hintUsed && !e.guided && (
-              <p className="written-support" lang="ko">
-                Written audio model: {e.audio.text}
-              </p>
-            )}
-          </div>
-        )}
-        <ExerciseControls
-          key={`${e.id}-${session.index}`}
-          exercise={e}
-          answer={session.answer}
-          setAnswer={(answer) => patch({ answer })}
-          disabled={session.resolved}
-          seed={`${session.id}-${session.index}`}
-          onSubmit={check}
-        />
-        {!session.resolved && (
-          <div className="hint-area">
-            <button
-              className="hint-button"
-              type="button"
-              onClick={() => patch({ hintUsed: true })}
+              {session.hintUsed && (
+                <p role="note" className="hint-content">
+                  {e.hint}
+                </p>
+              )}
+            </div>
+          )}
+          {session.resolved ? (
+            <div
+              className={`feedback ${session.outcome === "skipped" ? "skipped" : session.lastCorrect ? "correct" : "incorrect"}`}
+              role="status"
+              tabIndex={-1}
+              ref={feedback}
             >
-              <HelpCircle size={17} />{" "}
-              {session.hintUsed ? "Hint requested" : "I’d like a hint"}
-            </button>
-            {(session.hintUsed || correction) && (
-              <p role="note" className="hint-content">
-                {e.hint}
-              </p>
-            )}
-          </div>
-        )}
-        {session.resolved ? (
-          <div
-            className={`feedback ${session.lastCorrect ? "correct" : "incorrect"}`}
-            role="status"
-            tabIndex={-1}
-            ref={feedback}
-          >
-            <h2>
-              {session.lastCorrect ? "That’s it." : "A useful one to revisit."}
-            </h2>
-            <p>{session.feedback}</p>
-            {session.hintUsed && (
-              <small>Supported practice — no independent recall credit.</small>
-            )}
+              <h2>
+                {session.outcome === "skipped"
+                  ? "Skipped for now"
+                  : session.outcome === "sound-correct"
+                    ? "You got the sound!"
+                    : session.lastCorrect
+                      ? "Correct!"
+                      : "Not quite."}
+              </h2>
+              <p>{session.feedback}</p>
+              {session.hintUsed && <small>You used a hint.</small>}
+              <button
+                type="button"
+                className="primary continue"
+                onClick={() => {
+                  if (session.index === session.exerciseIds.length - 1)
+                    onFinish();
+                  update(continueSession);
+                }}
+              >
+                {session.index === session.exerciseIds.length - 1
+                  ? "Finish practice"
+                  : "Continue"}{" "}
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          ) : (
             <button
               type="button"
-              className="primary continue"
-              onClick={() => {
-                if (session.index === session.exerciseIds.length - 1)
-                  onFinish();
-                update(continueSession);
-              }}
+              className="primary check-answer"
+              disabled={!ready}
+              onClick={check}
             >
-              {session.index === session.exerciseIds.length - 1
-                ? "Finish practice"
-                : "Continue"}{" "}
-              <ArrowRight size={16} />
+              Check answer <Check size={17} />
             </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            className="primary check-answer"
-            disabled={!ready}
-            onClick={check}
-          >
-            Check answer <Check size={17} />
-          </button>
-        )}
-      </section>
+          )}
+        </section>
+      )}
     </div>
+  );
+}
+export function KeyboardHelp({
+  onChoice,
+}: {
+  onChoice: (choice: "ready" | "deferred") => void;
+}) {
+  return (
+    <section className="card keyboard-help">
+      <h1>Ask Gabe to help set up the Korean keyboard on your phone.</h1>
+      <button
+        type="button"
+        className="primary"
+        onClick={() => onChoice("ready")}
+      >
+        I'm ready
+      </button>
+      <button
+        type="button"
+        className="secondary"
+        onClick={() => onChoice("deferred")}
+      >
+        Skip for now
+      </button>
+    </section>
   );
 }
 export function ExerciseControls({
@@ -464,8 +460,7 @@ export function ExerciseControls({
   seed: string;
   onSubmit: () => void;
 }) {
-  const [selected, setSelected] = useState<string | null>(null),
-    [tapOnset, setTapOnset] = useState("");
+  const [tapOnset, setTapOnset] = useState("");
   const composing = useRef(false);
   if (e.options)
     return (
@@ -488,58 +483,6 @@ export function ExerciseControls({
         ))}
       </div>
     );
-  if (e.pairs) {
-    const matches = typeof answer === "string" ? {} : answer;
-    return (
-      <div className="matching">
-        <p>
-          Choose a letter on the left, then a sound on the right. Tap a letter
-          again to change its match.
-        </p>
-        <div className="match-columns">
-          <div>
-            {shuffled(e.pairs, `${seed}-left`).map((pair) => (
-              <button
-                type="button"
-                key={pair.itemId}
-                disabled={disabled}
-                aria-label={`Letter ${pair.left}${matches[pair.itemId] ? ", match selected" : ""}`}
-                aria-pressed={selected === pair.itemId}
-                className={`match-letter ${selected === pair.itemId ? "selected" : ""}`}
-                onClick={() => setSelected(pair.itemId)}
-              >
-                <span lang="ko">{pair.left}</span>
-                {matches[pair.itemId] && (
-                  <small>
-                    {
-                      e.pairs!.find((p) => p.itemId === matches[pair.itemId])
-                        ?.right
-                    }
-                  </small>
-                )}
-              </button>
-            ))}
-          </div>
-          <div>
-            {shuffled(e.pairs, `${seed}-right`).map((pair) => (
-              <button
-                type="button"
-                key={pair.itemId}
-                disabled={disabled || !selected}
-                className="match-sound"
-                onClick={() => {
-                  setAnswer({ ...matches, [selected!]: pair.itemId });
-                  setSelected(null);
-                }}
-              >
-                {pair.right}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
   if (e.type === "build-syllable") {
     const value = typeof answer === "string" ? {} : answer;
     const block = composeBlock(value.onset ?? "", value.vowel ?? "");
@@ -585,8 +528,8 @@ export function ExerciseControls({
     >
       <label htmlFor="answer">
         {e.input === "Hangul"
-          ? "Your answer in Hangul"
-          : "Your sound guide in romanization"}
+          ? "Type in Korean"
+          : "Type the sound (English letters)"}
       </label>
       <input
         id="answer"
@@ -660,10 +603,7 @@ export function ExerciseControls({
           </div>
         </details>
       ) : (
-        <p className="input-note">
-          Use English letters for the taught sound label. Hangul spelling is a
-          different task.
-        </p>
+        <p className="input-note">Use English letters.</p>
       )}
     </form>
   );
@@ -710,11 +650,7 @@ export function ReviewPage({
             ? "A few minutes to make it stick."
             : "Start with a sound."}
         </h2>
-        <p>
-          Wrong answers return after about 10 minutes. Supported practice
-          returns after an hour. Independent recall earns a longer gap. Mastery
-          needs varied recall after time has passed.
-        </p>
+        <p>Practice a few familiar sounds. The tricky ones come back sooner.</p>
         {queue.length ? (
           <button
             type="button"
@@ -750,18 +686,13 @@ export function ReviewPage({
                   : item.ko}
               </strong>
               <div>
-                <h3>{state?.level ?? "new"}</h3>
+                <h3>{masteryLabel(state?.level ?? "new")}</h3>
                 <p>
                   {due
                     ? "Ready now"
                     : `Next: ${new Date(state!.nextReviewAt!).toLocaleString()}`}
                   {weakness >= 10 ? " · Recent mistakes: extra practice" : ""}
                 </p>
-                <small>
-                  {state?.correctAttempts ?? 0} correct ·{" "}
-                  {state?.incorrectAttempts ?? 0} incorrect ·{" "}
-                  {state?.hintedAttempts ?? 0} supported
-                </small>
               </div>
             </section>
           );

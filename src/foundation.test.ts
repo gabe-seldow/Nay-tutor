@@ -51,9 +51,7 @@ function memory() {
   };
 }
 function sample(e: Exercise): Answer {
-  return e.pairs
-    ? Object.fromEntries(e.pairs.map((p) => [p.itemId, p.itemId]))
-    : e.answers[0];
+  return e.answers[0];
 }
 function ready(p: LearnerProgress, e: Exercise) {
   p.session = {
@@ -143,14 +141,6 @@ describe("answers and controls", () => {
     expect(composeBlock("no", "ㅏ")).toBe("");
     expect(blockParts("밥")).toBeNull();
   });
-  it("reports each matching item separately and rejects wrong pairs", () => {
-    const e = lessons[0].exercises.find((e) => e.pairs)!;
-    const answer = sample(e) as Record<string, string>;
-    answer[e.pairs![0].itemId] = e.pairs![1].itemId;
-    const result = evaluateAnswer(e, answer);
-    expect(result.correct).toBe(false);
-    expect(result.results.filter((r) => r.correct)).toHaveLength(2);
-  });
   it("shuffles positions reproducibly with varied seeds, preserving choices", () => {
     const list = ["a", "b", "c", "d"];
     expect(shuffled(list, "one")).toEqual(shuffled(list, "one"));
@@ -175,7 +165,7 @@ describe("answers and controls", () => {
         onSubmit: () => {},
       }),
     );
-    expect(html).toContain("romanization");
+    expect(html).toContain("English letters");
     expect(html).not.toContain('value="eo"');
     expect(html).not.toContain(e.hint);
   });
@@ -222,12 +212,14 @@ describe("learning, completion and review", () => {
     const e = lessons[0].exercises[0],
       p = ready(freshProgress(), e);
     const after = submitAnswer(p, "wrong", now);
-    expect(after.session!.exerciseIds).toEqual([e.id, e.id]);
+    expect(after.session!.exerciseIds).toEqual([e.id, "retry-" + e.id]);
     expect(after.mastery[e.itemIds[0]].incorrectAttempts).toBe(1);
     expect(submitAnswer(after, e.answers[0], now)).toBe(after);
     const again = continueSession(after);
     again.session!.heardAudio = true;
-    const final = submitAnswer(again, e.answers[0], now + 1000);
+    const retry =
+      exerciseById[again.session!.exerciseIds[again.session!.index]];
+    const final = submitAnswer(again, retry.answers[0], now + 1000);
     expect(final.mastery[e.itemIds[0]].hintedAttempts).toBe(0);
     expect(final.history.at(-1)?.mode).toBe("guided");
     expect(final.mastery[e.itemIds[0]].independentRecalls).toBe(0);

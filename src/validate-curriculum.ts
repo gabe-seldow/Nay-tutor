@@ -23,7 +23,8 @@ export function validateCurriculum(course: Lesson[] = lessons): string[] {
       !l.objective ||
       !l.explanation ||
       !l.examples.length ||
-      l.exercises.length < 7 ||
+      l.exercises.length < 9 ||
+      l.exercises.length > 12 ||
       l.minutes !== 4
     )
       fail(l.id, "Incomplete short lesson.");
@@ -59,6 +60,16 @@ export function validateCurriculum(course: Lesson[] = lessons): string[] {
         }
       }
     };
+    for (const id of l.newItemIds.filter((id) =>
+      ["vowel", "consonant"].includes(itemById[id].kind),
+    )) {
+      if (
+        !l.exercises.some(
+          (e) => e.type === "type-sound" && e.itemIds.includes(id),
+        )
+      )
+        fail(l.id, "New letter has no recall task.");
+    }
     for (const e of l.exercises) {
       if (exerciseIds.has(e.id)) fail(e.id, "Duplicate exercise ID.");
       exerciseIds.add(e.id);
@@ -127,20 +138,6 @@ export function validateCurriculum(course: Lesson[] = lessons): string[] {
         if (e.type === "sound-to-character")
           e.options.forEach((o) => check(o.label, target.kind === "vowel"));
       }
-      if (e.pairs) {
-        if (
-          e.pairs.length < 2 ||
-          new Set(e.pairs.map((p) => p.right)).size !== e.pairs.length
-        )
-          fail(e.id, "Invalid matching pairs.");
-        for (const p of e.pairs) {
-          if (
-            p.left !== itemById[p.itemId]?.ko ||
-            p.right !== itemById[p.itemId]?.meaning
-          )
-            fail(e.id, "Matching sound mismatch.");
-        }
-      }
       if (e.type === "build-syllable") {
         const parts = blockParts(e.answers[0]);
         if (
@@ -153,9 +150,7 @@ export function validateCurriculum(course: Lesson[] = lessons): string[] {
         [...(e.onsets ?? []), ...(e.vowels ?? [])].forEach((ch) => check(ch));
       }
       if (e.type === "listen-type") e.answers.forEach((a) => check(a));
-      const sample = e.pairs
-        ? Object.fromEntries(e.pairs.map((p) => [p.itemId, p.itemId]))
-        : e.answers[0];
+      const sample = e.answers[0];
       if (!evaluateAnswer(e, sample).correct)
         fail(e.id, "Authored correct answer fails validation.");
     }

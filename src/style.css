@@ -2614,3 +2614,21 @@ button:disabled {
     font-size: 12px;
   }
 }
+/* A skipped spelling question is a neutral choice, not an error. */
+.feedback.skipped {
+  background: #f2f5fa;
+  border-color: #dfe6f0;
+}
+.feedback.skipped h2,
+.feedback.skipped p {
+  color: #526b8c;
+}
+.keyboard-help h1 {
+  font-size: 25px;
+  letter-spacing: -0.5px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.keyboard-help button {
+  margin: 0 12px 12px 0;
+}

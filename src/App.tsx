@@ -379,7 +379,7 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
             </div>
             <div>
               <strong>{sounds.mastered}</strong>
-              <span>letters mastered</span>
+              <span>letters remembered</span>
             </div>
           </section>
           <p className="phase-note">
@@ -554,9 +554,8 @@ function Hangul({ progress }: { progress: LearnerProgress }) {
           ))}
       </div>
       <p className="phase-note">
-        Consonants are heard in carefully chosen syllables. Browser voices vary;
-        isolated consonant phonemes are not guaranteed. No pronunciation
-        assessment is performed.
+        Listen to the Korean examples. If audio is unavailable, use the written
+        help in your lesson.
       </p>
     </>
   );
@@ -679,7 +678,7 @@ function Profile({
       <section className="card settings-section">
         <h2>A little reading support</h2>
         <label className="select-label">
-          <span>Romanization in lesson introductions</span>
+          <span>Sound help in examples</span>
           <select
             value={progress.preferences.romanization}
             onChange={(e) =>

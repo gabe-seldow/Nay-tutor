@@ -4,6 +4,7 @@ import {
   itemById,
   lessonById,
   lessons,
+  legacySoundLabels,
 } from "./curriculum";
 import type {
   LearnerProfile,
@@ -64,6 +65,11 @@ function profileValid(x: unknown): x is LearnerProfile {
 function masteryValid(id: string, x: unknown): x is MasteryRecord {
   return (
     record(x) &&
+    (x.soundCorrectAttempts === undefined || count(x.soundCorrectAttempts)) &&
+    (x.evidencePoints === undefined ||
+      (typeof x.evidencePoints === "number" &&
+        Number.isFinite(x.evidencePoints) &&
+        x.evidencePoints >= 0)) &&
     x.itemId === id &&
     ["vowel", "consonant", "syllable", "phrase"].includes(String(x.kind)) &&
     (!itemById[id] || itemById[id].kind === x.kind) &&
@@ -114,7 +120,16 @@ function sessionValid(x: unknown): boolean {
     ) &&
     count(x.attempts) &&
     (x.lastCorrect === null || typeof x.lastCorrect === "boolean") &&
-    typeof x.feedback === "string"
+    typeof x.feedback === "string" &&
+    (x.outcome === undefined ||
+      ["correct", "sound-correct", "incorrect", "skipped"].includes(
+        String(x.outcome),
+      )) &&
+    (x.keyboardDecision === undefined ||
+      ["ready", "deferred"].includes(String(x.keyboardDecision))) &&
+    (x.retryItemIds === undefined ||
+      (strings(x.retryItemIds) && x.retryItemIds.length <= 3)) &&
+    (x.skippedExerciseIds === undefined || strings(x.skippedExerciseIds))
   );
 }
 export function isProgress(x: unknown): x is LearnerProgress {
@@ -148,6 +163,8 @@ export function isProgress(x: unknown): x is LearnerProgress {
     (x.navigation.previewLessonId === null ||
       typeof x.navigation.previewLessonId === "string") &&
     typeof x.keyboardIntroduced === "boolean" &&
+    (x.keyboardDeferred === undefined ||
+      typeof x.keyboardDeferred === "boolean") &&
     sessionValid(x.session) &&
     date(x.updatedAt) &&
     (x.legacyPlan === undefined ||
@@ -198,6 +215,24 @@ export function localProgressRepository(
         const raw = storage().getItem(STORAGE_KEY);
         if (raw === null) return { progress: freshProgress(), warning: null };
         const parsed: unknown = JSON.parse(raw);
+        // Preserve an unfinished choice when labels/grids change in Checkpoint A.
+        if (record(parsed) && parsed.version === 2 && record(parsed.session)) {
+          const s = parsed.session,
+            e =
+              typeof s.index === "number" && Array.isArray(s.exerciseIds)
+                ? exerciseById[s.exerciseIds[s.index]]
+                : undefined;
+          if (e && typeof s.answer === "string")
+            s.answer = legacySoundLabels[s.answer] ?? s.answer;
+          if (e && record(s.answer) && e.type !== "build-syllable") {
+            s.legacyMatchingAnswer = { ...s.answer };
+            const selected = s.answer[e.itemIds[0]];
+            s.answer =
+              typeof selected === "string"
+                ? (itemById[selected]?.rr ?? "")
+                : "";
+          }
+        }
         const migrated = migratePhaseOne(parsed);
         if (migrated) return { progress: migrated, warning: null };
         if (!isProgress(parsed)) throw Error("Unsupported save");
