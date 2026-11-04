@@ -862,6 +862,20 @@ for (const l of lessons) {
   });
 }
 export const compatibleExercises = retainedExercises;
+// Keep the released casual phrase ID for old saves; new practice teaches five expressions.
+export const retiredItemIds = new Set(["u1-phrase-hi"]);
+const firstPhrases = lessons[11];
+firstPhrases.objective = "Understand yes and no with help from audio.";
+firstPhrases.explanation =
+  "네 means yes. 아니요 means no. Learn the whole sound and meaning; some of the letters are new.";
+firstPhrases.examples = firstPhrases.examples.filter((x) => x.ko !== "안녕");
+firstPhrases.exercises = firstPhrases.exercises.filter(
+  (e) => !e.itemIds.some((id) => retiredItemIds.has(id)),
+);
+for (let i = 0; firstPhrases.exercises.length < 10; i++)
+  firstPhrases.exercises.push(
+    recall(firstPhrases.id, "extra-sound-" + i, soundId(i % 2 ? "ㅗ" : "ㅓ")),
+  );
 export const units: Unit[] = [
   {
     id: "unit-1",

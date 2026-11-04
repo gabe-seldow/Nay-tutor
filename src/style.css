@@ -2632,3 +2632,121 @@ button:disabled {
 .keyboard-help button {
   margin: 0 12px 12px 0;
 }
+/* Finishing pass: natural-height questions, quiet practice count, comfortable phone controls. */
+.practice-streak {
+  position: absolute;
+  right: 23px;
+  top: 22px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #825d24;
+  background: #ffffffb5;
+  padding: 5px 9px;
+  border-radius: 20px;
+}
+.exercise-card {
+  min-height: 0;
+}
+.sound-options .answer-option {
+  font-size: 23px;
+}
+.typing-answer input {
+  scroll-margin-block: 20px 110px;
+}
+@media (max-width: 700px) {
+  .practice-streak {
+    right: 14px;
+    top: 16px;
+    font-size: 11px;
+    padding: 4px 7px;
+  }
+  .hero .location {
+    max-width: calc(100% - 47px);
+  }
+  .player-top {
+    margin: 9px 0 11px;
+  }
+  .lesson-progress {
+    margin-bottom: 18px;
+  }
+  .exercise-card {
+    padding: 22px 17px;
+    min-height: 0;
+  }
+  .exercise-card h1 {
+    font-size: 22px;
+    line-height: 1.35;
+    margin: 12px 0 18px;
+  }
+  .exercise-display:not(.phrase-display) {
+    font-size: 72px;
+    line-height: 1.2;
+    margin: 8px 0 19px;
+  }
+  .answer-option {
+    min-height: 52px;
+    padding: 11px;
+    font-size: 14px;
+  }
+  .sound-options .answer-option {
+    font-size: 22px;
+  }
+  .hangul-options .answer-option {
+    min-height: 61px;
+    font-size: 29px;
+  }
+  .hint-area {
+    margin: 11px 0;
+  }
+  .check-answer,
+  .continue {
+    min-height: 48px;
+  }
+  .question-audio {
+    margin: 14px 0 20px;
+  }
+  .exercise-display.phrase-display {
+    font-size: 29px;
+    margin: 10px 0 16px;
+  }
+  .guided-note {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .keyboard-help h1 {
+    font-size: 21px;
+  }
+  .keyboard-help button {
+    display: block;
+    width: 100%;
+    margin: 0 0 12px;
+  }
+  .feedback {
+    padding: 18px 15px;
+  }
+  .feedback h2 {
+    font-size: 18px;
+  }
+  .intro-items .sound-guide summary {
+    min-height: 35px;
+  }
+}
+@media (max-width: 700px) and (max-height: 600px) {
+  .exercise-display:not(.phrase-display) {
+    font-size: 49px;
+    margin: 5px 0 12px;
+  }
+  .player-top {
+    margin-top: 4px;
+  }
+  .exercise-card {
+    padding-top: 16px;
+  }
+  .typing-answer .input-note {
+    display: none;
+  }
+}

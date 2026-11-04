@@ -15,6 +15,7 @@ import {
   itemById,
   lessonById,
   lessons,
+  retiredItemIds,
 } from "../curriculum";
 import {
   completionPercent,
@@ -164,33 +165,37 @@ export function LessonView({
         <section className="card">
           <h2>Your new sounds & expressions</h2>
           <div className="intro-items">
-            {lesson.newItemIds.map((id) => {
-              const item = itemById[id];
-              const text = item.profileTemplate
-                ? personalText(item.profileTemplate, progress.profile)
-                : item.ko;
-              return (
-                <div key={id}>
-                  <strong lang="ko">{text}</strong>
-                  <details className="sound-guide" open={true}>
-                    <summary>
-                      {item.kind === "phrase" ? "Meaning" : "Sound"}
-                    </summary>
-                    <span>
-                      {item.meaning
-                        .replace("Miguel", progress.profile.dog.name)
-                        .replace("Jaehun", progress.profile.brother.name)}
-                    </span>
-                  </details>
-                  <Listen
-                    content={
-                      item.profileTemplate ? audio(text, "phrase") : item.audio
-                    }
-                    label="Hear example"
-                  />
-                </div>
-              );
-            })}
+            {lesson.newItemIds
+              .filter((id) => !retiredItemIds.has(id))
+              .map((id) => {
+                const item = itemById[id];
+                const text = item.profileTemplate
+                  ? personalText(item.profileTemplate, progress.profile)
+                  : item.ko;
+                return (
+                  <div key={id}>
+                    <strong lang="ko">{text}</strong>
+                    <details className="sound-guide" open={true}>
+                      <summary>
+                        {item.kind === "phrase" ? "Meaning" : "Sound"}
+                      </summary>
+                      <span>
+                        {item.meaning
+                          .replace("Miguel", progress.profile.dog.name)
+                          .replace("Jaehun", progress.profile.brother.name)}
+                      </span>
+                    </details>
+                    <Listen
+                      content={
+                        item.profileTemplate
+                          ? audio(text, "phrase")
+                          : item.audio
+                      }
+                      label="Hear example"
+                    />
+                  </div>
+                );
+              })}
           </div>
         </section>
       )}
@@ -465,7 +470,7 @@ export function ExerciseControls({
   if (e.options)
     return (
       <div
-        className={`answer-options ${e.type === "sound-to-character" ? "hangul-options" : ""}`}
+        className={`answer-options ${e.type === "sound-to-character" ? "hangul-options" : ["character-recognition", "syllable-reading"].includes(e.type) ? "sound-options" : ""}`}
         role="group"
         aria-label="Answer choices"
       >
@@ -548,6 +553,12 @@ export function ExerciseControls({
           composing.current = false;
         }}
         onChange={(event) => setAnswer(event.target.value)}
+        onFocus={(event) => {
+          const field = event.currentTarget;
+          requestAnimationFrame(() =>
+            field.scrollIntoView({ block: "nearest" }),
+          );
+        }}
         onKeyDown={(event) => {
           if (
             event.key === "Enter" &&

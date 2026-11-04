@@ -6,7 +6,7 @@ const server = await createServer({
   optimizeDeps: { noDiscovery: true, include: [] },
 });
 try {
-  const { lessons, itemById } =
+  const { lessons, itemById, retiredItemIds } =
     await server.ssrLoadModule("/src/curriculum.ts");
   const { validateCurriculum } = await server.ssrLoadModule(
     "/src/validate-curriculum.ts",
@@ -27,7 +27,12 @@ try {
       "",
       `**Objective:** ${l.objective}`,
       `**Prerequisites:** ${l.prerequisites.join(", ") || "None"}`,
-      `**New:** ${l.newItemIds.map((id) => `${itemById[id].ko} [${id}]`).join("; ") || "Cumulative practice; no new items."}`,
+      `**New:** ${
+        l.newItemIds
+          .filter((id) => !retiredItemIds.has(id))
+          .map((id) => `${itemById[id].ko} [${id}]`)
+          .join("; ") || "Cumulative practice; no new items."
+      }`,
       `**Review:** ${l.reviewItemIds.map((id) => itemById[id].ko).join(" · ") || "First lesson."}`,
       "",
       l.explanation,
@@ -40,7 +45,12 @@ try {
       lines.push(
         `- **${e.id} — ${e.type}:** ${e.prompt}`,
         `  - Objective: ${e.objective}`,
-        `  - Accepted answer: ${e.pairs ? e.pairs.map((p) => `${p.left} → ${p.right}`).join("; ") : e.answers.join(" / ")}`,
+        `  - Accepted answer: ${e.answers.join(" / ")}`,
+        ...(e.soundAlternatives?.length
+          ? [
+              `  - Approved sound approximations: ${e.soundAlternatives.join(", ")}`,
+            ]
+          : []),
         `  - Requested hint: ${e.hint}`,
         `  - Correct: ${e.feedback.correct}`,
         `  - Incorrect: ${e.feedback.incorrect}`,

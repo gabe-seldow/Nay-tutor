@@ -13,6 +13,7 @@ import type {
   Page,
   ProgressRepository,
 } from "./types";
+import { validStreak } from "./streak";
 export const STORAGE_KEY = "nay-tutor.progress.v1";
 export const defaultProfile: LearnerProfile = {
   learner: { name: "Jaeyeon", koreanName: "재연" },
@@ -137,6 +138,7 @@ export function isProgress(x: unknown): x is LearnerProgress {
     record(x) &&
     x.version === 2 &&
     x.curriculumVersion === 2 &&
+    (x.streak === undefined || validStreak(x.streak)) &&
     profileValid(x.profile) &&
     strings(x.completedLessonIds) &&
     new Set(x.completedLessonIds).size === x.completedLessonIds.length &&

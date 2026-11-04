@@ -12,6 +12,7 @@ import {
   Settings,
   SlidersHorizontal,
   Volume2,
+  Flame,
   Lock,
 } from "lucide-react";
 import {
@@ -34,6 +35,7 @@ import { parseRoute, savedRoute, type Route } from "./navigation";
 import type { LearnerProfile, LearnerProgress, Lesson } from "./types";
 import { Seoul } from "./components/Seoul";
 import { Listen } from "./components/Listen";
+import { visibleStreak, localPracticeDate } from "./streak";
 import { LessonView, ReviewPage } from "./components/LessonPlayer";
 import { learnedItemIds, reviewQueue } from "./learning";
 
@@ -235,6 +237,11 @@ export default function App() {
 }
 
 function LearningPath({ progress }: { progress: LearnerProgress }) {
+  const [, setDay] = useState(() => localPracticeDate());
+  useEffect(() => {
+    const timer = setInterval(() => setDay(localPracticeDate()), 60000);
+    return () => clearInterval(timer);
+  }, []);
   const next = nextLesson(progress);
   const sounds = hangulProgress(progress);
   const completed = lessons.filter((l) =>
@@ -243,6 +250,14 @@ function LearningPath({ progress }: { progress: LearnerProgress }) {
   return (
     <>
       <section className="hero">
+        <span
+          className="practice-streak"
+          aria-label={`${visibleStreak(progress.streak)} day practice streak`}
+          title="Daily practice"
+        >
+          <Flame size={15} aria-hidden="true" />
+          {visibleStreak(progress.streak)}
+        </span>
         <Seoul />
         <div className="hero-content">
           <span className="location">

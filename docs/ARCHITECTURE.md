@@ -4,7 +4,7 @@ This release extends Phase 1 commit `9f7c656` on successor branch `codex/nay-tut
 
 ## Runtime boundary
 
-`src/curriculum.ts` contains only 14 playable Unit 1 lessons, 140 exercises and 36 learning items. Seven small `futureUnits` records contain only number/title/description. No future lesson data, audio, exercise players or review items are loaded. `docs/CURRICULUM.md` is an archived plan outside the runtime graph.
+`src/curriculum.ts` contains only 14 playable Unit 1 lessons, 145 core exercises plus retained session-compatible IDs and 36 learning items. Seven small `futureUnits` records contain only number/title/description. No future lesson data, audio, exercise players or review items are loaded. `docs/CURRICULUM.md` is an archived plan outside the runtime graph.
 
 `src/types.ts` defines lessons, exercises, items, profiles, sessions, mastery and persistence. `src/learning.ts` owns validation, block composition, option shuffling, personalization, review selection, evidence and session transitions. `src/components/LessonPlayer.tsx` renders introductions, keyboard orientation, eight exercise controls, feedback, completion and review. The existing `App.tsx` shell and Seoul CSS/SVG are retained.
 
@@ -29,3 +29,8 @@ The shared `speech.ts` remains the Phase 1 implementation. Reference cards pass 
 Typing uses NFC and preserves script distinctions. IME composition is protected from Enter submission; a tap keyboard is available. A successful Hangul copy precedes spelling practice. Whole expressions disclose unfamiliar letters, register and unconfirmed configurable names. Topic particles follow the configured brother-name ending.
 
 The local repository validates nested data and reports failures. Malformed raw saves are not overwritten merely by loading. No Hangeul key, deployment identity, secret or learner profile is accessed. No account, telemetry, paid audio API or cloud syncing exists.
+
+
+## Overhaul compatibility
+
+See CHECKPOINT-A.md and CHECKPOINT-B.md for the completed learning and finishing stages. Matching tasks were replaced with recognition while released IDs remain resumable. The same version-2 save accepts optional outcome, confidence, keyboard-decision and local-day streak fields; missing fields on earlier saves remain valid. The retired casual phrase retains its ID and evidence but is excluded from new core teaching. No progress namespace was renamed.

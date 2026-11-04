@@ -141,6 +141,7 @@ export type PracticeSession = {
   keyboardReady: boolean;
 };
 export type LearnerProgress = {
+  streak?: { lastPracticeDate: string; days: number };
   keyboardDeferred?: boolean;
   version: 2;
   curriculumVersion: 2;

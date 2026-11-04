@@ -7,6 +7,8 @@ import {
   lessonById,
   lessons,
   soundId,
+  retiredItemIds,
+  compatibleExercises,
 } from "./curriculum";
 import type {
   Answer,
@@ -16,6 +18,7 @@ import type {
   MasteryRecord,
   PracticeSession,
 } from "./types";
+import { recordPractice } from "./streak";
 export const normalizeAnswer = (value: string) =>
   value.normalize("NFC").trim().toLowerCase().replace(/\s+/g, " ");
 export function composeBlock(onset: string, vowel: string): string {
@@ -223,7 +226,8 @@ export function learnedItemIds(progress: LearnerProgress): Set<string> {
   const set = new Set(
     lessons
       .filter((l) => progress.completedLessonIds.includes(l.id))
-      .flatMap((l) => l.newItemIds),
+      .flatMap((l) => l.newItemIds)
+      .filter((id) => !retiredItemIds.has(id)),
   );
   Object.entries(progress.mastery).forEach(([id, m]) => {
     if (itemById[id] && m.correctAttempts + m.incorrectAttempts > 0)
@@ -264,17 +268,20 @@ export function reviewQueue(
 }
 export function reviewExercises(progress: LearnerProgress): Exercise[] {
   const learned = learnedItemIds(progress);
-  return lessons
-    .filter((l) =>
-      l.prerequisites.every((id) => progress.completedLessonIds.includes(id)),
-    )
-    .flatMap((l) => l.exercises)
-    .filter(
-      (e) =>
-        e.itemIds.every((id) => learned.has(id)) &&
-        (!e.requiresKeyboard ||
-          (progress.keyboardIntroduced && !progress.keyboardDeferred)),
-    );
+  const eligible = lessons.filter((l) =>
+    l.prerequisites.every((id) => progress.completedLessonIds.includes(id)),
+  );
+  const legacy = compatibleExercises.filter(
+    (e) =>
+      e.itemIds.some((id) => retiredItemIds.has(id)) &&
+      eligible.some((l) => e.id.startsWith(l.id + "-")),
+  );
+  return [...eligible.flatMap((l) => l.exercises), ...legacy].filter(
+    (e) =>
+      e.itemIds.every((id) => learned.has(id)) &&
+      (!e.requiresKeyboard ||
+        (progress.keyboardIntroduced && !progress.keyboardDeferred)),
+  );
 }
 export function makeSession(
   progress: LearnerProgress,
@@ -402,6 +409,7 @@ export function submitAnswer(
   }
   return {
     ...progress,
+    streak: recordPractice(progress.streak, now),
     mastery,
     history: [
       ...progress.history,

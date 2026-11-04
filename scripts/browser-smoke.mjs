@@ -160,18 +160,6 @@ try {
           ? e.options.find((o) => !e.answers.includes(o.value)).label
           : e.options.find((o) => e.answers.includes(o.value)).label,
       );
-    } else if (e.pairs) {
-      for (let i = 0; i < e.pairs.length; i++) {
-        const pair = e.pairs[i];
-        await evaluate(
-          `(()=>{const e=[...document.querySelectorAll('.match-letter')].find(x=>x.querySelector('span').textContent===${JSON.stringify(pair.left)});e.click()})()`,
-        );
-        await delay(12);
-        await clickText(
-          ".match-sound",
-          wrong ? e.pairs[(i + 1) % e.pairs.length].right : pair.right,
-        );
-      }
     } else if (e.type === "build-syllable") {
       const n = e.answers[0].codePointAt(0) - 0xac00;
       const onset = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ"[
@@ -232,6 +220,8 @@ try {
         "Reference audio used isolated jamo instead of a vowel syllable",
       );
     }
+    if (lesson.day === 1)
+      assert(!(await state()).streak, "Opening or listening created a streak");
     const requests = await evaluate("window.__speechRequests.length");
     await click(".start-lesson");
     await waitFor('!!document.querySelector(".exercise-card,.keyboard-help")');
@@ -314,6 +304,10 @@ try {
       await click(".check-answer");
       await waitFor('!!document.querySelector(".feedback")');
       const after = await state();
+      assert(
+        after.streak?.days === 1,
+        "Practice streak did not count exactly one local day",
+      );
       assert(after.session.lastCorrect === !wrong, `Wrong feedback: ${e.id}`);
       if (partial) {
         assert(
@@ -349,6 +343,10 @@ try {
   assert(
     (await state()).completedLessonIds.length === 14,
     "Not all fourteen lessons completed",
+  );
+  assert(
+    (await state()).streak.days === 1,
+    "Repeated practice changed the same-day streak",
   );
   assert(types.size === 7, "Required exercise type missing");
   assert(
@@ -423,6 +421,7 @@ try {
     [375, 812],
     [390, 844],
     [430, 932],
+    [390, 460],
   ]) {
     await cdp("Emulation.setDeviceMetricsOverride", {
       width,
@@ -449,7 +448,8 @@ try {
           ),
           "Mobile nav targets too small",
         );
-      if (width === 390 || width === 1440) await screenshot(`${width}-${name}`);
+      if (width === 390 || width === 1440)
+        await screenshot(`${width}-${height}-${name}`);
     }
     await navigate("#/lesson/u1-day-01");
     await click(".start-lesson");
@@ -464,7 +464,8 @@ try {
       ),
       "Answer target too small",
     );
-    if (width === 390 || width === 1440) await screenshot(`${width}-exercise`);
+    if (width === 390 || width === 1440)
+      await screenshot(`${width}-${height}-exercise`);
     // Save and leave, then resume an unresolved selected answer exactly.
     const e = exerciseById[(await state()).session.exerciseIds[0]];
     await fill(e);
@@ -484,7 +485,46 @@ try {
     );
     if (width === 390) await screenshot("390-guided-phrase");
   }
+  // Simulate the reduced visual viewport of an open phone keyboard.
+  await cdp("Emulation.setDeviceMetricsOverride", {
+    width: 390,
+    height: 460,
+    deviceScaleFactor: 1,
+    mobile: true,
+  });
+  await navigate("#/lesson/u1-day-01");
+  await click(".start-lesson");
+  for (let i = 0; i < 2; i++) {
+    const session = (await state()).session,
+      e = exerciseById[session.exerciseIds[session.index]];
+    await fill(e);
+    if (e.audio) {
+      await click(".question-audio .listen");
+      await waitFor(
+        "JSON.parse(localStorage.getItem('nay-tutor.progress.v1')).session.heardAudio===true",
+      );
+    }
+    await click(".check-answer");
+    await click(".continue");
+  }
+  await evaluate("document.querySelector('#answer').focus()");
+  await delay(80);
+  assert(
+    await evaluate(
+      "(()=>{const r=document.querySelector('#answer').getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight-64})()",
+    ),
+    "Typing input hidden by the reduced viewport/navigation",
+  );
+  await screenshot("390-keyboard-recall");
+  await cdp("Emulation.setDeviceMetricsOverride", {
+    width: 390,
+    height: 844,
+    deviceScaleFactor: 1,
+    mobile: true,
+  });
   // Missing Korean voice must allow a deliberately supported alternative.
+  await navigate("#/lesson/u1-day-13");
+  await click(".start-lesson"); // replace the saved keyboard simulation before restarting Lesson 1
   await navigate("#/lesson/u1-day-01");
   await click(".start-lesson"); // replace the saved family session
   await fill(exerciseById[(await state()).session.exerciseIds[0]]);
@@ -557,7 +597,13 @@ try {
     intentionalMistakes: wrongCount,
     resumes,
     exerciseTypes: [...types],
-    viewports: ["1440×1000", "375×812", "390×844", "430×932"],
+    viewports: [
+      "1440×1000",
+      "375×812",
+      "390×844",
+      "430×932",
+      "390×460 keyboard simulation",
+    ],
     limits:
       "Automated Chrome with deterministic speech mocks; no physical iPhone, Safari, audible Korean output, or native-speaker review.",
   };

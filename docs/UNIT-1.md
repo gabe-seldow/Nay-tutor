@@ -11,98 +11,102 @@ Fourteen lessons, estimated 3–5 minutes each. Romanization belongs in teaching
 **New:** ㅏ [hangul-314f]; ㅗ [hangul-3157]; ㅣ [hangul-3163]
 **Review:** First lesson.
 
-Hangul is the Korean alphabet. Start with just three vowels. Audio reads 아, 오 and 이: each vowel sits in a block with a silent circle holder. You only need to identify the vowel today; we will study the circle in Lesson 10. Romanization is a temporary sound label, not Korean spelling.
+Start with three sounds: a, o, i. Listen, then try them. The circle in the audio examples is silent.
 
 **Example:** 아 · 오 · 이 — a · o · i
-ㅏ points right. ㅗ points up. ㅣ is a straight vertical line.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-01-recognize-0 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-01-recognize-0 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: a · open “ah”
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
+  - Accepted answer: a
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
   - Items: hangul-314f
 
-- **u1-day-01-listen-0 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-01-listen-0 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅏ
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
   - Items: hangul-314f
   - Authoring-only audio script: 아
 
-- **u1-day-01-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-01-recall-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
   - Items: hangul-314f
   - Input language: romanization
 
-- **u1-day-01-recognize-1 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-01-recognize-1 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: o · rounded lips, no English glide
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Accepted answer: o
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
 
-- **u1-day-01-listen-1 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-01-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅗ
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
   - Authoring-only audio script: 오
 
-- **u1-day-01-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-01-recall-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
   - Input language: romanization
 
-- **u1-day-01-recognize-2 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-01-recognize-2 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: i · like “ee”
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: ㅣ — i · like “ee”.
-  - Incorrect: Revisit ㅣ: i · like “ee”.
+  - Accepted answer: i
+  - Requested hint: The sound is i.
+  - Correct: ㅣ = i.
+  - Incorrect: It’s i.
   - Items: hangul-3163
 
-- **u1-day-01-listen-2 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-01-listen-2 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅣ
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: ㅣ — i · like “ee”.
-  - Incorrect: Revisit ㅣ: i · like “ee”.
+  - Requested hint: The sound is i.
+  - Correct: ㅣ = i.
+  - Incorrect: It’s i.
   - Items: hangul-3163
   - Authoring-only audio script: 이
 
-- **u1-day-01-recall-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-01-recall-2 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: i
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: ㅣ — i · like “ee”.
-  - Incorrect: Revisit ㅣ: i · like “ee”.
+  - Approved sound approximations: ee
+  - Requested hint: The sound is i.
+  - Correct: ㅣ = i.
+  - Incorrect: It’s i.
   - Items: hangul-3163
   - Input language: romanization
 
-- **u1-day-01-match — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
+- **u1-day-01-practice-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㅏ → a · open “ah”; ㅗ → o · rounded lips, no English glide; ㅣ → i · like “ee”
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
-  - Items: hangul-314f, hangul-3157, hangul-3163
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
+  - Input language: romanization
 
 ## 2. More vowels [u1-day-02]
 
@@ -111,123 +115,118 @@ Hangul is the Korean alphabet. Start with just three vowels. Audio reads 아, �
 **New:** ㅓ [hangul-3153]; ㅜ [hangul-315c]; ㅡ [hangul-3161]
 **Review:** ㅏ · ㅗ · ㅣ
 
-ㅓ has a short stroke pointing left; ㅜ points down; ㅡ is horizontal. eo and eu are labels for Korean vowels, not English words. Compare 어/오 and 우/으 carefully. Use your ears alongside the written shapes.
+Three more sounds: eo, u, eu. Notice which way each small stroke points. Listen to eo and o, then u and eu.
 
 **Example:** 어 · 우 · 으 — eo · u · eu
-For ㅡ, keep the lips unrounded. Revisit ㅓ and ㅗ without treating them as the same sound.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-02-recognize-0 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-02-recognize-0 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: eo · open back vowel; listen closely
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Accepted answer: eo
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
 
-- **u1-day-02-listen-0 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-02-listen-0 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅓ
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
   - Authoring-only audio script: 어
 
-- **u1-day-02-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-02-recall-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
   - Input language: romanization
 
-- **u1-day-02-recognize-1 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-02-recognize-1 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: u · rounded “oo”
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: ㅜ — u · rounded “oo”.
-  - Incorrect: Revisit ㅜ: u · rounded “oo”.
+  - Accepted answer: u
+  - Requested hint: The sound is u.
+  - Correct: ㅜ = u.
+  - Incorrect: It’s u.
   - Items: hangul-315c
 
-- **u1-day-02-listen-1 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-02-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅜ
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: ㅜ — u · rounded “oo”.
-  - Incorrect: Revisit ㅜ: u · rounded “oo”.
+  - Requested hint: The sound is u.
+  - Correct: ㅜ = u.
+  - Incorrect: It’s u.
   - Items: hangul-315c
   - Authoring-only audio script: 우
 
-- **u1-day-02-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-02-recall-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: u
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: ㅜ — u · rounded “oo”.
-  - Incorrect: Revisit ㅜ: u · rounded “oo”.
+  - Approved sound approximations: oo
+  - Requested hint: The sound is u.
+  - Correct: ㅜ = u.
+  - Incorrect: It’s u.
   - Items: hangul-315c
   - Input language: romanization
 
-- **u1-day-02-recognize-2 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-02-recognize-2 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: eu · unrounded back vowel
-  - Requested hint: Sound guide: eu. Listen to 으.
-  - Correct: ㅡ — eu · unrounded back vowel.
-  - Incorrect: Revisit ㅡ: eu · unrounded back vowel.
+  - Accepted answer: eu
+  - Requested hint: The sound is eu.
+  - Correct: ㅡ = eu.
+  - Incorrect: It’s eu.
   - Items: hangul-3161
 
-- **u1-day-02-listen-2 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-02-listen-2 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅡ
-  - Requested hint: Sound guide: eu. Listen to 으.
-  - Correct: ㅡ — eu · unrounded back vowel.
-  - Incorrect: Revisit ㅡ: eu · unrounded back vowel.
+  - Requested hint: The sound is eu.
+  - Correct: ㅡ = eu.
+  - Incorrect: It’s eu.
   - Items: hangul-3161
   - Authoring-only audio script: 으
 
-- **u1-day-02-recall-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-02-recall-2 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: eu
-  - Requested hint: Sound guide: eu. Listen to 으.
-  - Correct: ㅡ — eu · unrounded back vowel.
-  - Incorrect: Revisit ㅡ: eu · unrounded back vowel.
+  - Requested hint: The sound is eu.
+  - Correct: ㅡ = eu.
+  - Incorrect: It’s eu.
   - Items: hangul-3161
   - Input language: romanization
 
-- **u1-day-02-match — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: ㅓ → eo · open back vowel; listen closely; ㅜ → u · rounded “oo”; ㅡ → eu · unrounded back vowel
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
-  - Items: hangul-3153, hangul-315c, hangul-3161
-
-- **u1-day-02-earlier-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-02-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
   - Items: hangul-314f
   - Input language: romanization
 
-- **u1-day-02-earlier-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-02-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
   - Input language: romanization
 
-- **u1-day-02-earlier-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-02-mixed-2 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: i
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: ㅣ — i · like “ee”.
-  - Incorrect: Revisit ㅣ: i · like “ee”.
+  - Approved sound approximations: ee
+  - Requested hint: The sound is i.
+  - Correct: ㅣ = i.
+  - Incorrect: It’s i.
   - Items: hangul-3163
   - Input language: romanization
 
@@ -238,70 +237,100 @@ For ㅡ, keep the lips unrounded. Revisit ㅓ and ㅗ without treating them as t
 **New:** ㄴ [hangul-3134]; ㅁ [hangul-3141]
 **Review:** ㅏ · ㅜ
 
-ㄴ starts 나 with an n-like sound. ㅁ starts 마 with an m-like sound. The Listen button reads the full syllable. Focus on its beginning; we are not claiming that a browser can speak isolated consonant phonemes reliably.
+ㄴ sounds like n. ㅁ sounds like m. Listen to them at the start of 나 and 마.
 
 **Example:** 나 · 마 — na · ma
-Both examples use ㅏ. Notice only the beginning for now.
+Listen to the first sound in each block.
 
 ### Exercise sequence
 
-- **u1-day-03-recognize-0 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-03-recognize-0 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: n-like
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
   - Items: hangul-3134
 
-- **u1-day-03-listen-0 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-03-listen-0 — sound-to-character:** Which letter starts the sound?
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㄴ
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
   - Items: hangul-3134
   - Authoring-only audio script: 나
 
-- **u1-day-03-recognize-1 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-03-recognize-1 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: m-like
-  - Requested hint: Sound guide: m-like. Listen to 마.
-  - Correct: ㅁ — m-like.
-  - Incorrect: Revisit ㅁ: m-like.
+  - Accepted answer: m
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
   - Items: hangul-3141
 
-- **u1-day-03-listen-1 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-03-listen-1 — sound-to-character:** Which letter starts the sound?
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅁ
-  - Requested hint: Sound guide: m-like. Listen to 마.
-  - Correct: ㅁ — m-like.
-  - Incorrect: Revisit ㅁ: m-like.
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
   - Items: hangul-3141
   - Authoring-only audio script: 마
 
-- **u1-day-03-match — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
+- **u1-day-03-remember-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄴ → n-like; ㅁ → m-like
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
-  - Items: hangul-3134, hangul-3141
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
+  - Items: hangul-3134
+  - Input language: romanization
 
-- **u1-day-03-earlier-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-03-remember-1 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: m
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
+  - Items: hangul-3141
+  - Input language: romanization
+
+- **u1-day-03-practice-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
+  - Items: hangul-3134
+  - Input language: romanization
+
+- **u1-day-03-practice-1 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: m
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
+  - Items: hangul-3141
+  - Input language: romanization
+
+- **u1-day-03-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
   - Items: hangul-314f
   - Input language: romanization
 
-- **u1-day-03-earlier-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-03-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: u
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: ㅜ — u · rounded “oo”.
-  - Incorrect: Revisit ㅜ: u · rounded “oo”.
+  - Approved sound approximations: oo
+  - Requested hint: The sound is u.
+  - Correct: ㅜ = u.
+  - Incorrect: It’s u.
   - Items: hangul-315c
   - Input language: romanization
 
@@ -312,111 +341,104 @@ Both examples use ㅏ. Notice only the beginning for now.
 **New:** 나 [u1-block-b098]; 너 [u1-block-b108]; 누 [u1-block-b204]; 마 [u1-block-b9c8]; 모 [u1-block-baa8]
 **Review:** ㄴ · ㅁ · ㅏ · ㅓ · ㅜ · ㅗ
 
-A block combines sounds into one syllable. Put a vertical vowel to the right: ㄴ + ㅏ = 나. Put a horizontal vowel underneath: ㅁ + ㅗ = 모. Each block is one syllable. First read, then tap a consonant and vowel to build a block.
+One block is one syllable. ㄴ + ㅏ makes 나. ㅁ + ㅗ makes 모.
 
 **Example:** 나 · 너 · 누 · 마 · 모 — na · neo · nu · ma · mo
-These are sound blocks, not a vocabulary translation test.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-04-read-0 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-04-read-0 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: na
-  - Requested hint: Sound guide: na. Listen to 나.
-  - Correct: 나 — na (sound guide).
-  - Incorrect: Revisit 나: na (sound guide).
+  - Requested hint: The sound is na.
+  - Correct: 나 = na.
+  - Incorrect: It’s na.
   - Items: u1-block-b098
 
-- **u1-day-04-build-0 — build-syllable:** Build the block for the sound guide “na”.
+- **u1-day-04-build-0 — build-syllable:** Build the syllable: na.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 나
-  - Requested hint: Sound guide: na. Listen to 나.
-  - Correct: 나 — na (sound guide).
-  - Incorrect: Revisit 나: na (sound guide).
+  - Requested hint: The sound is na.
+  - Correct: 나 = na.
+  - Incorrect: It’s na.
   - Items: u1-block-b098
 
-- **u1-day-04-read-1 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-04-read-1 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: neo
-  - Requested hint: Sound guide: neo. Listen to 너.
-  - Correct: 너 — neo (sound guide).
-  - Incorrect: Revisit 너: neo (sound guide).
+  - Requested hint: The sound is neo.
+  - Correct: 너 = neo.
+  - Incorrect: It’s neo.
   - Items: u1-block-b108
 
-- **u1-day-04-listen-1 — sound-to-character:** Listen. Which block do you hear?
+- **u1-day-04-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 너
-  - Requested hint: Sound guide: neo. Listen to 너.
-  - Correct: 너 — neo (sound guide).
-  - Incorrect: Revisit 너: neo (sound guide).
+  - Requested hint: The sound is neo.
+  - Correct: 너 = neo.
+  - Incorrect: It’s neo.
   - Items: u1-block-b108
   - Authoring-only audio script: 너
 
-- **u1-day-04-read-2 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-04-read-2 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: nu
-  - Requested hint: Sound guide: nu. Listen to 누.
-  - Correct: 누 — nu (sound guide).
-  - Incorrect: Revisit 누: nu (sound guide).
+  - Requested hint: The sound is nu.
+  - Correct: 누 = nu.
+  - Incorrect: It’s nu.
   - Items: u1-block-b204
 
-- **u1-day-04-build-2 — build-syllable:** Build the block for the sound guide “nu”.
+- **u1-day-04-build-2 — build-syllable:** Build the syllable: nu.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 누
-  - Requested hint: Sound guide: nu. Listen to 누.
-  - Correct: 누 — nu (sound guide).
-  - Incorrect: Revisit 누: nu (sound guide).
+  - Requested hint: The sound is nu.
+  - Correct: 누 = nu.
+  - Incorrect: It’s nu.
   - Items: u1-block-b204
 
-- **u1-day-04-read-3 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-04-read-3 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ma
-  - Requested hint: Sound guide: ma. Listen to 마.
-  - Correct: 마 — ma (sound guide).
-  - Incorrect: Revisit 마: ma (sound guide).
+  - Requested hint: The sound is ma.
+  - Correct: 마 = ma.
+  - Incorrect: It’s ma.
   - Items: u1-block-b9c8
 
-- **u1-day-04-listen-3 — sound-to-character:** Listen. Which block do you hear?
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: 마
-  - Requested hint: Sound guide: ma. Listen to 마.
-  - Correct: 마 — ma (sound guide).
-  - Incorrect: Revisit 마: ma (sound guide).
-  - Items: u1-block-b9c8
-  - Authoring-only audio script: 마
-
-- **u1-day-04-read-4 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-04-read-4 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: mo
-  - Requested hint: Sound guide: mo. Listen to 모.
-  - Correct: 모 — mo (sound guide).
-  - Incorrect: Revisit 모: mo (sound guide).
+  - Requested hint: The sound is mo.
+  - Correct: 모 = mo.
+  - Incorrect: It’s mo.
   - Items: u1-block-baa8
 
-- **u1-day-04-build-4 — build-syllable:** Build the block for the sound guide “mo”.
+- **u1-day-04-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: 모
-  - Requested hint: Sound guide: mo. Listen to 모.
-  - Correct: 모 — mo (sound guide).
-  - Incorrect: Revisit 모: mo (sound guide).
-  - Items: u1-block-baa8
-
-- **u1-day-04-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
-  - Items: hangul-3153
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
+  - Items: hangul-3134
   - Input language: romanization
 
-- **u1-day-04-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-04-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
-  - Items: hangul-3157
+  - Accepted answer: m
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
+  - Items: hangul-3141
+  - Input language: romanization
+
+- **u1-day-04-mixed-2 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
   - Input language: romanization
 
 ## 5. Two more consonants [u1-day-05]
@@ -426,79 +448,101 @@ These are sound blocks, not a vocabulary translation test.
 **New:** ㄱ [hangul-3131]; ㄷ [hangul-3137]
 **Review:** ㄴ · ㅁ · ㅓ · ㅗ
 
-ㄱ and ㄷ are plain Korean consonants. English k/g and t/d are rough guides: the sound varies with position and speaker. Listen to 가 and 다, rather than memorizing one fixed English letter. Strong breath and tense consonants come later.
+Learn g in 가 and d in 다. You may also hear k and t in other words. Listen to the Korean examples.
 
 **Example:** 가 · 다 — ga · da (approximate guides)
-The guide g does not mean ㄱ always sounds like English g.
+Listen to the first sound in each block.
 
 ### Exercise sequence
 
-- **u1-day-05-recognize-0 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-05-recognize-0 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: plain k/g-like, depending on position
-  - Requested hint: Sound guide: plain k/g-like, depending on position. Listen to 가.
-  - Correct: ㄱ — plain k/g-like, depending on position.
-  - Incorrect: Revisit ㄱ: plain k/g-like, depending on position.
+  - Accepted answer: g
+  - Requested hint: The sound is g.
+  - Correct: ㄱ = g.
+  - Incorrect: It’s g.
   - Items: hangul-3131
 
-- **u1-day-05-listen-0 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-05-listen-0 — sound-to-character:** Which letter starts the sound?
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㄱ
-  - Requested hint: Sound guide: plain k/g-like, depending on position. Listen to 가.
-  - Correct: ㄱ — plain k/g-like, depending on position.
-  - Incorrect: Revisit ㄱ: plain k/g-like, depending on position.
+  - Requested hint: The sound is g.
+  - Correct: ㄱ = g.
+  - Incorrect: It’s g.
   - Items: hangul-3131
   - Authoring-only audio script: 가
 
-- **u1-day-05-recognize-1 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-05-recognize-1 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: plain t/d-like, depending on position
-  - Requested hint: Sound guide: plain t/d-like, depending on position. Listen to 다.
-  - Correct: ㄷ — plain t/d-like, depending on position.
-  - Incorrect: Revisit ㄷ: plain t/d-like, depending on position.
+  - Accepted answer: d
+  - Requested hint: The sound is d.
+  - Correct: ㄷ = d.
+  - Incorrect: It’s d.
   - Items: hangul-3137
 
-- **u1-day-05-listen-1 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-05-listen-1 — sound-to-character:** Which letter starts the sound?
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㄷ
-  - Requested hint: Sound guide: plain t/d-like, depending on position. Listen to 다.
-  - Correct: ㄷ — plain t/d-like, depending on position.
-  - Incorrect: Revisit ㄷ: plain t/d-like, depending on position.
+  - Requested hint: The sound is d.
+  - Correct: ㄷ = d.
+  - Incorrect: It’s d.
   - Items: hangul-3137
   - Authoring-only audio script: 다
 
-- **u1-day-05-match — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
+- **u1-day-05-remember-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄱ → plain k/g-like, depending on position; ㄷ → plain t/d-like, depending on position
-  - Requested hint: Sound guide: plain k/g-like, depending on position. Listen to 가.
-  - Correct: ㄱ — plain k/g-like, depending on position.
-  - Incorrect: Revisit ㄱ: plain k/g-like, depending on position.
-  - Items: hangul-3131, hangul-3137
+  - Accepted answer: g
+  - Approved sound approximations: k
+  - Requested hint: The sound is g.
+  - Correct: ㄱ = g.
+  - Incorrect: It’s g.
+  - Items: hangul-3131
+  - Input language: romanization
 
-- **u1-day-05-earlier-0 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-05-remember-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄴ
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
+  - Accepted answer: d
+  - Approved sound approximations: t
+  - Requested hint: The sound is d.
+  - Correct: ㄷ = d.
+  - Incorrect: It’s d.
+  - Items: hangul-3137
+  - Input language: romanization
+
+- **u1-day-05-practice-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: g
+  - Approved sound approximations: k
+  - Requested hint: The sound is g.
+  - Correct: ㄱ = g.
+  - Incorrect: It’s g.
+  - Items: hangul-3131
+  - Input language: romanization
+
+- **u1-day-05-mixed-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
   - Items: hangul-3134
-  - Authoring-only audio script: 나
+  - Input language: romanization
 
-- **u1-day-05-earlier-1 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-05-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㅁ
-  - Requested hint: Sound guide: m-like. Listen to 마.
-  - Correct: ㅁ — m-like.
-  - Incorrect: Revisit ㅁ: m-like.
+  - Accepted answer: m
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
   - Items: hangul-3141
-  - Authoring-only audio script: 마
+  - Input language: romanization
 
-- **u1-day-05-earlier-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-05-mixed-2 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
   - Input language: romanization
 
@@ -509,95 +553,97 @@ The guide g does not mean ㄱ always sounds like English g.
 **New:** 가 [u1-block-ac00]; 고 [u1-block-ace0]; 다 [u1-block-b2e4]; 도 [u1-block-b3c4]
 **Review:** ㄱ · ㄷ · ㄴ · ㅁ
 
-Use the consonant first and the vowel second. 가/고 share ㄱ; 다/도 share ㄷ. Change one part at a time, then mix the blocks so the answer is not tied to a position.
+Change one part at a time: 가, 고, 다, 도. Then mix in the blocks you know.
 
 **Example:** 가 · 고 · 다 · 도 — ga · go · da · do
-Recall the sound guide before requesting a hint.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-06-read-0 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-06-read-0 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ga
-  - Requested hint: Sound guide: ga. Listen to 가.
-  - Correct: 가 — ga (sound guide).
-  - Incorrect: Revisit 가: ga (sound guide).
+  - Requested hint: The sound is ga.
+  - Correct: 가 = ga.
+  - Incorrect: It’s ga.
   - Items: u1-block-ac00
 
-- **u1-day-06-build-0 — build-syllable:** Build the block for the sound guide “ga”.
+- **u1-day-06-build-0 — build-syllable:** Build the syllable: ga.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 가
-  - Requested hint: Sound guide: ga. Listen to 가.
-  - Correct: 가 — ga (sound guide).
-  - Incorrect: Revisit 가: ga (sound guide).
+  - Requested hint: The sound is ga.
+  - Correct: 가 = ga.
+  - Incorrect: It’s ga.
   - Items: u1-block-ac00
 
-- **u1-day-06-read-1 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-06-read-1 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: go
-  - Requested hint: Sound guide: go. Listen to 고.
-  - Correct: 고 — go (sound guide).
-  - Incorrect: Revisit 고: go (sound guide).
+  - Requested hint: The sound is go.
+  - Correct: 고 = go.
+  - Incorrect: It’s go.
   - Items: u1-block-ace0
 
-- **u1-day-06-listen-1 — sound-to-character:** Listen. Which block do you hear?
+- **u1-day-06-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 고
-  - Requested hint: Sound guide: go. Listen to 고.
-  - Correct: 고 — go (sound guide).
-  - Incorrect: Revisit 고: go (sound guide).
+  - Requested hint: The sound is go.
+  - Correct: 고 = go.
+  - Incorrect: It’s go.
   - Items: u1-block-ace0
   - Authoring-only audio script: 고
 
-- **u1-day-06-read-2 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-06-read-2 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: da
-  - Requested hint: Sound guide: da. Listen to 다.
-  - Correct: 다 — da (sound guide).
-  - Incorrect: Revisit 다: da (sound guide).
+  - Requested hint: The sound is da.
+  - Correct: 다 = da.
+  - Incorrect: It’s da.
   - Items: u1-block-b2e4
 
-- **u1-day-06-build-2 — build-syllable:** Build the block for the sound guide “da”.
+- **u1-day-06-build-2 — build-syllable:** Build the syllable: da.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 다
-  - Requested hint: Sound guide: da. Listen to 다.
-  - Correct: 다 — da (sound guide).
-  - Incorrect: Revisit 다: da (sound guide).
+  - Requested hint: The sound is da.
+  - Correct: 다 = da.
+  - Incorrect: It’s da.
   - Items: u1-block-b2e4
 
-- **u1-day-06-read-3 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-06-read-3 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: do
-  - Requested hint: Sound guide: do. Listen to 도.
-  - Correct: 도 — do (sound guide).
-  - Incorrect: Revisit 도: do (sound guide).
+  - Requested hint: The sound is do.
+  - Correct: 도 = do.
+  - Incorrect: It’s do.
   - Items: u1-block-b3c4
 
-- **u1-day-06-listen-3 — sound-to-character:** Listen. Which block do you hear?
+- **u1-day-06-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: 도
-  - Requested hint: Sound guide: do. Listen to 도.
-  - Correct: 도 — do (sound guide).
-  - Incorrect: Revisit 도: do (sound guide).
-  - Items: u1-block-b3c4
-  - Authoring-only audio script: 도
-
-- **u1-day-06-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
-  - Items: hangul-3153
+  - Accepted answer: g
+  - Approved sound approximations: k
+  - Requested hint: The sound is g.
+  - Correct: ㄱ = g.
+  - Incorrect: It’s g.
+  - Items: hangul-3131
   - Input language: romanization
 
-- **u1-day-06-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-06-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
-  - Items: hangul-3157
+  - Accepted answer: d
+  - Approved sound approximations: t
+  - Requested hint: The sound is d.
+  - Correct: ㄷ = d.
+  - Incorrect: It’s d.
+  - Items: hangul-3137
+  - Input language: romanization
+
+- **u1-day-06-mixed-2 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
+  - Items: hangul-3134
   - Input language: romanization
 
 ## 7. Review challenge [u1-day-07]
@@ -607,98 +653,102 @@ Recall the sound guide before requesting a hint.
 **New:** Cumulative practice; no new items.
 **Review:** ㅏ · ㅗ · ㅣ · ㅓ · ㅜ · ㅡ · ㄴ · ㅁ · ㄱ · ㄷ
 
-No new letters today. Try recall before a hint, and listen again when two sounds feel close. Previously missed characters move to the front of this short challenge. Mistakes are useful information, not lost lives.
+No new letters today. Try the sounds you remember, and ask for a hint when you need one.
 
 **Example:** 너 · 고 — neo · go
-Compare the vowels carefully: ㅓ and ㅗ are different.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-07-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
-  - Items: hangul-314f
-  - Input language: romanization
-
-- **u1-day-07-listen-1 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-07-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅗ
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
   - Authoring-only audio script: 오
 
-- **u1-day-07-recall-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: i
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: ㅣ — i · like “ee”.
-  - Incorrect: Revisit ㅣ: i · like “ee”.
-  - Items: hangul-3163
-  - Input language: romanization
-
-- **u1-day-07-listen-3 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-07-listen-3 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅓ
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
   - Authoring-only audio script: 어
 
-- **u1-day-07-recall-4 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: u
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: ㅜ — u · rounded “oo”.
-  - Incorrect: Revisit ㅜ: u · rounded “oo”.
-  - Items: hangul-315c
-  - Input language: romanization
-
-- **u1-day-07-listen-5 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-07-listen-5 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅡ
-  - Requested hint: Sound guide: eu. Listen to 으.
-  - Correct: ㅡ — eu · unrounded back vowel.
-  - Incorrect: Revisit ㅡ: eu · unrounded back vowel.
+  - Requested hint: The sound is eu.
+  - Correct: ㅡ = eu.
+  - Incorrect: It’s eu.
   - Items: hangul-3161
   - Authoring-only audio script: 으
 
-- **u1-day-07-match — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄴ → n-like; ㅁ → m-like; ㄱ → plain k/g-like, depending on position; ㄷ → plain t/d-like, depending on position
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
-  - Items: hangul-3134, hangul-3141, hangul-3131, hangul-3137
-
-- **u1-day-07-read-0 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-07-read-0 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: na
-  - Requested hint: Sound guide: na. Listen to 나.
-  - Correct: 나 — na (sound guide).
-  - Incorrect: Revisit 나: na (sound guide).
+  - Requested hint: The sound is na.
+  - Correct: 나 = na.
+  - Incorrect: It’s na.
   - Items: u1-block-b098
 
-- **u1-day-07-build-1 — build-syllable:** Build the block for the sound guide “go”.
+- **u1-day-07-build-1 — build-syllable:** Build the syllable: go.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 고
-  - Requested hint: Sound guide: go. Listen to 고.
-  - Correct: 고 — go (sound guide).
-  - Incorrect: Revisit 고: go (sound guide).
+  - Requested hint: The sound is go.
+  - Correct: 고 = go.
+  - Incorrect: It’s go.
   - Items: u1-block-ace0
 
-- **u1-day-07-read-2 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-07-read-2 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: neo
-  - Requested hint: Sound guide: neo. Listen to 너.
-  - Correct: 너 — neo (sound guide).
-  - Incorrect: Revisit 너: neo (sound guide).
+  - Requested hint: The sound is neo.
+  - Correct: 너 = neo.
+  - Incorrect: It’s neo.
   - Items: u1-block-b108
+
+- **u1-day-07-practice-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
+  - Input language: romanization
+
+- **u1-day-07-mixed-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
+  - Input language: romanization
+
+- **u1-day-07-mixed-1 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: o
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
+  - Items: hangul-3157
+  - Input language: romanization
+
+- **u1-day-07-mixed-2 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: i
+  - Approved sound approximations: ee
+  - Requested hint: The sound is i.
+  - Correct: ㅣ = i.
+  - Incorrect: It’s i.
+  - Items: hangul-3163
+  - Input language: romanization
 
 ## 8. New consonants [u1-day-08]
 
@@ -707,81 +757,103 @@ Compare the vowels carefully: ㅓ and ㅗ are different.
 **New:** ㅂ [hangul-3142]; ㅅ [hangul-3145]
 **Review:** ㄴ · ㅁ · ㄱ · ㄷ
 
-ㅂ is a plain p/b-like sound in 바. ㅅ starts 사 with an s-like sound; it changes before i/y sounds, which we are not testing here. Practice the full examples without treating them as isolated consonant recordings.
+Learn b in 바 and s in 사. The first can also sound like p. Listen before you try.
 
 **Example:** 바 · 사 — ba · sa
-Compare the beginning, keeping the shared ㅏ the same.
+Listen to the first sound in each block.
 
 ### Exercise sequence
 
-- **u1-day-08-recognize-0 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-08-recognize-0 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: plain p/b-like, depending on position
-  - Requested hint: Sound guide: plain p/b-like, depending on position. Listen to 바.
-  - Correct: ㅂ — plain p/b-like, depending on position.
-  - Incorrect: Revisit ㅂ: plain p/b-like, depending on position.
+  - Accepted answer: b
+  - Requested hint: The sound is b.
+  - Correct: ㅂ = b.
+  - Incorrect: It’s b.
   - Items: hangul-3142
 
-- **u1-day-08-listen-0 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-08-listen-0 — sound-to-character:** Which letter starts the sound?
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅂ
-  - Requested hint: Sound guide: plain p/b-like, depending on position. Listen to 바.
-  - Correct: ㅂ — plain p/b-like, depending on position.
-  - Incorrect: Revisit ㅂ: plain p/b-like, depending on position.
+  - Requested hint: The sound is b.
+  - Correct: ㅂ = b.
+  - Incorrect: It’s b.
   - Items: hangul-3142
   - Authoring-only audio script: 바
 
-- **u1-day-08-recognize-1 — character-recognition:** Which sound guide matches this letter?
+- **u1-day-08-recognize-1 — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: s-like in 사; changes before i/y sounds
-  - Requested hint: Sound guide: s-like in 사; changes before i/y sounds. Listen to 사.
-  - Correct: ㅅ — s-like in 사; changes before i/y sounds.
-  - Incorrect: Revisit ㅅ: s-like in 사; changes before i/y sounds.
+  - Accepted answer: s
+  - Requested hint: The sound is s.
+  - Correct: ㅅ = s.
+  - Incorrect: It’s s.
   - Items: hangul-3145
 
-- **u1-day-08-listen-1 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-08-listen-1 — sound-to-character:** Which letter starts the sound?
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅅ
-  - Requested hint: Sound guide: s-like in 사; changes before i/y sounds. Listen to 사.
-  - Correct: ㅅ — s-like in 사; changes before i/y sounds.
-  - Incorrect: Revisit ㅅ: s-like in 사; changes before i/y sounds.
+  - Requested hint: The sound is s.
+  - Correct: ㅅ = s.
+  - Incorrect: It’s s.
   - Items: hangul-3145
   - Authoring-only audio script: 사
 
-- **u1-day-08-match — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
+- **u1-day-08-remember-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㅂ → plain p/b-like, depending on position; ㅅ → s-like in 사; changes before i/y sounds
-  - Requested hint: Sound guide: plain p/b-like, depending on position. Listen to 바.
-  - Correct: ㅂ — plain p/b-like, depending on position.
-  - Incorrect: Revisit ㅂ: plain p/b-like, depending on position.
-  - Items: hangul-3142, hangul-3145
+  - Accepted answer: b
+  - Approved sound approximations: p
+  - Requested hint: The sound is b.
+  - Correct: ㅂ = b.
+  - Incorrect: It’s b.
+  - Items: hangul-3142
+  - Input language: romanization
 
-- **u1-day-08-earlier-0 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-08-remember-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄴ
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
+  - Accepted answer: s
+  - Requested hint: The sound is s.
+  - Correct: ㅅ = s.
+  - Incorrect: It’s s.
+  - Items: hangul-3145
+  - Input language: romanization
+
+- **u1-day-08-practice-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: b
+  - Approved sound approximations: p
+  - Requested hint: The sound is b.
+  - Correct: ㅂ = b.
+  - Incorrect: It’s b.
+  - Items: hangul-3142
+  - Input language: romanization
+
+- **u1-day-08-mixed-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
   - Items: hangul-3134
-  - Authoring-only audio script: 나
+  - Input language: romanization
 
-- **u1-day-08-earlier-1 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-08-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㅁ
-  - Requested hint: Sound guide: m-like. Listen to 마.
-  - Correct: ㅁ — m-like.
-  - Incorrect: Revisit ㅁ: m-like.
+  - Accepted answer: m
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
   - Items: hangul-3141
-  - Authoring-only audio script: 마
+  - Input language: romanization
 
-- **u1-day-08-earlier-2 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-08-mixed-2 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄱ
-  - Requested hint: Sound guide: plain k/g-like, depending on position. Listen to 가.
-  - Correct: ㄱ — plain k/g-like, depending on position.
-  - Incorrect: Revisit ㄱ: plain k/g-like, depending on position.
+  - Accepted answer: g
+  - Approved sound approximations: k
+  - Requested hint: The sound is g.
+  - Correct: ㄱ = g.
+  - Incorrect: It’s g.
   - Items: hangul-3131
-  - Authoring-only audio script: 가
+  - Input language: romanization
 
 ## 9. More syllables [u1-day-09]
 
@@ -790,95 +862,97 @@ Compare the beginning, keeping the shared ㅏ the same.
 **New:** 바 [u1-block-bc14]; 보 [u1-block-bcf4]; 사 [u1-block-c0ac]; 소 [u1-block-c18c]
 **Review:** ㅂ · ㅅ · ㅏ · ㅗ
 
-바 and 보 share ㅂ. 사 and 소 share ㅅ. Take a moment to read each block without a pronunciation guide, then check by listening. Keep these sound blocks separate from meanings of words you have not learned.
+Try 바, 보, 사, 소. Read the first letter, then the vowel.
 
 **Example:** 바 · 보 · 사 · 소 — ba · bo · sa · so
-Read from the consonant into the vowel.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-09-read-0 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-09-read-0 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ba
-  - Requested hint: Sound guide: ba. Listen to 바.
-  - Correct: 바 — ba (sound guide).
-  - Incorrect: Revisit 바: ba (sound guide).
+  - Requested hint: The sound is ba.
+  - Correct: 바 = ba.
+  - Incorrect: It’s ba.
   - Items: u1-block-bc14
 
-- **u1-day-09-build-0 — build-syllable:** Build the block for the sound guide “ba”.
+- **u1-day-09-build-0 — build-syllable:** Build the syllable: ba.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 바
-  - Requested hint: Sound guide: ba. Listen to 바.
-  - Correct: 바 — ba (sound guide).
-  - Incorrect: Revisit 바: ba (sound guide).
+  - Requested hint: The sound is ba.
+  - Correct: 바 = ba.
+  - Incorrect: It’s ba.
   - Items: u1-block-bc14
 
-- **u1-day-09-read-1 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-09-read-1 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: bo
-  - Requested hint: Sound guide: bo. Listen to 보.
-  - Correct: 보 — bo (sound guide).
-  - Incorrect: Revisit 보: bo (sound guide).
+  - Requested hint: The sound is bo.
+  - Correct: 보 = bo.
+  - Incorrect: It’s bo.
   - Items: u1-block-bcf4
 
-- **u1-day-09-listen-1 — sound-to-character:** Listen. Which block do you hear?
+- **u1-day-09-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 보
-  - Requested hint: Sound guide: bo. Listen to 보.
-  - Correct: 보 — bo (sound guide).
-  - Incorrect: Revisit 보: bo (sound guide).
+  - Requested hint: The sound is bo.
+  - Correct: 보 = bo.
+  - Incorrect: It’s bo.
   - Items: u1-block-bcf4
   - Authoring-only audio script: 보
 
-- **u1-day-09-read-2 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-09-read-2 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: sa
-  - Requested hint: Sound guide: sa. Listen to 사.
-  - Correct: 사 — sa (sound guide).
-  - Incorrect: Revisit 사: sa (sound guide).
+  - Requested hint: The sound is sa.
+  - Correct: 사 = sa.
+  - Incorrect: It’s sa.
   - Items: u1-block-c0ac
 
-- **u1-day-09-build-2 — build-syllable:** Build the block for the sound guide “sa”.
+- **u1-day-09-build-2 — build-syllable:** Build the syllable: sa.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 사
-  - Requested hint: Sound guide: sa. Listen to 사.
-  - Correct: 사 — sa (sound guide).
-  - Incorrect: Revisit 사: sa (sound guide).
+  - Requested hint: The sound is sa.
+  - Correct: 사 = sa.
+  - Incorrect: It’s sa.
   - Items: u1-block-c0ac
 
-- **u1-day-09-read-3 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-09-read-3 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: so
-  - Requested hint: Sound guide: so. Listen to 소.
-  - Correct: 소 — so (sound guide).
-  - Incorrect: Revisit 소: so (sound guide).
+  - Requested hint: The sound is so.
+  - Correct: 소 = so.
+  - Incorrect: It’s so.
   - Items: u1-block-c18c
 
-- **u1-day-09-listen-3 — sound-to-character:** Listen. Which block do you hear?
+- **u1-day-09-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: 소
-  - Requested hint: Sound guide: so. Listen to 소.
-  - Correct: 소 — so (sound guide).
-  - Incorrect: Revisit 소: so (sound guide).
-  - Items: u1-block-c18c
-  - Authoring-only audio script: 소
-
-- **u1-day-09-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
-  - Items: hangul-3153
+  - Accepted answer: b
+  - Approved sound approximations: p
+  - Requested hint: The sound is b.
+  - Correct: ㅂ = b.
+  - Incorrect: It’s b.
+  - Items: hangul-3142
   - Input language: romanization
 
-- **u1-day-09-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-09-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
-  - Items: hangul-3157
+  - Accepted answer: s
+  - Requested hint: The sound is s.
+  - Correct: ㅅ = s.
+  - Incorrect: It’s s.
+  - Items: hangul-3145
+  - Input language: romanization
+
+- **u1-day-09-mixed-2 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
   - Input language: romanization
 
 ## 10. Meet ㅇ [u1-day-10]
@@ -888,103 +962,106 @@ Read from the consonant into the vowel.
 **New:** ㅇ [hangul-3147]; 아 [u1-block-c544]; 오 [u1-block-c624]; 이 [u1-block-c774]; 우 [u1-block-c6b0]
 **Review:** ㅏ · ㅗ · ㅣ · ㅜ
 
-A vowel cannot stand alone as a written syllable block. Initial ㅇ fills the consonant space silently: ㅇ + ㅏ = 아. The sound is the vowel. At the end of a block, ㅇ has a different job; final consonants are outside this unit.
+ㅇ is silent at the start. ㅇ + ㅏ makes 아. Just say the vowel.
 
 **Example:** 아 · 오 · 이 · 우 — a · o · i · u
-Choose silent as the initial sound of ㅇ. Do not add a spoken consonant.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-10-carrier — character-recognition:** Which sound guide matches this letter?
+- **u1-day-10-carrier — character-recognition:** What sound is this?
   - Objective: Connect the written form and its sound.
-  - Accepted answer: silent at the start of a block
-  - Requested hint: Sound guide: silent at the start of a block. Listen to 아.
-  - Correct: ㅇ — silent at the start of a block.
-  - Incorrect: Revisit ㅇ: silent at the start of a block.
+  - Accepted answer: silent
+  - Requested hint: The sound is silent.
+  - Correct: ㅇ = silent.
+  - Incorrect: It’s silent.
   - Items: hangul-3147
 
-- **u1-day-10-read-0 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-10-read-0 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: 아 — a (sound guide).
-  - Incorrect: Revisit 아: a (sound guide).
+  - Requested hint: The sound is a.
+  - Correct: 아 = a.
+  - Incorrect: It’s a.
   - Items: u1-block-c544
 
-- **u1-day-10-build-0 — build-syllable:** Build the block for the sound guide “a”.
+- **u1-day-10-build-0 — build-syllable:** Build the syllable: a.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 아
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: 아 — a (sound guide).
-  - Incorrect: Revisit 아: a (sound guide).
+  - Requested hint: The sound is a.
+  - Correct: 아 = a.
+  - Incorrect: It’s a.
   - Items: u1-block-c544
 
-- **u1-day-10-read-1 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-10-read-1 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: 오 — o (sound guide).
-  - Incorrect: Revisit 오: o (sound guide).
+  - Requested hint: The sound is o.
+  - Correct: 오 = o.
+  - Incorrect: It’s o.
   - Items: u1-block-c624
 
-- **u1-day-10-listen-1 — sound-to-character:** Listen. Which block do you hear?
+- **u1-day-10-remember-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: silent
+  - Requested hint: The sound is silent.
+  - Correct: ㅇ = silent.
+  - Incorrect: It’s silent.
+  - Items: hangul-3147
+  - Input language: romanization
+
+- **u1-day-10-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 오
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: 오 — o (sound guide).
-  - Incorrect: Revisit 오: o (sound guide).
+  - Requested hint: The sound is o.
+  - Correct: 오 = o.
+  - Incorrect: It’s o.
   - Items: u1-block-c624
   - Authoring-only audio script: 오
 
-- **u1-day-10-read-2 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-10-read-2 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: i
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: 이 — i (sound guide).
-  - Incorrect: Revisit 이: i (sound guide).
+  - Requested hint: The sound is i.
+  - Correct: 이 = i.
+  - Incorrect: It’s i.
   - Items: u1-block-c774
 
-- **u1-day-10-build-2 — build-syllable:** Build the block for the sound guide “i”.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: 이
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: 이 — i (sound guide).
-  - Incorrect: Revisit 이: i (sound guide).
-  - Items: u1-block-c774
-
-- **u1-day-10-read-3 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-10-read-3 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: u
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: 우 — u (sound guide).
-  - Incorrect: Revisit 우: u (sound guide).
+  - Requested hint: The sound is u.
+  - Correct: 우 = u.
+  - Incorrect: It’s u.
   - Items: u1-block-c6b0
 
-- **u1-day-10-listen-3 — sound-to-character:** Listen. Which block do you hear?
+- **u1-day-10-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: 우
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: 우 — u (sound guide).
-  - Incorrect: Revisit 우: u (sound guide).
-  - Items: u1-block-c6b0
-  - Authoring-only audio script: 우
-
-- **u1-day-10-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
-  - Items: hangul-3153
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
   - Input language: romanization
 
-- **u1-day-10-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-10-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
+  - Input language: romanization
+
+- **u1-day-10-mixed-2 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: i
+  - Approved sound approximations: ee
+  - Requested hint: The sound is i.
+  - Correct: ㅣ = i.
+  - Incorrect: It’s i.
+  - Items: hangul-3163
   - Input language: romanization
 
 ## 11. Listen, read, type [u1-day-11]
@@ -994,204 +1071,212 @@ Choose silent as the initial sound of ㅇ. Do not add a spoken consonant.
 **New:** Cumulative practice; no new items.
 **Review:** ㅏ · ㅓ · ㅗ · ㅜ · ㅡ · ㅣ · ㄴ · ㅁ · ㄱ · ㄷ · ㅂ · ㅅ · ㅇ
 
-First set up a Korean keyboard, or use the on-screen letter buttons. Copy one familiar model before listening independently. A Hangul answer needs a Korean block such as 나; a romanized sound label such as na belongs only in an explicitly labeled romanization question.
+Listen and type a Korean block. You can ask for keyboard help or skip typing for now.
 
 **Example:** 나 · 고 · 아 — na · go · a
-On the standard two-set keyboard, 나 uses s then k; 고 uses r then h. The on-screen tap keyboard also works.
+Listen, then try saying it.
 
 ### Exercise sequence
 
-- **u1-day-11-type-1 — listen-type:** Listen and type the Korean block in Hangul. You may use the tap keyboard.
+- **u1-day-11-type-1 — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 나
-  - Requested hint: Sound guide: na. Listen to 나.
-  - Correct: 나 — na (sound guide).
-  - Incorrect: Revisit 나: na (sound guide).
+  - Requested hint: The sound is na.
+  - Correct: 나 = na.
+  - Incorrect: It’s na.
   - Items: u1-block-b098, hangul-3134, hangul-314f
   - Authoring-only audio script: 나
   - Input language: Hangul
 
-- **u1-day-11-type-2 — listen-type:** Listen and type the Korean block in Hangul. You may use the tap keyboard.
+- **u1-day-11-type-2 — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 마
-  - Requested hint: Sound guide: ma. Listen to 마.
-  - Correct: 마 — ma (sound guide).
-  - Incorrect: Revisit 마: ma (sound guide).
+  - Requested hint: The sound is ma.
+  - Correct: 마 = ma.
+  - Incorrect: It’s ma.
   - Items: u1-block-b9c8, hangul-3141, hangul-314f
   - Authoring-only audio script: 마
   - Input language: Hangul
 
-- **u1-day-11-type-3 — listen-type:** Listen and type the Korean block in Hangul. You may use the tap keyboard.
+- **u1-day-11-type-3 — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 고
-  - Requested hint: Sound guide: go. Listen to 고.
-  - Correct: 고 — go (sound guide).
-  - Incorrect: Revisit 고: go (sound guide).
+  - Requested hint: The sound is go.
+  - Correct: 고 = go.
+  - Incorrect: It’s go.
   - Items: u1-block-ace0, hangul-3131, hangul-3157
   - Authoring-only audio script: 고
   - Input language: Hangul
 
-- **u1-day-11-type-4 — listen-type:** Listen and type the Korean block in Hangul. You may use the tap keyboard.
+- **u1-day-11-type-4 — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 도
-  - Requested hint: Sound guide: do. Listen to 도.
-  - Correct: 도 — do (sound guide).
-  - Incorrect: Revisit 도: do (sound guide).
+  - Requested hint: The sound is do.
+  - Correct: 도 = do.
+  - Incorrect: It’s do.
   - Items: u1-block-b3c4, hangul-3137, hangul-3157
   - Authoring-only audio script: 도
   - Input language: Hangul
 
-- **u1-day-11-type-5 — listen-type:** Listen and type the Korean block in Hangul. You may use the tap keyboard.
+- **u1-day-11-type-5 — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 보
-  - Requested hint: Sound guide: bo. Listen to 보.
-  - Correct: 보 — bo (sound guide).
-  - Incorrect: Revisit 보: bo (sound guide).
+  - Requested hint: The sound is bo.
+  - Correct: 보 = bo.
+  - Incorrect: It’s bo.
   - Items: u1-block-bcf4, hangul-3142, hangul-3157
   - Authoring-only audio script: 보
   - Input language: Hangul
 
-- **u1-day-11-type-6 — listen-type:** Listen and type the Korean block in Hangul. You may use the tap keyboard.
+- **u1-day-11-type-6 — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 소
-  - Requested hint: Sound guide: so. Listen to 소.
-  - Correct: 소 — so (sound guide).
-  - Incorrect: Revisit 소: so (sound guide).
+  - Requested hint: The sound is so.
+  - Correct: 소 = so.
+  - Incorrect: It’s so.
   - Items: u1-block-c18c, hangul-3145, hangul-3157
   - Authoring-only audio script: 소
   - Input language: Hangul
 
-- **u1-day-11-type-7 — listen-type:** Listen and type the Korean block in Hangul. You may use the tap keyboard.
+- **u1-day-11-type-7 — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 아
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: 아 — a (sound guide).
-  - Incorrect: Revisit 아: a (sound guide).
+  - Requested hint: The sound is a.
+  - Correct: 아 = a.
+  - Incorrect: It’s a.
   - Items: u1-block-c544, hangul-3147, hangul-314f
   - Authoring-only audio script: 아
   - Input language: Hangul
 
-- **u1-day-11-vowels — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: ㅓ → eo · open back vowel; listen closely; ㅗ → o · rounded lips, no English glide; ㅜ → u · rounded “oo”
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
-  - Items: hangul-3153, hangul-3157, hangul-315c
-
-- **u1-day-11-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-11-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
   - Items: hangul-314f
   - Input language: romanization
 
-- **u1-day-11-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-11-mixed-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
   - Input language: romanization
 
-- **u1-day-11-recall-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-11-mixed-2 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: eu
-  - Requested hint: Sound guide: eu. Listen to 으.
-  - Correct: ㅡ — eu · unrounded back vowel.
-  - Incorrect: Revisit ㅡ: eu · unrounded back vowel.
-  - Items: hangul-3161
+  - Accepted answer: o
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
+  - Items: hangul-3157
   - Input language: romanization
 
 ## 12. First useful expressions [u1-day-12]
 
-**Objective:** Understand 네, 아니요 and 안녕 as guided whole expressions.
+**Objective:** Understand yes and no with help from audio.
 **Prerequisites:** u1-day-11
-**New:** 네 [u1-phrase-yes]; 아니요 [u1-phrase-no]; 안녕 [u1-phrase-hi]
+**New:** 네 [u1-phrase-yes]; 아니요 [u1-phrase-no]
 **Review:** ㅓ · ㅗ
 
-네 means yes; 아니요 means no in a polite reply. 안녕 is a casual hi (or bye when parting), used with close people. Here the scene is arriving and saying hi. These expressions contain letters and endings not taught individually: learn their whole sound and meaning, not independent decoding.
+네 means yes. 아니요 means no. Learn the whole sound and meaning; some of the letters are new.
 
 **Example:** 네 · 아니요 — Yes · No
 Begin with affirmative questions; replies to negative questions need more context.
 
-**Example:** 안녕 — Hi (casual)
-For close people. Polite greetings arrive next lesson. This is whole-expression exposure.
-
 ### Exercise sequence
 
-- **u1-day-12-phrase-1 — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-12-phrase-1 — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: Yes
-  - Requested hint: Whole-phrase support: Yes.
-  - Correct: 네 — Yes.
-  - Incorrect: Revisit 네: Yes.
+  - Requested hint: It means Yes.
+  - Correct: Yes.
+  - Incorrect: It means Yes.
   - Items: u1-phrase-yes
   - Authoring-only audio script: 네
 
-- **u1-day-12-phrase-1-again — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-12-phrase-1-again — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: Yes
-  - Requested hint: Whole-phrase support: Yes.
-  - Correct: 네 — Yes.
-  - Incorrect: Revisit 네: Yes.
+  - Requested hint: It means Yes.
+  - Correct: Yes.
+  - Incorrect: It means Yes.
   - Items: u1-phrase-yes
   - Authoring-only audio script: 네
 
-- **u1-day-12-phrase-2 — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-12-phrase-2 — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: No
-  - Requested hint: Whole-phrase support: No.
-  - Correct: 아니요 — No.
-  - Incorrect: Revisit 아니요: No.
+  - Requested hint: It means No.
+  - Correct: No.
+  - Incorrect: It means No.
   - Items: u1-phrase-no
   - Authoring-only audio script: 아니요
 
-- **u1-day-12-phrase-2-again — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-12-phrase-2-again — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: No
-  - Requested hint: Whole-phrase support: No.
-  - Correct: 아니요 — No.
-  - Incorrect: Revisit 아니요: No.
+  - Requested hint: It means No.
+  - Correct: No.
+  - Incorrect: It means No.
   - Items: u1-phrase-no
   - Authoring-only audio script: 아니요
 
-- **u1-day-12-phrase-3 — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
-  - Objective: Connect the phrase and its meaning.
-  - Accepted answer: Hi (casual)
-  - Requested hint: Whole-phrase support: Hi (casual).
-  - Correct: 안녕 — Hi (casual).
-  - Incorrect: Revisit 안녕: Hi (casual).
-  - Items: u1-phrase-hi
-  - Authoring-only audio script: 안녕
-
-- **u1-day-12-phrase-3-again — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
-  - Objective: Connect the phrase and its meaning.
-  - Accepted answer: Hi (casual)
-  - Requested hint: Whole-phrase support: Hi (casual).
-  - Correct: 안녕 — Hi (casual).
-  - Incorrect: Revisit 안녕: Hi (casual).
-  - Items: u1-phrase-hi
-  - Authoring-only audio script: 안녕
-
-- **u1-day-12-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-12-practice-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: eo
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
   - Input language: romanization
 
-- **u1-day-12-recall-1 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-12-practice-1 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
+  - Items: hangul-3157
+  - Input language: romanization
+
+- **u1-day-12-mixed-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: eo
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
+  - Items: hangul-3153
+  - Input language: romanization
+
+- **u1-day-12-mixed-1 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: o
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
+  - Items: hangul-3157
+  - Input language: romanization
+
+- **u1-day-12-extra-sound-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: eo
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ — eo.
+  - Incorrect: It’s eo.
+  - Items: hangul-3153
+  - Input language: romanization
+
+- **u1-day-12-extra-sound-1 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: o
+  - Requested hint: The sound is o.
+  - Correct: ㅗ — o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
   - Input language: romanization
 
@@ -1202,7 +1287,7 @@ For close people. Polite greetings arrive next lesson. This is whole-expression 
 **New:** 안녕하세요 [u1-phrase-hello]; 미겔 어디 있어요? [u1-phrase-miguel]; 재훈은 뭐 해요? [u1-phrase-jaehun]
 **Review:** ㄴ · ㅁ · ㅏ · ㅗ
 
-안녕하세요 is a polite hello. Hear a question about where your dog is and what your brother is doing. These are guided whole phrases, not reading tests. Close siblings often use casual Korean; we start with polite forms, useful across everyday situations. Family name spellings are editable defaults, not confirmed preferences.
+Listen to a polite hello and two family questions. Close siblings often speak casually; here we practice polite Korean.
 
 **Example:** 안녕하세요 — Hello (polite)
 Use this greeting with familiar people or people you should address politely.
@@ -1215,94 +1300,95 @@ This asks about your brother; it does not require you to address him by name.
 
 ### Exercise sequence
 
-- **u1-day-13-phrase-1 — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-13-phrase-1 — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: Hello (polite)
-  - Requested hint: Whole-phrase support: Hello (polite).
-  - Correct: 안녕하세요 — Hello (polite).
-  - Incorrect: Revisit 안녕하세요: Hello (polite).
+  - Requested hint: It means Hello (polite).
+  - Correct: Hello (polite).
+  - Incorrect: It means Hello (polite).
   - Items: u1-phrase-hello
   - Authoring-only audio script: 안녕하세요
 
-- **u1-day-13-phrase-1-again — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-13-phrase-1-again — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: Hello (polite)
-  - Requested hint: Whole-phrase support: Hello (polite).
-  - Correct: 안녕하세요 — Hello (polite).
-  - Incorrect: Revisit 안녕하세요: Hello (polite).
+  - Requested hint: It means Hello (polite).
+  - Correct: Hello (polite).
+  - Incorrect: It means Hello (polite).
   - Items: u1-phrase-hello
   - Authoring-only audio script: 안녕하세요
 
-- **u1-day-13-phrase-2 — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-13-phrase-2 — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: Where is Miguel?
-  - Requested hint: Whole-phrase support: Where is Miguel?.
-  - Correct: 미겔 어디 있어요? — Where is Miguel?.
-  - Incorrect: Revisit 미겔 어디 있어요?: Where is Miguel?.
+  - Requested hint: It means Where is Miguel?.
+  - Correct: Where is Miguel?.
+  - Incorrect: It means Where is Miguel?.
   - Items: u1-phrase-miguel
   - Authoring-only audio script: 미겔 어디 있어요?
 
-- **u1-day-13-phrase-2-again — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-13-phrase-2-again — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: Where is Miguel?
-  - Requested hint: Whole-phrase support: Where is Miguel?.
-  - Correct: 미겔 어디 있어요? — Where is Miguel?.
-  - Incorrect: Revisit 미겔 어디 있어요?: Where is Miguel?.
+  - Requested hint: It means Where is Miguel?.
+  - Correct: Where is Miguel?.
+  - Incorrect: It means Where is Miguel?.
   - Items: u1-phrase-miguel
   - Authoring-only audio script: 미겔 어디 있어요?
 
-- **u1-day-13-phrase-3 — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-13-phrase-3 — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: What is Jaehun doing?
-  - Requested hint: Whole-phrase support: What is Jaehun doing?.
-  - Correct: 재훈은 뭐 해요? — What is Jaehun doing?.
-  - Incorrect: Revisit 재훈은 뭐 해요?: What is Jaehun doing?.
+  - Requested hint: It means What is Jaehun doing?.
+  - Correct: What is Jaehun doing?.
+  - Incorrect: It means What is Jaehun doing?.
   - Items: u1-phrase-jaehun
   - Authoring-only audio script: 재훈은 뭐 해요?
 
-- **u1-day-13-phrase-3-again — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-13-phrase-3-again — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: What is Jaehun doing?
-  - Requested hint: Whole-phrase support: What is Jaehun doing?.
-  - Correct: 재훈은 뭐 해요? — What is Jaehun doing?.
-  - Incorrect: Revisit 재훈은 뭐 해요?: What is Jaehun doing?.
+  - Requested hint: It means What is Jaehun doing?.
+  - Correct: What is Jaehun doing?.
+  - Incorrect: It means What is Jaehun doing?.
   - Items: u1-phrase-jaehun
   - Authoring-only audio script: 재훈은 뭐 해요?
 
-- **u1-day-13-listen-0 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
+- **u1-day-13-practice-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄴ
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
   - Items: hangul-3134
-  - Authoring-only audio script: 나
-
-- **u1-day-13-listen-1 — sound-to-character:** Listen to the whole syllable. Which consonant starts it?
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: ㅁ
-  - Requested hint: Sound guide: m-like. Listen to 마.
-  - Correct: ㅁ — m-like.
-  - Incorrect: Revisit ㅁ: m-like.
-  - Items: hangul-3141
-  - Authoring-only audio script: 마
-
-- **u1-day-13-recall-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
-  - Items: hangul-314f
   - Input language: romanization
 
-- **u1-day-13-recall-3 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
+- **u1-day-13-mixed-0 — type-sound:** Type the sound.
   - Objective: Connect the written form and its sound.
-  - Accepted answer: o
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
-  - Items: hangul-3157
+  - Accepted answer: n
+  - Requested hint: The sound is n.
+  - Correct: ㄴ = n.
+  - Incorrect: It’s n.
+  - Items: hangul-3134
+  - Input language: romanization
+
+- **u1-day-13-mixed-1 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: m
+  - Requested hint: The sound is m.
+  - Correct: ㅁ = m.
+  - Incorrect: It’s m.
+  - Items: hangul-3141
+  - Input language: romanization
+
+- **u1-day-13-mixed-2 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
   - Input language: romanization
 
 ## 14. Unit 1 challenge [u1-day-14]
@@ -1312,114 +1398,108 @@ This asks about your brother; it does not require you to address him by name.
 **New:** Cumulative practice; no new items.
 **Review:** ㅏ · ㅗ · ㅣ · ㅓ · ㅜ · ㅡ · ㄴ · ㅁ · ㄱ · ㄷ · ㅂ · ㅅ · ㅇ
 
-Use the letters you know in several short tasks. Romanization stays hidden until you ask or check an answer. Phrase questions keep their full Korean model and whole-expression support. Completing the challenge is a beginning, not a claim of fluency; review remains available afterward.
+Put your sounds together. Try a little reading, listening, and typing.
 
 **Example:** 나 · 도 · 우 — na · do · u
 Read, listen, and recall. A hint is always allowed and is recorded as support.
 
 ### Exercise sequence
 
-- **u1-day-14-recall-0 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: ㅏ — a · open “ah”.
-  - Incorrect: Revisit ㅏ: a · open “ah”.
-  - Items: hangul-314f
-  - Input language: romanization
-
-- **u1-day-14-listen-1 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-14-listen-1 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅗ
-  - Requested hint: Sound guide: o. Listen to 오.
-  - Correct: ㅗ — o · rounded lips, no English glide.
-  - Incorrect: Revisit ㅗ: o · rounded lips, no English glide.
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
   - Items: hangul-3157
   - Authoring-only audio script: 오
 
-- **u1-day-14-recall-2 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: i
-  - Requested hint: Sound guide: i. Listen to 이.
-  - Correct: ㅣ — i · like “ee”.
-  - Incorrect: Revisit ㅣ: i · like “ee”.
-  - Items: hangul-3163
-  - Input language: romanization
-
-- **u1-day-14-listen-3 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-14-listen-3 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅓ
-  - Requested hint: Sound guide: eo. Listen to 어.
-  - Correct: ㅓ — eo · open back vowel; listen closely.
-  - Incorrect: Revisit ㅓ: eo · open back vowel; listen closely.
+  - Requested hint: The sound is eo.
+  - Correct: ㅓ = eo.
+  - Incorrect: It’s eo.
   - Items: hangul-3153
   - Authoring-only audio script: 어
 
-- **u1-day-14-recall-4 — type-sound:** Type the sound guide in romanization (English letters), not Hangul.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: u
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: ㅜ — u · rounded “oo”.
-  - Incorrect: Revisit ㅜ: u · rounded “oo”.
-  - Items: hangul-315c
-  - Input language: romanization
-
-- **u1-day-14-listen-5 — sound-to-character:** Listen to a syllable. Which vowel do you hear?
+- **u1-day-14-listen-5 — sound-to-character:** Listen and choose.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ㅡ
-  - Requested hint: Sound guide: eu. Listen to 으.
-  - Correct: ㅡ — eu · unrounded back vowel.
-  - Incorrect: Revisit ㅡ: eu · unrounded back vowel.
+  - Requested hint: The sound is eu.
+  - Correct: ㅡ = eu.
+  - Incorrect: It’s eu.
   - Items: hangul-3161
   - Authoring-only audio script: 으
 
-- **u1-day-14-match — character-matching:** Tap a Korean letter, then its matching sound guide. Match all pairs before checking.
-  - Objective: Connect the written form and its sound.
-  - Accepted answer: ㄴ → n-like; ㅁ → m-like; ㄱ → plain k/g-like, depending on position; ㄷ → plain t/d-like, depending on position
-  - Requested hint: Sound guide: n-like. Listen to 나.
-  - Correct: ㄴ — n-like.
-  - Incorrect: Revisit ㄴ: n-like.
-  - Items: hangul-3134, hangul-3141, hangul-3131, hangul-3137
-
-- **u1-day-14-read-0 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-14-read-0 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: ba
-  - Requested hint: Sound guide: ba. Listen to 바.
-  - Correct: 바 — ba (sound guide).
-  - Incorrect: Revisit 바: ba (sound guide).
+  - Requested hint: The sound is ba.
+  - Correct: 바 = ba.
+  - Incorrect: It’s ba.
   - Items: u1-block-bc14
 
-- **u1-day-14-build-1 — build-syllable:** Build the block for the sound guide “do”.
+- **u1-day-14-build-1 — build-syllable:** Build the syllable: do.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 도
-  - Requested hint: Sound guide: do. Listen to 도.
-  - Correct: 도 — do (sound guide).
-  - Incorrect: Revisit 도: do (sound guide).
+  - Requested hint: The sound is do.
+  - Correct: 도 = do.
+  - Incorrect: It’s do.
   - Items: u1-block-b3c4
 
-- **u1-day-14-read-2 — syllable-reading:** Read this block. Choose its sound guide.
+- **u1-day-14-read-2 — syllable-reading:** Choose the sound.
   - Objective: Connect the written form and its sound.
   - Accepted answer: a
-  - Requested hint: Sound guide: a. Listen to 아.
-  - Correct: 아 — a (sound guide).
-  - Incorrect: Revisit 아: a (sound guide).
+  - Requested hint: The sound is a.
+  - Correct: 아 = a.
+  - Incorrect: It’s a.
   - Items: u1-block-c544
 
-- **u1-day-14-type — listen-type:** Listen and type the Korean block in Hangul.
+- **u1-day-14-type — listen-type:** Type what you hear in Korean.
   - Objective: Connect the written form and its sound.
   - Accepted answer: 우
-  - Requested hint: Sound guide: u. Listen to 우.
-  - Correct: 우 — u (sound guide).
-  - Incorrect: Revisit 우: u (sound guide).
+  - Requested hint: The sound is u.
+  - Correct: 우 = u.
+  - Incorrect: It’s u.
   - Items: u1-block-c6b0, hangul-3147, hangul-315c
   - Authoring-only audio script: 우
   - Input language: Hangul
 
-- **u1-day-14-phrase — guided-phrase:** Whole-phrase practice: listen and read the model. Choose its meaning.
+- **u1-day-14-phrase — guided-phrase:** What does this mean?
   - Objective: Connect the phrase and its meaning.
   - Accepted answer: Where is Miguel?
-  - Requested hint: Whole-phrase support: Where is Miguel?.
-  - Correct: 미겔 어디 있어요? — Where is Miguel?.
-  - Incorrect: Revisit 미겔 어디 있어요?: Where is Miguel?.
+  - Requested hint: It means Where is Miguel?.
+  - Correct: Where is Miguel?.
+  - Incorrect: It means Where is Miguel?.
   - Items: u1-phrase-miguel
   - Authoring-only audio script: 미겔 어디 있어요?
+
+- **u1-day-14-mixed-0 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: a
+  - Approved sound approximations: ah
+  - Requested hint: The sound is a.
+  - Correct: ㅏ = a.
+  - Incorrect: It’s a.
+  - Items: hangul-314f
+  - Input language: romanization
+
+- **u1-day-14-mixed-1 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: o
+  - Requested hint: The sound is o.
+  - Correct: ㅗ = o.
+  - Incorrect: It’s o.
+  - Items: hangul-3157
+  - Input language: romanization
+
+- **u1-day-14-mixed-2 — type-sound:** Type the sound.
+  - Objective: Connect the written form and its sound.
+  - Accepted answer: i
+  - Approved sound approximations: ee
+  - Requested hint: The sound is i.
+  - Correct: ㅣ = i.
+  - Incorrect: It’s i.
+  - Items: hangul-3163
+  - Input language: romanization
